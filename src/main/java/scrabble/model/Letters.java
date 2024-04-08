@@ -1,6 +1,6 @@
 package scrabble.model;
 
-public enum Letters {
+public enum Letters { 
 	
 	A(9,1),
 	B(2,3),

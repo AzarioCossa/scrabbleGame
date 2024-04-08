@@ -2,41 +2,47 @@ package scrabble.model;
 
 public enum Letters {
 	
-	A(9),
-	B(2),
-	C(2),
-	D(3),
-	E(15),
-	F(2),
-	G(2),
-	H(2),
-	I(8),
-	J(1),
-	K(1),
-	L(5),
-	M(3),
-	N(6),
-	O(6),
-	P(2),
-	Q(1),
-	R(6),
-	S(6),
-	T(6),
-	U(6),
-	V(2),
-	W(1),
-	X(1),
-	Y(1),
-	Z(1),
-	JOCKER(2);
+	A(9,1),
+	B(2,3),
+	C(2,3),
+	D(3,2),
+	E(15,1),
+	F(2,4),
+	G(2,2),
+	H(2,4),
+	I(8,1),
+	J(1,8),
+	K(1,10),
+	L(5,1),
+	M(3,2),
+	N(6,1),
+	O(6,1),
+	P(2,3),
+	Q(1,8),
+	R(6,1),
+	S(6,1),
+	T(6,1),
+	U(6,1),
+	V(2,4),
+	W(1,10),
+	X(1,10),
+	Y(1,10),
+	Z(1,10),
+	JOCKER(2,0);
 	
-	 Letters(int quantity) {
+	 Letters(int quantity, int  weight) {
 		this.quantity = quantity;
+		this.weight = weight;
 	}
 
-	private int quantity;
+	private final int quantity;
+	private final int weight;
 
 	public int getQuantity() {
 		return this.quantity;
+	}
+
+	public int getWeight() {
+		return this.weight;
 	}	
 }

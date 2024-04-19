@@ -18,4 +18,8 @@ public class GameBoard {
         }
     }
 
+	public ArrayList<Square> getSquares() {
+		return squares;
+	}
+
 }

@@ -18,6 +18,22 @@ public class Square {
 		this('.', x, y);
 	}
 	
+	public char getSymbol() {
+		return symbol;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public Tile getTile() {
+		return tile;
+	}
+
 	public  void placeTile(Tile tile) {
 		this.tile = tile;
 	}

@@ -12,7 +12,8 @@ class GameBoardTest {
 		int y = 10;
 		GameBoard gameBoard = new GameBoard(x, y);
 
-		assertTrue(gameBoard.getSquares().get(0) instanceof SquareStar);
+		assertTrue(gameBoard.getSquares()[8][8] instanceof SquareStar);
+		
 	}
 
 }

@@ -1,25 +1,37 @@
 package scrabble.model;
 
-import java.util.ArrayList;
 
 
 public class GameBoard {
 	
-	private ArrayList<Square> squares;
+    private Square[][] squares;
+	private int sizeX;
+	
+
+	private int sizeY;
 
     public GameBoard(int x, int y) {
-        squares = new ArrayList<>();
-
-        squares.add(new SquareStar()); 
+    	this.sizeX = x;
+    	this.sizeY = y;
+        squares = new Square[x][y];  
+        
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                    squares.add(new Square(i, j));
+                squares[i][j] = new Square(i, j);  
             }
         }
+        
+        squares[8][8] = new SquareStar(); 
     }
 
-	public ArrayList<Square> getSquares() {
+	public Square[][] getSquares() {
 		return squares;
 	}
+	public int getSizeX() {
+		return sizeX;
+	}
 
+	public int getSizeY() {
+		return sizeY;
+	}
 }

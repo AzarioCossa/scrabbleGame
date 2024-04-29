@@ -14,8 +14,7 @@ public class GameController {
     private User user;
     private Bag bag;
     private GameBoard gameBoard;
-    
-    
+   
     
     public GameController() {
         this.bag = new Bag();
@@ -32,7 +31,7 @@ public class GameController {
     }
 
     public ArrayList<Tile> initializeRack() {
-    	ArrayList<Tile> tile = new ArrayList();
+    	ArrayList<Tile> tile = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             tile.add(this.bag.drawTile());
         }
@@ -41,10 +40,9 @@ public class GameController {
     }
     
     public void startGame() {
-    	GameView gameView =  new GameView();
     	
-    	gameView.printGrid(this.gameBoard);
-    	gameView.printRack(this.user.getRack());
+    	GameView.printGrid(this.gameBoard);
+    	GameView.printRack(this.user.getRack());
 
     	
     }

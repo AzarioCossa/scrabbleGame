@@ -43,6 +43,7 @@ public class GameController {
     	GameView.printGrid(this.gameBoard);
     	GameView.printRack(this.user.getRack());
     	this.exchangeTiles(this.user.getRack());
+    	GameView.printRack(this.user.getRack());
 
     	
     }

@@ -25,8 +25,7 @@ public class GameController {
 
 
     public void exchangeTiles(Rack rack) {
-        rack.addTile(this.bag.getTiles().get(0));
-        this.bag.drawTile();
+        rack.addTile(this.bag.drawTile());
         this.bag.shuffle();
     }
 
@@ -43,6 +42,7 @@ public class GameController {
     	
     	GameView.printGrid(this.gameBoard);
     	GameView.printRack(this.user.getRack());
+    	this.exchangeTiles(this.user.getRack());
 
     	
     }

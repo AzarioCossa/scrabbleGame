@@ -1,5 +1,6 @@
 package scrabble.application;
 
+import scrabble.controller.GameController;
 
 public class ScrabbleApplicationConsole {
 	private static String SEPARATOR = "---------------------------------------------------------";
@@ -13,6 +14,10 @@ public class ScrabbleApplicationConsole {
 	  System.out.println("-- et par Ilyas Gerbeaud");
 
 		System.out.println(SEPARATOR);
+		
+		GameController gameController = new GameController();
+		
+		gameController.startGame();
 
 	}
 

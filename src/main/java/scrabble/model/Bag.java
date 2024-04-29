@@ -9,6 +9,7 @@ public class Bag {
     public Bag() {
         tiles = new ArrayList<>();
         generateTiles();
+        shuffle();
     }
 
     public void shuffle() {

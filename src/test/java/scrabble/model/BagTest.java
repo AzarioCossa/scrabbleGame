@@ -14,15 +14,16 @@ class BagTest {
 
 		assertTrue(bag.getTiles().contains(tile));
 	}
-	 @Test
-	    public void testDrawTile() {
-	        Bag bag = new Bag();
-	        int initialSize = bag.getTiles().size();
 
-	        Tile drawnTile = bag.drawTile();
+	@Test
+	public void testDrawTile() {
+		Bag bag = new Bag();
+		int initialSize = bag.getTiles().size();
 
-	        assertEquals(initialSize - 1, bag.getTiles().size());
-	        assertFalse(bag.getTiles().contains(drawnTile)); 
-	    }
+		Tile drawnTile = bag.drawTile();
+
+		assertEquals(initialSize - 1, bag.getTiles().size());
+		assertFalse(bag.getTiles().contains(drawnTile));
+	}
 
 }

@@ -17,11 +17,11 @@ public class GameBoard {
         
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                squares[i][j] = new Square(i, j);  
+                squares[i][j] = new Square(i+1, j+1);  
             }
         }
         
-        squares[8][8] = new SquareStar(); 
+        squares[7][7] = new SquareStar(); 
     }
 
 	public Square[][] getSquares() {

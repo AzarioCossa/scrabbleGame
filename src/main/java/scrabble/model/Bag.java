@@ -9,17 +9,12 @@ public class Bag {
     public Bag() {
         tiles = new ArrayList<>();
         generateTiles();
-        shuffle();
     }
 
-    
     public void shuffle() {
         Collections.shuffle(tiles);
     }
 
-    
- 
-    
     public ArrayList<Tile> getTiles() {
 		return tiles;
 	}
@@ -40,5 +35,6 @@ public class Bag {
                 tiles.add(tile);
             }
         }
+        shuffle();
     }
 }

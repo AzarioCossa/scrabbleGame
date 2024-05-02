@@ -47,27 +47,7 @@ public class GameController {
     	GameView.printRack(this.user.getRack());
     }
     
-    
 
- 
-/*
-    public int[] askPosition() {
-        try (Scanner input = new Scanner(System.in)) {
-            int[] position = new int[2];
-            Utilities.text("Entrez la position de la lettre que vous voulez mettre");
-            Utilities.text("Ligne   : ");
-            position[0] = input.nextInt();
-            Utilities.text("Colonne : ");
-            position[1] = input.nextInt();
-
-            return position;
-        }
-    }
-
-    public void placeTile(int[] position, Tile tile) {
-        gameBoard.getSquares()[position[0]][position[1]].placeTile(tile);
-    }
-    */
 
 
 }

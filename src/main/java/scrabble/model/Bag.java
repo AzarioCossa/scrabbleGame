@@ -18,10 +18,7 @@ public class Bag {
     }
 
     
-    public Boolean addTile(Tile tile) {
-        return this.tiles.add(tile);
-    }
-
+ 
     
     public ArrayList<Tile> getTiles() {
 		return tiles;

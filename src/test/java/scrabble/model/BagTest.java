@@ -5,15 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class BagTest {
-	@Test
-	public void testAddTile() {
-		Bag bag = new Bag();
 
-		Tile tile = new Tile(Letters.A);
-		assertTrue(bag.addTile(tile));
-
-		assertTrue(bag.getTiles().contains(tile));
-	}
 
 	@Test
 	public void testDrawTile() {

@@ -6,10 +6,9 @@ public class GameBoard {
 	
     private Square[][] squares;
 	private int sizeX;
-	
-
 	private int sizeY;
 
+	
     public GameBoard(int x, int y) {
     	this.sizeX = x;
     	this.sizeY = y;
@@ -20,17 +19,20 @@ public class GameBoard {
                 squares[i][j] = new Square(i+1, j+1);  
             }
         }
-        
         squares[7][7] = new SquareStar(); 
     }
 
+    
 	public Square[][] getSquares() {
 		return squares;
 	}
+	
+	
 	public int getSizeX() {
 		return sizeX;
 	}
 
+	
 	public int getSizeY() {
 		return sizeY;
 	}

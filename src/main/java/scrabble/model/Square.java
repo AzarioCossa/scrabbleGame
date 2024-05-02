@@ -34,11 +34,11 @@ public class Square {
 		return tile;
 	}
 
-	public  void placeTile(Tile tile) {
+	public void placeTile(Tile tile) {
 		this.tile = tile;
 	}
 	
-	public  Boolean isBusy() {
+	public Boolean isBusy() {
 		return this.tile == null;
 	}
 	

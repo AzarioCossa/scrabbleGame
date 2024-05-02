@@ -6,17 +6,21 @@ import java.util.Objects;
 public class Rack {
 	private ArrayList<Tile> tiles;
 
+	
 	public Rack(ArrayList<Tile> initialTiles) {
 		tiles = new ArrayList<>(initialTiles);
 	}
+	
 	
 	public ArrayList<Tile> getTiles() {
 		return tiles;
 	}
 
+	
 	public Boolean addTile(Tile tile) {
 		return this.tiles.add(tile);
 	}
+	
 	
 	public Tile drawTile(Tile tile) {
 	    if (tiles.contains(tile)) {
@@ -27,11 +31,13 @@ public class Rack {
 	    }
 	}
 	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(tiles);
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

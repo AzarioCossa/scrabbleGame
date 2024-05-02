@@ -25,8 +25,12 @@ public class GameController {
 
 
     public void exchangeTiles(Rack rack) {
-        rack.addTile(this.bag.drawTile());
-        this.bag.shuffle();
+    	Tile tile;
+    	tile = this.bag.drawTile();
+    	if (tile != null) {
+    		rack.addTile(tile);
+    		this.bag.shuffle();
+    	}
     }
 
     public ArrayList<Tile> initializeRack() {

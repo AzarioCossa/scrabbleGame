@@ -29,7 +29,10 @@ public class Bag {
 
     
 	public Tile drawTile() {
-        return tiles.remove(0);
+		if (!tiles.isEmpty()) {
+			return tiles.remove(0);
+		}
+		return null;
     }
 
 	

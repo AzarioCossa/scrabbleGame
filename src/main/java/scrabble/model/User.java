@@ -1,17 +1,29 @@
 package scrabble.model;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class User {
 	private Rack rack;
 	private final String name;
+	private Bag bag;
 	
 	
-	public User(Rack rack, String name) {
-		this.rack = rack;
+	public User(Bag bag, String name) {
 		this.name = name;
+		this.bag = bag;
+		this.rack = new Rack(initializeRack());
+
 	}
 	
+	public ArrayList<Tile> initializeRack() {
+    	ArrayList<Tile> tile = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            tile.add(this.bag.drawTile());
+        }
+        return tile;
+
+    }
 	
 	public Rack getRack() {
 		return rack;

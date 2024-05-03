@@ -19,8 +19,7 @@ public class GameController {
     public GameController() {
         this.bag = new Bag();
         this.gameBoard = new GameBoard(15, 15);
-        Rack rack = new Rack(initializeRack());
-        this.user = new User(rack,"Louis");
+        this.user = new User(this.bag,"Louis");
     }
 
 
@@ -33,14 +32,6 @@ public class GameController {
     	}
     }
 
-    public ArrayList<Tile> initializeRack() {
-    	ArrayList<Tile> tile = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            tile.add(this.bag.drawTile());
-        }
-        return tile;
-
-    }
     
     public void startGame() {
     	GameView.printGrid(this.gameBoard);

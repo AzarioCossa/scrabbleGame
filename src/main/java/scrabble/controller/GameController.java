@@ -16,10 +16,10 @@ public class GameController {
     private GameBoard gameBoard;
    
     
-    public GameController() {
-        this.bag = new Bag();
-        this.gameBoard = new GameBoard(15, 15);
-        this.user = new User(this.bag,"Louis");
+    public GameController(Bag bag, GameBoard gameBoard, User user) {
+        this.bag = bag;
+        this.gameBoard = gameBoard;
+        this.user = user;
     }
 
 

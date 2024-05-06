@@ -13,7 +13,7 @@ class BagTest {
 	    Bag bag = new Bag();
 	    int initialSize = bag.getTiles().size();
 	    
-	    assertTrue(initialSize > 0, "The bag should not be empty at the beginning of the test.");
+	    assertTrue(initialSize > 0);
 	    
 	    Tile drawnTile = null;
 

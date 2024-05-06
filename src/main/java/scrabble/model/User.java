@@ -9,7 +9,7 @@ public class User {
 	private Rack rack;
 	private final String name;
 	private Bag bag;
-	private final Integer LIMIT = 7;
+	private final Integer LIMIT_RACK_CAPACITY = 7;
 
 	public User(Bag bag, String name) {
 		this.name = name;
@@ -22,7 +22,7 @@ public class User {
 		ArrayList<Tile> tile = new ArrayList<>();
 
 		try {
-			for (int i = 0; i < LIMIT; i++) {
+			for (int i = 0; i < LIMIT_RACK_CAPACITY; i++) {
 				tile.add(this.bag.drawTile());
 			}
 
@@ -41,6 +41,7 @@ public class User {
 	public String getName() {
 		return name;
 	}
+
 
 	@Override
 	public int hashCode() {

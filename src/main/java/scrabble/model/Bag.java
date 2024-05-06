@@ -3,6 +3,8 @@ package scrabble.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import scrabble.model.utils.EmptyBagException;
+
 public class Bag {
     private ArrayList<Tile> tiles;
 
@@ -20,11 +22,11 @@ public class Bag {
 	}
 
     
-	public Tile drawTile() {
+	public Tile drawTile() throws EmptyBagException {
 		if (!tiles.isEmpty()) {
 			return tiles.remove(0);
 		}
-		return null;
+		throw new EmptyBagException("You can't draw a tile when the bag is empty");
     }
 
 	

@@ -3,6 +3,8 @@ package scrabble.model;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import scrabble.model.utils.EmptyBagException;
+
 public class User {
 	private Rack rack;
 	private final String name;
@@ -18,9 +20,14 @@ public class User {
 	
 	public ArrayList<Tile> initializeRack() {
     	ArrayList<Tile> tile = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            tile.add(this.bag.drawTile());
-        }
+    	try {
+	        for (int i = 0; i < 7; i++) {
+	            tile.add(this.bag.drawTile());
+	        }
+    	}catch(EmptyBagException e) {
+    		
+    		System.out.println(e.getMessage());
+    	}
         return tile;
 
     }

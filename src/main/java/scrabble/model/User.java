@@ -7,6 +7,7 @@ public class User {
 	private Rack rack;
 	private final String name;
 	private Bag bag;
+	private final Integer LIMIT = 7;
 	
 	
 	public User(Bag bag, String name) {
@@ -18,7 +19,7 @@ public class User {
 	
 	public ArrayList<Tile> initializeRack() {
     	ArrayList<Tile> tile = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < LIMIT; i++) {
             tile.add(this.bag.drawTile());
         }
         return tile;

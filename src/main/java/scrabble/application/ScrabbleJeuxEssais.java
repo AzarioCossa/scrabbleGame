@@ -28,5 +28,4 @@ public class ScrabbleJeuxEssais {
 		GameView.printRack(user.getRack());
 
 	}
-
 }

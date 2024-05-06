@@ -9,45 +9,44 @@ public class User {
 	private Rack rack;
 	private final String name;
 	private Bag bag;
-	
-	
+	private final Integer LIMIT = 7;
+
 	public User(Bag bag, String name) {
 		this.name = name;
 		this.bag = bag;
 		this.rack = new Rack(initializeRack());
 
 	}
-	
-	public ArrayList<Tile> initializeRack() {
-    	ArrayList<Tile> tile = new ArrayList<>();
-    	try {
-	        for (int i = 0; i < 7; i++) {
-	            tile.add(this.bag.drawTile());
-	        }
-    	}catch(EmptyBagException e) {
-    		
-    		System.out.println(e.getMessage());
-    	}
-        return tile;
 
-    }
-	
+	public ArrayList<Tile> initializeRack() {
+		ArrayList<Tile> tile = new ArrayList<>();
+
+		try {
+			for (int i = 0; i < LIMIT; i++) {
+				tile.add(this.bag.drawTile());
+			}
+
+		} catch (EmptyBagException e) {
+
+			System.out.println(e.getMessage());
+		}
+		return tile;
+
+	}
+
 	public Rack getRack() {
 		return rack;
 	}
-	
-	
+
 	public String getName() {
 		return name;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(name, rack);
 	}
-	
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

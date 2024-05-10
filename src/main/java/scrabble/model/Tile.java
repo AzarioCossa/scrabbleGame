@@ -14,4 +14,7 @@ public class Tile {
 		this.letter = letter;
 	}
 
+	public int getWeight() {
+		return this.letter.getWeight();
+	}
 }

@@ -1,23 +1,36 @@
 package scrabble.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SquareTest {
+	
+	Position position;
+	
+	@BeforeEach
+	void init() {
+		position = new Position(2, 3);
+	}
+	
 	  @Test
 	    public void testConstructorAndGetters() {
-	        Square square = new Square('.', 2, 3);
+		  
+	        Square square = new Square('.', position);
 
 	        assertEquals('.', square.getSymbol());
-	        assertEquals(2, square.getX());
-	        assertEquals(3, square.getY());
+	        assertEquals(2, square.getRow());
+	        assertEquals(3, square.getColumn());
 	        assertNull(square.getTile()); 
 	    }
 
 	    @Test
 	    public void testPlaceTile() {
-	        Square square = new Square('.', 2, 3);
+	        Square square = new Square('.', position);
 	        Tile tile = new Tile(Letters.A);
 
 	
@@ -30,8 +43,11 @@ class SquareTest {
 
 	    @Test
 	    public void testIsBusy() {
-	        Square square1 = new Square('.', 2, 3);
-	        Square square2 = new Square('X', 4, 5);
+	    	
+	    Position position2 = new Position(4, 5);
+	    	
+	        Square square1 = new Square('.', position);
+	        Square square2 = new Square('X', position2);
 	        Tile tile = new Tile(Letters.A);
 
 

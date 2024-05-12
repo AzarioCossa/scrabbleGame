@@ -1,33 +1,31 @@
 package scrabble.model;
 
 public class Square {
-	
+
 	protected char symbol;
-	protected int x;
-	protected int y;
+	protected Position position;
 	protected Tile tile;
-	
-	protected Square(char symbol, int x, int y) {
+
+	protected Square(char symbol, Position position) {
 		this.tile = null;
 		this.symbol = symbol;
-		this.x = x;
-		this.y = y;
+		this.position = position;
 	}
-	
-	public Square(int x, int y) {
-		this('.', x, y);
+
+	public Square(Position position) {
+		this('.', position);
 	}
-	
+
 	public char getSymbol() {
 		return symbol;
 	}
 
-	public int getX() {
-		return x;
+	public int getColumn() {
+		return this.position.column();
 	}
 
-	public int getY() {
-		return y;
+	public int getRow() {
+		return this.position.row();
 	}
 
 	public Tile getTile() {
@@ -37,7 +35,7 @@ public class Square {
 	public void placeTile(Tile tile) {
 		this.tile = tile;
 	}
-	
+
 	public Boolean isBusy() {
 		return this.tile == null;
 	}

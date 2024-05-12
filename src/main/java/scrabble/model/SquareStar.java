@@ -1,12 +1,10 @@
 package scrabble.model;
 
 public class SquareStar extends Square {
-	
-	    public SquareStar(){
-	        super('*',8,8);
-	    }
+	static Position position = new Position(8, 8);
 
-	 
-	   
-	
+	public SquareStar() {
+		super('*', position);
+	}
+
 }

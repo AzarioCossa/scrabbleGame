@@ -31,7 +31,7 @@ public class Bag {
 
 	
     private void generateTiles() {
-        for (Letters letter : Letters.values()) {
+        for (FrenchLetters letter : FrenchLetters.values()) {
             for (int i = 0; i < letter.getQuantity(); i++) {
                 Tile tile = new Tile(letter);
                 tiles.add(tile);

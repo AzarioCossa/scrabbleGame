@@ -8,7 +8,7 @@ class TileTest {
 	
 	@Test
     public void testConstructorAndGetLetter() {
-        Letters letter = Letters.A;
+        FrenchLetters letter = FrenchLetters.A;
         Tile tile = new Tile(letter);
 
         assertEquals(letter, tile.getLetter());

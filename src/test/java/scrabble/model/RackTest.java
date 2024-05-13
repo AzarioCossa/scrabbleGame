@@ -12,18 +12,18 @@ class RackTest {
 
 	@Test
 	public void testDrawTile() {
-		Tile tileToRemove = new Tile(Letters.B);
+		Tile tileToRemove = new Tile(FrenchLetters.B);
 
 		ArrayList<Tile> initialTiles = new ArrayList<>();
-		initialTiles.add(new Tile(Letters.A));
+		initialTiles.add(new Tile(FrenchLetters.A));
 		initialTiles.add(tileToRemove);
-		initialTiles.add(new Tile(Letters.B));
+		initialTiles.add(new Tile(FrenchLetters.B));
 		Rack rack = new Rack(initialTiles);
 
 		assertEquals(tileToRemove, rack.drawTile(tileToRemove));
 		assertFalse(rack.getTiles().contains(tileToRemove));
 
-		Tile tileNotInRack = new Tile(Letters.Z);
+		Tile tileNotInRack = new Tile(FrenchLetters.Z);
 		assertNull(rack.drawTile(tileNotInRack));
 	}
 
@@ -31,7 +31,7 @@ class RackTest {
 	public void testAddTile() throws RackIsFullException {
 		Rack rack = new Rack(new ArrayList<>());
 
-		Tile tileToAdd = new Tile(Letters.A);
+		Tile tileToAdd = new Tile(FrenchLetters.A);
 
 		assertTrue(rack.addTile(tileToAdd));
 
@@ -41,9 +41,9 @@ class RackTest {
 	@Test
 	public void testGetTiles() {
 		ArrayList<Tile> initialTiles = new ArrayList<>();
-		initialTiles.add(new Tile(Letters.A));
-		initialTiles.add(new Tile(Letters.B));
-		initialTiles.add(new Tile(Letters.C));
+		initialTiles.add(new Tile(FrenchLetters.A));
+		initialTiles.add(new Tile(FrenchLetters.B));
+		initialTiles.add(new Tile(FrenchLetters.C));
 
 		Rack rack = new Rack(initialTiles);
 

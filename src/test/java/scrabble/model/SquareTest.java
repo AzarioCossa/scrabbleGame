@@ -31,7 +31,7 @@ class SquareTest {
 	    @Test
 	    public void testPlaceTile() {
 	        Square square = new Square('.', position);
-	        Tile tile = new Tile(Letters.A);
+	        Tile tile = new Tile(FrenchLetters.A);
 
 	
 	        square.placeTile(tile);
@@ -48,7 +48,7 @@ class SquareTest {
 	    	
 	        Square square1 = new Square('.', position);
 	        Square square2 = new Square('X', position2);
-	        Tile tile = new Tile(Letters.A);
+	        Tile tile = new Tile(FrenchLetters.A);
 
 
 	        assertTrue(square1.isBusy());

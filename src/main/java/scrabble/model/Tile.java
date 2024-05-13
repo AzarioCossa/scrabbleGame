@@ -2,15 +2,15 @@ package scrabble.model;
 
 public class Tile {
 
-	private final Letters letter;
+	private final FrenchLetters letter;
 	
 	
-	public Letters getLetter() {
+	public FrenchLetters getLetter() {
 		return letter;
 	}
 
 
-	public Tile(Letters letter) {
+	public Tile(FrenchLetters letter) {
 		this.letter = letter;
 	}
 

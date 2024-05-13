@@ -1,7 +1,7 @@
 package scrabble.model;
 
 // Enum representing the letters in the game of Scrabble
-public enum Letters { 
+public enum FrenchLetters { 
 	
 	// Enum constants with quantity and weight values for each letter
 	A(9,1),    // Letter A: Quantity - 9, Weight - 1
@@ -33,7 +33,7 @@ public enum Letters {
 	JOCKER(2,0); // Special Joker tile: Quantity - 2, Weight - 0
 	
 	// Constructor for Letters enum
-	Letters(int quantity, int weight) {
+	FrenchLetters(int quantity, int weight) {
 		this.quantity = quantity; // Initialize quantity
 		this.weight = weight;     // Initialize weight
 	}

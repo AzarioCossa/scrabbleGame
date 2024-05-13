@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import scrabble.model.utils.RackIsFullException;
+
 class RackTest {
 
 	@Test
@@ -26,7 +28,7 @@ class RackTest {
 	}
 
 	@Test
-	public void testAddTile() {
+	public void testAddTile() throws RackIsFullException {
 		Rack rack = new Rack(new ArrayList<>());
 
 		Tile tileToAdd = new Tile(Letters.A);

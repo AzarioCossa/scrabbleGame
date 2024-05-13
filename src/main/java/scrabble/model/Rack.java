@@ -3,8 +3,11 @@ package scrabble.model;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import scrabble.model.utils.RackIsFullException;
+
 public class Rack {
 	private ArrayList<Tile> tiles;
+	private final Integer LIMIT_RACK_CAPACITY = 7;
 
 	
 	public Rack(ArrayList<Tile> initialTiles) {
@@ -17,7 +20,10 @@ public class Rack {
 	}
 
 	
-	public Boolean addTile(Tile tile) {
+	public Boolean addTile(Tile tile) throws RackIsFullException{
+		if (tiles.size() >= LIMIT_RACK_CAPACITY) {
+			throw new RackIsFullException("Le rack est plein !");
+		}
 		return this.tiles.add(tile);
 	}
 	

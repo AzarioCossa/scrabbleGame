@@ -9,6 +9,7 @@ import scrabble.model.Tile;
 import scrabble.model.GameBoard;
 import scrabble.model.User;
 import scrabble.model.utils.EmptyBagException;
+import scrabble.model.utils.RackIsFullException;
 
 public class GameController {
 	private User user;
@@ -31,6 +32,8 @@ public class GameController {
 		} catch (EmptyBagException e) {
 			System.out.println(e.getMessage());
 
+		} catch (RackIsFullException e) {
+			System.out.println(e.getMessage());
 		}
 
 	}

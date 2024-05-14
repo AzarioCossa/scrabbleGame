@@ -19,10 +19,10 @@ public class ScrabbleApplicationConsole {
 		System.out.println(SEPARATOR);
 		Bag bag = new Bag();
 		GameBoard gameBoard = new GameBoard(15, 15);
-		User user = new User(bag, "Louis");
-
-		GameController gameController = new GameController(bag, gameBoard, user);
-		gameController.startGame();
+//		User user = new User("Louis",initializeRack());
+//
+//		GameController gameController = new GameController(bag, gameBoard, user);
+//		gameController.startGame();
 
 
 	}

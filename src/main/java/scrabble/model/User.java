@@ -1,38 +1,18 @@
 package scrabble.model;
 
-import java.util.ArrayList;
 import java.util.Objects;
-
-import scrabble.model.utils.EmptyBagException;
 
 public class User {
 	private Rack rack;
 	private final String name;
-	private Bag bag;
-	private final Integer LIMIT_RACK_CAPACITY = 7;
+	
 
-	public User(Bag bag, String name) {
+	public User(String name, Rack rack) {
 		this.name = name;
-		this.bag = bag;
-		this.rack = new Rack(initializeRack());
+		this.rack = rack;
 
 	}
 
-	public ArrayList<Tile> initializeRack() {
-		ArrayList<Tile> tile = new ArrayList<>();
-
-		try {
-			for (int i = 0; i < LIMIT_RACK_CAPACITY; i++) {
-				tile.add(this.bag.drawTile());
-			}
-
-		} catch (EmptyBagException e) {
-
-			System.out.println(e.getMessage());
-		}
-		return tile;
-
-	}
 
 	public Rack getRack() {
 		return rack;

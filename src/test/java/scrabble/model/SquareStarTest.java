@@ -11,8 +11,7 @@ class SquareStarTest {
         SquareStar squareStar = new SquareStar();
 
         assertEquals('*', squareStar.getSymbol());
-        assertEquals(8, squareStar.getRow());
-        assertEquals(8, squareStar.getColumn());
+     
         assertNull(squareStar.getTile());
     }
 

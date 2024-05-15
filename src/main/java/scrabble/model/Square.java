@@ -6,14 +6,13 @@ public class Square {
 	protected Position position;
 	protected Tile tile;
 
-	protected Square(char symbol, Position position) {
+	protected Square(char symbol) {
 		this.tile = null;
 		this.symbol = symbol;
-		this.position = position;
 	}
 
-	public Square(Position position) {
-		this('.', position);
+	public Square() {
+		this('.');
 	}
 
 	public char getSymbol() {

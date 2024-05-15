@@ -5,22 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SquareTest {
-	
-	Position position;
-	
-	@BeforeEach
-	void init() {
-		position = new Position(2, 3);
-	}
-	
+
 	  @Test
 	    public void testConstructorAndGetters() {
 		  
-	        Square square = new Square('.', position);
+	        Square square = new Square('.');
 
 	        assertEquals('.', square.getSymbol());
 	        assertEquals(2, square.getRow());
@@ -30,7 +22,7 @@ class SquareTest {
 
 	    @Test
 	    public void testPlaceTile() {
-	        Square square = new Square('.', position);
+	        Square square = new Square('.');
 	        Tile tile = new Tile(FrenchLetters.A);
 
 	
@@ -44,10 +36,8 @@ class SquareTest {
 	    @Test
 	    public void testIsBusy() {
 	    	
-	    Position position2 = new Position(4, 5);
-	    	
-	        Square square1 = new Square('.', position);
-	        Square square2 = new Square('X', position2);
+	        Square square1 = new Square('.');
+	        Square square2 = new Square('X');
 	        Tile tile = new Tile(FrenchLetters.A);
 
 

@@ -9,15 +9,12 @@ public class GameBoard {
 	public GameBoard(int x, int y) {
 		this.sizeX = x;
 		this.sizeY = y;
-		Position position = new Position(0, 0);
+
 		squares = new Square[x][y];
 
 		for (int row = 0; row < x; row++) {
-			position.setRow(row+1);
-			
 			for (int column = 0; column < y; column++) {
-				position.setColumn(column+1);
-				squares[row][column] = new Square(position);
+				squares[row][column] = new Square();
 			}
 		}
 		squares[7][7] = new SquareStar();

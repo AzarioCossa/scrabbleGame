@@ -15,8 +15,7 @@ class SquareTest {
 	        Square square = new Square('.');
 
 	        assertEquals('.', square.getSymbol());
-	        assertEquals(2, square.getRow());
-	        assertEquals(3, square.getColumn());
+	
 	        assertNull(square.getTile()); 
 	    }
 

@@ -11,15 +11,14 @@ import scrabble.model.utils.RackIsFullException;
 class RackTest {
 
 	@Test
-	public void testDrawTile() {
+	public void testDrawTile() throws RackIsFullException  {
+		
+		Rack rack = new Rack();
 		Tile tileToRemove = new Tile(FrenchLetters.B);
 
-		ArrayList<Tile> initialTiles = new ArrayList<>();
-		initialTiles.add(new Tile(FrenchLetters.A));
-		initialTiles.add(tileToRemove);
-		initialTiles.add(new Tile(FrenchLetters.B));
-		Rack rack = new Rack(initialTiles);
-
+		rack.addTile(new Tile(FrenchLetters.A));
+		rack.addTile(tileToRemove);
+		rack.addTile(new Tile(FrenchLetters.B));
 		assertEquals(tileToRemove, rack.drawTile(tileToRemove));
 		assertFalse(rack.getTiles().contains(tileToRemove));
 
@@ -29,7 +28,7 @@ class RackTest {
 
 	@Test
 	public void testAddTile() throws RackIsFullException {
-		Rack rack = new Rack(new ArrayList<>());
+		Rack rack = new Rack();
 
 		Tile tileToAdd = new Tile(FrenchLetters.A);
 
@@ -39,13 +38,16 @@ class RackTest {
 	}
 
 	@Test
-	public void testGetTiles() {
+	public void testGetTiles() throws RackIsFullException {
 		ArrayList<Tile> initialTiles = new ArrayList<>();
 		initialTiles.add(new Tile(FrenchLetters.A));
 		initialTiles.add(new Tile(FrenchLetters.B));
 		initialTiles.add(new Tile(FrenchLetters.C));
 
-		Rack rack = new Rack(initialTiles);
+		Rack rack = new Rack();
+		rack.addTile(new Tile(FrenchLetters.A));
+		rack.addTile(new Tile(FrenchLetters.B));
+		rack.addTile(new Tile(FrenchLetters.C));
 
 		ArrayList<Tile> tiles = rack.getTiles();
 

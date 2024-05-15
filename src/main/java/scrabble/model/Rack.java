@@ -7,7 +7,7 @@ import scrabble.model.utils.RackIsFullException;
 
 public class Rack {
 	private ArrayList<Tile> tiles;
-	private final Integer LIMIT_RACK_CAPACITY = 7;
+	public final static Integer LIMIT_RACK_CAPACITY = 7;
 
 	
 	public Rack(ArrayList<Tile> initialTiles) {
@@ -15,13 +15,23 @@ public class Rack {
 	}
 	
 	
+	public Rack() {
+		super();
+	}
+
+
 	public ArrayList<Tile> getTiles() {
 		return tiles;
 	}
-
 	
+	
+	public void setTiles(ArrayList<Tile> tiles) {
+		this.tiles = tiles;
+	}
+
+
 	public Boolean addTile(Tile tile) throws RackIsFullException{
-		if (tiles.size() >= LIMIT_RACK_CAPACITY) {
+		if (this.tiles.size() >= LIMIT_RACK_CAPACITY) {
 			throw new RackIsFullException("Le rack est plein !");
 		}
 		return this.tiles.add(tile);

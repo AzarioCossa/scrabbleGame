@@ -9,14 +9,9 @@ public class Rack {
 	private ArrayList<Tile> tiles;
 	public final static Integer LIMIT_RACK_CAPACITY = 7;
 
-	
-	public Rack(ArrayList<Tile> initialTiles) {
-		tiles = new ArrayList<>(initialTiles);
-	}
-	
-	
+		
 	public Rack() {
-		super();
+		tiles = new ArrayList<Tile>();
 	}
 
 
@@ -24,11 +19,6 @@ public class Rack {
 		return tiles;
 	}
 	
-	
-	public void setTiles(ArrayList<Tile> tiles) {
-		this.tiles = tiles;
-	}
-
 
 	public Boolean addTile(Tile tile) throws RackIsFullException{
 		if (this.tiles.size() >= LIMIT_RACK_CAPACITY) {

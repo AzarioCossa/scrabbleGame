@@ -3,7 +3,6 @@ package scrabble.model;
 public class Square {
 
 	protected char symbol;
-	protected Position position;
 	protected Tile tile;
 
 	protected Square(char symbol) {
@@ -19,14 +18,6 @@ public class Square {
 		return symbol;
 	}
 
-	public int getColumn() {
-		return this.position.column();
-	}
-
-	public int getRow() {
-		return this.position.row();
-	}
-
 	public Tile getTile() {
 		return tile;
 	}
@@ -38,6 +29,5 @@ public class Square {
 	public Boolean isBusy() {
 		return this.tile == null;
 	}
-	
 
 }

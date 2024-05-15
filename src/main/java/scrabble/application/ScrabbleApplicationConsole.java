@@ -3,6 +3,7 @@ package scrabble.application;
 import scrabble.controller.GameController;
 import scrabble.model.Bag;
 import scrabble.model.GameBoard;
+import scrabble.model.Rack;
 import scrabble.model.User;
 
 public class ScrabbleApplicationConsole {
@@ -18,11 +19,10 @@ public class ScrabbleApplicationConsole {
 
 		System.out.println(SEPARATOR);
 		Bag bag = new Bag();
-		GameBoard gameBoard = new GameBoard(15, 15);
-//		User user = new User("Louis",initializeRack());
-//
-//		GameController gameController = new GameController(bag, gameBoard, user);
-//		gameController.startGame();
+		GameBoard gameBoard = new GameBoard();
+		User user = new User("Louis", new Rack());
+		GameController gameController = new GameController(user.getName());
+		gameController.startGame();
 
 
 	}

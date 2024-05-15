@@ -1,5 +1,6 @@
 package scrabble.gui;
 
+import scrabble.model.BoardSizeConstants;
 import scrabble.model.GameBoard;
 import scrabble.model.Rack;
 import scrabble.model.Square;
@@ -21,12 +22,12 @@ public class GameView {
     
     public static void printGrid(GameBoard gameBoard) {
         Square[][] squares = gameBoard.getSquares();
-        int sizeX = gameBoard.getSizeX();
-        int sizeY = gameBoard.getSizeY();
+        int columns = BoardSizeConstants.DEFAULT_NUM_COLUMNS;
+        int rows = BoardSizeConstants.DEFAULT_NUM_ROWS;
 
-        for (int i = 0; i < sizeX; i++) {
+        for (int i = 0; i < columns; i++) {
         	Console.lineBreak();
-            for (int j = 0; j < sizeY; j++) {
+            for (int j = 0; j < rows; j++) {
                 Square square = squares[i][j];
                 if (square.getTile() != null) {
                     Console.message(" | " + square.getTile().getLetter() + " | ");

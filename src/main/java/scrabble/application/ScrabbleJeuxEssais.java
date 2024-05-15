@@ -2,9 +2,6 @@ package scrabble.application;
 
 import scrabble.controller.GameController;
 import scrabble.gui.GameView;
-import scrabble.model.Bag;
-import scrabble.model.GameBoard;
-import scrabble.model.User;
 
 public class ScrabbleJeuxEssais {
 

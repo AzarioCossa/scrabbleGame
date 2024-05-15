@@ -1,12 +1,10 @@
 package scrabble.controller;
 
-import java.util.ArrayList;
-
 import scrabble.gui.GameView;
 import scrabble.model.Bag;
+import scrabble.model.GameBoard;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
-import scrabble.model.GameBoard;
 import scrabble.model.User;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.RackIsFullException;
@@ -18,7 +16,7 @@ public class GameController {
 
 	public GameController(String name) {
 		this.bag = new Bag();
-		this.gameBoard = new GameBoard(15, 15);
+		this.gameBoard = new GameBoard();
 		this.user = new User(name, initializeRack());
 	}
 
@@ -37,28 +35,8 @@ public class GameController {
 		}
 	}
 	
-
-//	public Rack initializeRack() {
-//		Rack rack = new Rack();
-//
-//		try {
-//			for (int i = 0; i < Rack.LIMIT_RACK_CAPACITY; i++) {
-//				rack.addTile(this.bag.drawTile());
-//			}
-//
-//		} catch (EmptyBagException  | RackIsFullException e) {
-//			
-//			System.out.println(e.getMessage());
-//		}
-//		return rack;
-//
-//	}
-	
-	
 	public Rack initializeRack() {
-		ArrayList<Tile> tiles = new ArrayList<Tile>();
 		Rack rack = new Rack();
-		rack.setTiles(tiles);
 
 		try {
 			for (int i = 0; i < Rack.LIMIT_RACK_CAPACITY; i++) {

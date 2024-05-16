@@ -2,29 +2,38 @@ package scrabble.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import scrabble.model.utils.EmptyBagException;
 
 class BagTest {
 
+	private static final int INITIAL_BAG_SIZE = 102;
+	
 	@Test
-	public void testDrawTile() {
+	public void testSizeOfBag() throws EmptyBagException {
 	    Bag bag = new Bag();
 	    int initialSize = bag.getTiles().size();
 	    
-	    assertTrue(initialSize > 0);
+	    assertEquals(initialSize, INITIAL_BAG_SIZE);
 	    
-	    Tile drawnTile = null;
-
-	    try {
-	        drawnTile = bag.drawTile();
-	    } catch (EmptyBagException e) {
-	        fail("The bag should not be empty when drawing a tile.");
-	    }
-
-	    assertEquals(initialSize - 1, bag.getTiles().size()); 
-	    assertFalse(bag.getTiles().contains(drawnTile));
 	}
+	@Test
+    public void testDrawTileEmpty()  {
+		Bag bag  = new Bag();
+
+		bag.getTiles().clear();
+		
+    	EmptyBagException thrown = Assertions.assertThrows(EmptyBagException.class, () -> {
+    		
+    		bag.drawTile();
+    		
+    	});
+    	
+    	Assertions.assertEquals("You can't draw a tile when the bag is empty", thrown.getMessage());
+    }
+	
+	
 
 }

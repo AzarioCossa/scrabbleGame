@@ -13,7 +13,12 @@ public class Console {
         System.out.print(text);
     }
     
-    public static String inputUserString() {
+    public static void messageBreak(String message) {
+    	System.out.println(message);
+    }
+    
+    public static String inputUserString(String message) {
+    	Console.message(message);
     	return keyboard.nextLine();
     }
     

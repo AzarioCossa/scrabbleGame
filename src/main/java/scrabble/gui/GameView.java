@@ -1,11 +1,10 @@
 package scrabble.gui;
 
-import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import scrabble.controller.GameController;
 import scrabble.model.BoardSizeConstants;
-import scrabble.model.Direction;
 import scrabble.model.GameBoard;
 import scrabble.model.Position;
 import scrabble.model.Rack;
@@ -52,22 +51,61 @@ public class GameView {
 		System.out.println("Which tile do you want to play ? ");
 		return keyboard.nextLine();
 
-
-
 	}
+	
+	public static String askRow() {
+		Scanner rowScanner = new Scanner(System.in);
+		Console.messageBreak("What is the number of row where you want to play ? Select a number between 1 and 15 only !  ");
+		return rowScanner.nextLine();
+	}
+	
+	public static String askColumn() {
+		Scanner columnScanner = new Scanner(System.in);
+		System.out.println("What is the number of column where you want to play ? Select a number between 1 and 15 only !  ");
+		return columnScanner.nextLine();
+	}
+	
+	
 
 	public static Position askPosition() {
-
+		Position position = new Position();
+		Boolean keyboardEntry = false;
+		
+		String rowEntry = null;
+		String columnEntry = null;
 		Scanner rowScanner = new Scanner(System.in);
-		System.out.println("What is the number of row where you want to play ? ");
-		Integer row = rowScanner.nextInt();
-
+		
+		while (!keyboardEntry) {
+			Console.messageBreak("What is the number of row where you want to play ? Select a number between 1 and 15 only !  ");
+			rowEntry = rowScanner.nextLine();
+			try {
+				keyboardEntry = true;
+				int row = Integer.parseInt(rowEntry);
+				position.setRow(row);
+			} catch (Exception e) {
+				keyboardEntry = false;
+				Console.messageBreak("Error you must enter an Integer !!!");
+				Console.lineBreak();
+				
+			}
+		}
+		
+		keyboardEntry = false;
 		Scanner columnScanner = new Scanner(System.in);
-		System.out.println("What is the number of column where you want to play ? ");
-		Integer column = columnScanner.nextInt();
-
-		return new Position(row, column);
-
+		while (!keyboardEntry) {
+			System.out.println("What is the number of column where you want to play ? Select a number between 1 and 15 only !  ");
+			try {
+				keyboardEntry = true;
+				columnEntry = columnScanner.nextLine();
+				int column = Integer.parseInt(columnEntry);
+				position.setColumn(column);
+			} catch (Exception e) {
+				keyboardEntry = false;
+				Console.messageBreak("Error you must enter an Integer !!!");
+				Console.lineBreak();
+			}
+		}
+		return position;
 	}
 
 	public static String askDirection() {
@@ -75,6 +113,6 @@ public class GameView {
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Where do you want to go from here ?(up, right, down ,left)  ");
 		return keyboard.next();
-}
+	}
 
 }

@@ -51,4 +51,9 @@ public enum FrenchLetters {
 	public int getWeight() {
 		return this.weight;
 	}	
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 }

@@ -12,6 +12,10 @@ public class Console {
     public static void message(String text) {
         System.out.print(text);
     }
+    
+    public static void messageBreak(String message) {
+    	System.out.println(message);
+    }
 
     public static  void title(String title) {
         message(LINE);

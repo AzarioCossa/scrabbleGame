@@ -8,10 +8,16 @@ public class ScrabbleJeuxEssais {
 	public static void main(String[] args) {
 		GameController gameController = new GameController("User1");
 		gameController.startGame();
+        gameController.handleTile();
+		gameController.handlePosition();
+		gameController.handleDirection();
+		gameController.handleTile();
+		gameController.handlePosition();
+		gameController.handleDirection();
 
-		System.out.println("Size before new draw : " + gameController.getUser().getRack().getTiles().size());
-		gameController.putTileOfBagInRack(gameController.getUser().getRack());
-		System.out.println("Size after new draw : " + gameController.getUser().getRack().getTiles().size());
+//		System.out.println("Size before new draw : " + gameController.getUser().getRack().getTiles().size());
+//		gameController.exchangeTiles(gameController.getUser().getRack());
+//		System.out.println("Size after new draw : " + gameController.getUser().getRack().getTiles().size());
 //		while (! gameController.getBag().getTiles().isEmpty()) {
 //			gameController.exchangeTiles(gameController.getUser().getRack());
 //		}
@@ -20,5 +26,4 @@ public class ScrabbleJeuxEssais {
 		GameView.printRack(gameController.getUser().getRack());
 
 	}
-
 }

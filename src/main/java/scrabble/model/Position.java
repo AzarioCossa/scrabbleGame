@@ -13,10 +13,7 @@ public class Position {
 		this.column = column;
 
 	}
-	
-	public Position() {
-		super();
-	}
+
 	public int column() {
 		return column;
 	}

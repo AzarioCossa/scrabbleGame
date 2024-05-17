@@ -7,22 +7,12 @@ public class Console {
     protected static final String LINE = "---------------------------------------------";
     protected static final String LINE_BREAK = "\n";
 
-    static Scanner keyboard = new Scanner(System.in);
+    Scanner keyboard = new Scanner(System.in);
 
     public static void message(String text) {
         System.out.print(text);
     }
-    
-    public static void messageBreak(String message) {
-    	System.out.println(message);
-    }
-    
-    public static String inputUserString(String message) {
-    	Console.message(message);
-    	return keyboard.nextLine();
-    }
-    
-    
+
     public static  void title(String title) {
         message(LINE);
         message(title);

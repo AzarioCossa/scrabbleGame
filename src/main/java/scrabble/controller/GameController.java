@@ -6,6 +6,7 @@ import scrabble.model.GameBoard;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.User;
+import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.RackIsFullException;
 
@@ -20,7 +21,7 @@ public class GameController {
 		this.user = new User(name, initializeRack());
 	}
 
-	public void exchangeTiles(Rack rack) {
+	public void putTileOfBagInRack(Rack rack) {
 		Tile tile;
 		try {
 			tile = this.bag.drawTile();
@@ -34,6 +35,23 @@ public class GameController {
 			System.out.println(e.getMessage());
 		}
 	}
+	 public void exchangeTile(Rack rack, Tile tile) {
+	        try {
+	            rack.drawTile(tile);
+	            Tile newTile = this.bag.drawTile();
+	            rack.addTile(newTile);
+	            try {
+					this.bag.addTile(tile);
+				} catch (BagIsFullException e) {
+					System.out.println(e.getMessage());
+				}
+	            this.bag.shuffle();
+	        } catch (EmptyBagException e) {
+	            System.out.println("The bag is empty: " + e.getMessage());
+	        } catch (RackIsFullException e) {
+	            System.out.println("The rack is full: " + e.getMessage());
+	        }
+	    }
 	
 	public Rack initializeRack() {
 		Rack rack = new Rack();

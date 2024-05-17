@@ -19,4 +19,13 @@ public class GameBoard {
     public Square[][] getSquares() {
         return squares;
     }
+    
+    public Boolean isEmpty(Position position) {
+    	if (squares[position.row()-1][position.column()-1].symbol == '.' ) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 }

@@ -1,6 +1,7 @@
 package scrabble.controller;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import scrabble.gui.Console;
 import scrabble.gui.GameView;
@@ -186,7 +187,7 @@ public class GameController {
 		rack_content.addAll(user.getRack().getTiles());
 		for (Tile tile : rack_content) {
 			String letter = tile.getLetter().toString();
-			if (letter == userChoice) {
+			if (Objects.equals(letter, userChoice)) {
 				finalTile = tile;
 			}
 		}
@@ -226,6 +227,26 @@ public class GameController {
 		GameView.printRack(this.user.getRack());
 	}
 	
+
+	
+	public void placeTile() {
+	    Tile tile = handleTile();
+	    Position position = handlePosition();
+	    System.out.println("Trying to place tile at position: " + position);
+
+	    if (validatePosition(position) && (gameBoard.isEmpty(position))) {
+	        System.out.println("Position is valid and empty. Placing tile...");
+	        gameBoard.placeTile(tile, position.row(), position.column());
+	        user.getRack().drawTile(tile);
+	        GameView.printGrid(this.gameBoard);
+	    } else {
+	        System.out.println("Cannot place tile at position: " + position);
+	    }
+	}
+	
+	
+
+
 	
 
 }

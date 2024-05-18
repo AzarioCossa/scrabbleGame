@@ -1,5 +1,6 @@
 package scrabble.model;
 
+
 public class GameBoard {
 
     private Square[][] squares;
@@ -27,5 +28,9 @@ public class GameBoard {
     	else {
     		return false;
     	}
+    }
+    
+    public void placeTile(Tile tile, int row, int col) {
+        squares[row][col].placeTile(tile);
     }
 }

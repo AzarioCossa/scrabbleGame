@@ -25,7 +25,7 @@ class SquareTest {
 	        Tile tile = new Tile(FrenchLetters.A);
 
 	
-	        square.placeTile(tile);
+	        square.placeTileSquare(tile);
 
 	      
 	        assertEquals(tile, square.getTile());
@@ -43,7 +43,7 @@ class SquareTest {
 	        assertTrue(square1.isBusy());
 	        assertTrue(square2.isBusy());
 
-	        square1.placeTile(tile);
+	        square1.placeTileSquare(tile);
 
 
 	        assertFalse(square1.isBusy());

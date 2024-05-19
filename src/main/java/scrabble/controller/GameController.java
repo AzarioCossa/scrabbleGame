@@ -7,6 +7,7 @@ import scrabble.gui.Console;
 import scrabble.gui.GameView;
 import scrabble.model.Bag;
 import scrabble.model.Direction;
+import scrabble.model.FrenchLetters;
 import scrabble.model.GameBoard;
 import scrabble.model.Position;
 import scrabble.model.Rack;
@@ -232,6 +233,12 @@ public class GameController {
 	public void placeTile() {
 	    Tile tile = handleTile();
 	    Position position = handlePosition();
+	    if (tile.getLetter() == FrenchLetters.JOCKER) {
+	    	String replacementLetter = GameView.askReplacementLetter();
+            tile = new Tile(FrenchLetters.valueOf(replacementLetter));
+            user.getRack().replaceJoker(tile);
+	    }
+	    
 	    gameBoard.placeTileGameBoard(tile, position.row()-1, position.column()-1);
 	    user.getRack().drawTile(tile);
 	    GameView.printGrid(this.gameBoard);

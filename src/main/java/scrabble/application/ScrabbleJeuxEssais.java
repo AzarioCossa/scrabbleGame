@@ -16,8 +16,8 @@ public class ScrabbleJeuxEssais {
 		gameController.handlePosition();
 		gameController.handleDirection();*/
 		
-		boolean test = true;
-		while(test) {
+		int test = 0;
+		while(test != 10) {
 			gameController.placeTile();
 			gameController.putTileOfBagInRack(gameController.getUser().getRack());
 			GameView.printRack(gameController.getUser().getRack());
@@ -25,7 +25,7 @@ public class ScrabbleJeuxEssais {
 			gameController.putTileOfBagInRack(gameController.getUser().getRack());
 			GameView.printRack(gameController.getUser().getRack());
 			
-			test = false;
+			test++;
 		}
 		/*gameController.placeTile();
 		gameController.putTileOfBagInRack(gameController.getUser().getRack());

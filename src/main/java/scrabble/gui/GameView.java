@@ -66,4 +66,12 @@ public class GameView {
 		System.out.println("Where do you want to go from here ?(up, right, down ,left)  ");
 		return keyboard.next();
 	}
+
+	public static String askReplacementLetter() {
+		Scanner jockerScanner = new Scanner(System.in);
+	    System.out.println("Enter the letter you want the Joker to represent:");
+	    return jockerScanner.nextLine().toUpperCase();
+	}
+	
+	
 }

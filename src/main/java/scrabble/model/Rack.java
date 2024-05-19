@@ -37,6 +37,15 @@ public class Rack {
 	    }
 	}
 	
+	public void replaceJoker(Tile newTile) {
+	    for (int i = 0; i < tiles.size(); i++) {
+	        Tile tile = tiles.get(i);
+	        if (tile.getLetter() == FrenchLetters.JOCKER) {
+	            tiles.set(i, newTile);
+	            break;
+	        }
+	    }
+	}
 	
 	@Override
 	public int hashCode() {

@@ -3,6 +3,7 @@ package scrabble.application;
 import scrabble.controller.GameController;
 import scrabble.gui.GameView;
 
+
 public class ScrabbleJeuxEssais {
 
 	public static void main(String[] args) {
@@ -14,9 +15,21 @@ public class ScrabbleJeuxEssais {
 		gameController.handleTile();
 		gameController.handlePosition();
 		gameController.handleDirection();*/
-		gameController.placeTile();
+		
+		boolean test = true;
+		while(test) {
+			gameController.placeTile();
+			gameController.putTileOfBagInRack(gameController.getUser().getRack());
+			GameView.printRack(gameController.getUser().getRack());
+			gameController.placeTile();
+			gameController.putTileOfBagInRack(gameController.getUser().getRack());
+			GameView.printRack(gameController.getUser().getRack());
+			
+			test = false;
+		}
+		/*gameController.placeTile();
 		gameController.putTileOfBagInRack(gameController.getUser().getRack());
-		GameView.printRack(gameController.getUser().getRack());
+		GameView.printRack(gameController.getUser().getRack());*/
 
 //		System.out.println("Size before new draw : " + gameController.getUser().getRack().getTiles().size());
 //		gameController.exchangeTiles(gameController.getUser().getRack());

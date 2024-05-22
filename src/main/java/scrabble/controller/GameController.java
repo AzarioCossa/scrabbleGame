@@ -34,33 +34,33 @@ public class GameController {
 			tile = this.bag.drawTile();
 			rack.addTile(tile);
 			this.bag.shuffle();
-			
+
 		} catch (EmptyBagException e) {
 			System.out.println(e.getMessage());
-
 		} catch (RackIsFullException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	 public void exchangeTile(Rack rack, Tile tile) {
-	        try {
-	            rack.drawTile(tile);
-	            Tile newTile = this.bag.drawTile();
-	            rack.addTile(newTile);
-	            try {
-					this.bag.addTile(tile);
-				} catch (BagIsFullException e) {
-					System.out.println(e.getMessage());
-				}
-	            this.bag.shuffle();
-	        } catch (EmptyBagException e) {
-	            System.out.println("The bag is empty: " + e.getMessage());
-	        } catch (RackIsFullException e) {
-	            System.out.println("The rack is full: " + e.getMessage());
-	        }
-	    }
-	
-	
+
+	public void exchangeTile(Rack rack, Tile tile) {
+		try {
+			rack.drawTile(tile);
+			Tile newTile = this.bag.drawTile();
+			rack.addTile(newTile);
+
+			try {
+				this.bag.addTile(tile);
+			} catch (BagIsFullException e) {
+				System.out.println(e.getMessage());
+			}
+			this.bag.shuffle();
+		} catch (EmptyBagException e) {
+			System.out.println("The bag is empty: " + e.getMessage());
+		} catch (RackIsFullException e) {
+			System.out.println("The rack is full: " + e.getMessage());
+		}
+	}
+
 	public Rack initializeRack() {
 		Rack rack = new Rack();
 
@@ -69,14 +69,14 @@ public class GameController {
 				rack.addTile(this.bag.drawTile());
 			}
 
-		} catch (EmptyBagException | RackIsFullException e)  {
-			
+		} catch (EmptyBagException | RackIsFullException e) {
+
 			System.out.println(e.getMessage());
 		}
 		return rack;
 
 	}
-	
+
 	public Position handlePosition() {
 		Position position = correctEntryPosition();
 		while (!validatePosition(position)) {
@@ -175,7 +175,7 @@ public class GameController {
 		}
 		return userChoice;
 	}
-	
+
 	public Tile handleTile() {
 
 		String userChoice = GameView.askTile();
@@ -187,14 +187,14 @@ public class GameController {
 		ArrayList<Tile> rack_content = new ArrayList<Tile>();
 		rack_content.addAll(user.getRack().getTiles());
 		for (Tile tile : rack_content) {
-			String letter = tile.getLetter().toString();
+			String letter = tile.getLetter().toString().toLowerCase();
 			if (Objects.equals(letter, userChoice)) {
 				finalTile = tile;
 			}
 		}
 		return finalTile;
 	}
-	
+
 	public Boolean tileIsInRack(String tileLetter) {
 		ArrayList<Tile> rackContent = new ArrayList<Tile>();
 		rackContent.addAll(user.getRack().getTiles());
@@ -227,26 +227,38 @@ public class GameController {
 		GameView.printGrid(this.gameBoard);
 		GameView.printRack(this.user.getRack());
 	}
-	
 
-	
 	public void placeTile() {
-	    Tile tile = handleTile();
-	    Position position = handlePosition();
-	    if (tile.getLetter() == FrenchLetters.JOCKER) {
-	    	String replacementLetter = GameView.askReplacementLetter();
-            tile = new Tile(FrenchLetters.valueOf(replacementLetter));
-            user.getRack().replaceJoker(tile);
-	    }
-	    
-	    gameBoard.placeTileGameBoard(tile, position.row()-1, position.column()-1);
-	    user.getRack().drawTile(tile);
-	    GameView.printGrid(this.gameBoard);
+		Tile tile = handleTile();
+		Position position = handlePosition();
+		if (tile.getLetter() == FrenchLetters.JOCKER) {
+			String replacementLetter = GameView.askReplacementLetter();
+			while (!validateEntryReplacementJocker(replacementLetter)) {
+				GameView.askReplacementLetter();
+				Console.messageBreak("Alphabetical character expected !");
+			}
+			user.getRack().replaceJoker(tile);
+		}
+
+		gameBoard.placeTileGameBoard(tile, position.row() - 1, position.column() - 1);
+		user.getRack().drawTile(tile);
+		GameView.printGrid(this.gameBoard);
 	}
-	
-	
 
+	public Boolean validateEntryReplacementJocker(String answer) {
+		String[] number = { "0", "1", "2", "3", "4,", "5", "6", "7", "8", "9" };
 
-	
+		if (answer.length() != 1) {
+			return false;
+		}
 
+		Boolean find = true;
+		for (String element : number) {
+			if (element.equals(answer)) {
+				find = false;
+			}
+		}
+
+		return find;
+	}
 }

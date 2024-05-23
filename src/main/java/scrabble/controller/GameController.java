@@ -2,6 +2,7 @@ package scrabble.controller;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Scanner;
 
 import scrabble.gui.Console;
 import scrabble.gui.GameView;
@@ -226,23 +227,41 @@ public class GameController {
 	public void startGame() {
 		GameView.printGrid(this.gameBoard);
 		GameView.printRack(this.user.getRack());
+		
 	}
 
 	public void placeTile() {
 		Tile tile = handleTile();
-		Position position = handlePosition();
-		if (tile.getLetter() == FrenchLetters.JOCKER) {
-			String replacementLetter = GameView.askReplacementLetter();
-			while (!validateEntryReplacementJocker(replacementLetter)) {
-				GameView.askReplacementLetter();
-				Console.messageBreak("Alphabetical character expected !");
+		Position center = new Position(8, 8);
+		if (gameBoard.isEmpty(center)) {
+			if (tile.getLetter() == FrenchLetters.JOCKER) {
+				String replacementLetter = GameView.askReplacementLetter();
+				while (!validateEntryReplacementJocker(replacementLetter)) {
+					GameView.askReplacementLetter();
+					Console.messageBreak("Alphabetical character expected !");
+				}
+				user.getRack().replaceJoker(tile);
 			}
-			user.getRack().replaceJoker(tile);
-		}
 
-		gameBoard.placeTileGameBoard(tile, position.row() - 1, position.column() - 1);
-		user.getRack().drawTile(tile);
-		GameView.printGrid(this.gameBoard);
+			gameBoard.placeTileGameBoard(tile, center.row() - 1, center.column() - 1);
+			user.getRack().drawTile(tile);
+			GameView.printGrid(this.gameBoard);
+		} else {
+			Position position = handlePosition();
+
+			if (tile.getLetter() == FrenchLetters.JOCKER) {
+				String replacementLetter = GameView.askReplacementLetter();
+				while (!validateEntryReplacementJocker(replacementLetter)) {
+					GameView.askReplacementLetter();
+					Console.messageBreak("Alphabetical character expected !");
+				}
+				user.getRack().replaceJoker(tile);
+			}
+
+			gameBoard.placeTileGameBoard(tile, position.row() - 1, position.column() - 1);
+			user.getRack().drawTile(tile);
+			GameView.printGrid(this.gameBoard);
+		}
 	}
 
 	public Boolean validateEntryReplacementJocker(String answer) {

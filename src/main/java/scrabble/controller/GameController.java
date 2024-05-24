@@ -188,13 +188,13 @@ public class GameController {
 		rack_content.addAll(user.getRack().getTiles());
 		for (Tile tile : rack_content) {
 			String letter = tile.getLetter().toString().toLowerCase();
-			if (Objects.equals(letter, userChoice)) {
+			if (Objects.equals(letter, userChoice.toLowerCase())) {
 				finalTile = tile;
 			}
 		}
 		return finalTile;
 	}
-	
+
 	public Tile handleTileExchanged() {
 
 		String userChoice = GameView.askTileExchanged();
@@ -255,8 +255,6 @@ public class GameController {
 		Console.messageBreak("Differens choices are :\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
 		GameView.printGrid(this.gameBoard);
 		GameView.printRack(this.user.getRack());
-		
-		
 
 		Boolean endGame = false;
 		while (!endGame) {
@@ -264,8 +262,8 @@ public class GameController {
 			GameView.printRack(this.user.getRack());
 			Console.messageBreak("What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
 			userChoice = keyboard.nextLine();
-			while (!userChoice.equals("1") && !userChoice.equals("2") && ! userChoice.equals("3")) {
-				Console.messageBreak("You have to enter numbers 1,2 or 3 !" );
+			while (!userChoice.equals("1") && !userChoice.equals("2") && !userChoice.equals("3")) {
+				Console.messageBreak("You have to enter numbers 1,2 or 3 !");
 				userChoice = keyboard.nextLine();
 			}
 			if (userChoice.equals("1")) {
@@ -276,13 +274,12 @@ public class GameController {
 					Console.messageBreak("Which tile of your rack would you exchange ? ");
 					Tile tile = handleTileExchanged();
 					exchangeTile(user.getRack(), tile);
-				}
-				else {
-					if(userChoice.equals("3")) {
+				} else {
+					if (userChoice.equals("3")) {
 						Console.messageBreak("Thanks for your trust see you soon !");
 						endGame = true;
 					}
-					
+
 				}
 			}
 		}
@@ -307,6 +304,10 @@ public class GameController {
 			GameView.printGrid(this.gameBoard);
 		} else {
 			Position position = handlePosition();
+			while (!isAdjacent(position)) {
+				Console.messageBreak("Error, tile must be placed next to an other ! ");
+				position = handlePosition();
+			}
 
 			if (tile.getLetter() == FrenchLetters.JOCKER) {
 				String replacementLetter = GameView.askReplacementLetter();
@@ -321,6 +322,57 @@ public class GameController {
 			user.getRack().drawTile(tile);
 			GameView.printGrid(this.gameBoard);
 		}
+	}
+
+	public Boolean isAdjacent(Position position) {
+		int row = position.row();
+		int column = position.column();
+
+		if (row == 1 && column == 1) {
+			if (!gameBoard.isEmpty(new Position(row + 1, column))) {
+				return true;
+			} else if (!gameBoard.isEmpty(new Position(row, column + 1))) {
+				return true;
+			}
+		} else if (row == 15 && column == 15) {
+			if (!gameBoard.isEmpty(new Position(row - 1, column))) {
+				return true;
+			} else if (!gameBoard.isEmpty(new Position(row, column - 1))) {
+				return true;
+			}
+		} else if (row == 1 && column == 15) {
+			if (!gameBoard.isEmpty(new Position(row + 1, column))) {
+				return true;
+			} else if (!gameBoard.isEmpty(new Position(row, column - 1))) {
+				return true;
+			}
+		} else if (row == 15 && column == 1) {
+			if (!gameBoard.isEmpty(new Position(row - 1, column))) {
+				return true;
+			} else if (!gameBoard.isEmpty(new Position(row, column + 1))) {
+				return true;
+			}
+		} else {
+			if (!gameBoard.isEmpty(new Position(row - 1, column))) {
+				return true;
+			} else {
+				if (!gameBoard.isEmpty(new Position(row + 1, column))) {
+					return true;
+				}
+
+				else {
+					if (!gameBoard.isEmpty(new Position(row, column - 1))) {
+						return true;
+					} else {
+						if (!gameBoard.isEmpty(new Position(row, column + 1))) {
+							return true;
+						}
+					}
+				}
+
+			}
+		}
+		return false;
 	}
 
 	public Boolean validateEntryReplacementJocker(String answer) {

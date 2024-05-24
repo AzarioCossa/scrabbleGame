@@ -16,16 +16,16 @@ public class ScrabbleJeuxEssais {
 		gameController.handlePosition();
 		gameController.handleDirection();*/
 		
-		int test = 0;
-		while(test != 10) {
-			gameController.placeTile();
-			gameController.putTileOfBagInRack(gameController.getUser().getRack());
-			GameView.printRack(gameController.getUser().getRack());
-			gameController.placeTile();
-			gameController.putTileOfBagInRack(gameController.getUser().getRack());
-			GameView.printRack(gameController.getUser().getRack());
-			
-			test++;
+//		int test = 0;
+//		while(test != 10) {
+//			gameController.placeTile();
+//			gameController.putTileOfBagInRack(gameController.getUser().getRack());
+//			GameView.printRack(gameController.getUser().getRack());
+//			gameController.placeTile();
+//			gameController.putTileOfBagInRack(gameController.getUser().getRack());
+//			GameView.printRack(gameController.getUser().getRack());
+//			
+//			test++;
 		}
 		/*gameController.placeTile();
 		gameController.putTileOfBagInRack(gameController.getUser().getRack());
@@ -43,4 +43,3 @@ public class ScrabbleJeuxEssais {
 		
 	}
 	
-}

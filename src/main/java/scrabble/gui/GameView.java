@@ -48,6 +48,12 @@ public class GameView {
 		return keyboard.nextLine();
 	}
     
+    public static String askTileExchanged() {
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Which tile do you want to exchange ? ");
+		return keyboard.nextLine();
+    }
+    
 	public static String askRow() {
 		Scanner rowScanner = new Scanner(System.in);
 		Console.messageBreak("What is the number of row where you want to play ? Select a number between 1 and 15 only !  ");

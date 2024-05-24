@@ -26,7 +26,6 @@ public class GameController {
 	public GameController(String name) {
 		this.bag = new Bag();
 		this.gameBoard = new GameBoard();
-		this.user = new User(name, initializeRack());
 	}
 
 	public void putTileOfBagInRack(Rack rack) {
@@ -195,6 +194,25 @@ public class GameController {
 		}
 		return finalTile;
 	}
+	
+	public Tile handleTileExchanged() {
+
+		String userChoice = GameView.askTileExchanged();
+		Tile finalTile = null;
+		while (!tileIsInRack(userChoice)) {
+			userChoice = GameView.askTile();
+		}
+
+		ArrayList<Tile> rack_content = new ArrayList<Tile>();
+		rack_content.addAll(user.getRack().getTiles());
+		for (Tile tile : rack_content) {
+			String letter = tile.getLetter().toString().toLowerCase();
+			if (Objects.equals(letter, userChoice)) {
+				finalTile = tile;
+			}
+		}
+		return finalTile;
+	}
 
 	public Boolean tileIsInRack(String tileLetter) {
 		ArrayList<Tile> rackContent = new ArrayList<Tile>();
@@ -225,9 +243,50 @@ public class GameController {
 	}
 
 	public void startGame() {
+		Scanner keyboard = new Scanner(System.in);
+		Console.message("Welcome to Scrabble !  ");
+		Console.messageBreak("What's your name ?");
+		String userName = keyboard.nextLine();
+		String userChoice;
+		this.user = new User(userName, initializeRack());
+		Console.messageBreak("Welcome " + userName + "!");
+
+		Console.messageBreak("During the game, a menu will be displayed to allow you to choose what you want to do \n");
+		Console.messageBreak("Differens choices are :\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
 		GameView.printGrid(this.gameBoard);
 		GameView.printRack(this.user.getRack());
 		
+		
+
+		Boolean endGame = false;
+		while (!endGame) {
+			GameView.printGrid(this.gameBoard);
+			GameView.printRack(this.user.getRack());
+			Console.messageBreak("What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
+			userChoice = keyboard.nextLine();
+			while (!userChoice.equals("1") && !userChoice.equals("2") && ! userChoice.equals("3")) {
+				Console.messageBreak("You have to enter numbers 1,2 or 3 !" );
+				userChoice = keyboard.nextLine();
+			}
+			if (userChoice.equals("1")) {
+				placeTile();
+				putTileOfBagInRack(user.getRack());
+			} else {
+				if (userChoice.equals("2")) {
+					Console.messageBreak("Which tile of your rack would you exchange ? ");
+					Tile tile = handleTileExchanged();
+					exchangeTile(user.getRack(), tile);
+				}
+				else {
+					if(userChoice.equals("3")) {
+						Console.messageBreak("Thanks for your trust see you soon !");
+						endGame = true;
+					}
+					
+				}
+			}
+		}
+
 	}
 
 	public void placeTile() {

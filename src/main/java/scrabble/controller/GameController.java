@@ -301,7 +301,6 @@ public class GameController {
 
 			gameBoard.placeTileGameBoard(tile, center.row() - 1, center.column() - 1);
 			user.getRack().drawTile(tile);
-			GameView.printGrid(this.gameBoard);
 		} else {
 			Position position = handlePosition();
 			while (!isAdjacent(position)) {
@@ -327,44 +326,48 @@ public class GameController {
 	public Boolean isAdjacent(Position position) {
 		int row = position.row();
 		int column = position.column();
+		Position left = new Position(row, column - 1);
+		Position right = new Position(row, column + 1);
+		Position top = new Position(row - 1, column);
+		Position bottom = new Position(row + 1, column);
 
 		if (row == 1 && column == 1) {
-			if (!gameBoard.isEmpty(new Position(row + 1, column))) {
+			if (!gameBoard.isEmpty(bottom)) {
 				return true;
-			} else if (!gameBoard.isEmpty(new Position(row, column + 1))) {
+			} else if (!gameBoard.isEmpty(right)) {
 				return true;
 			}
 		} else if (row == 15 && column == 15) {
-			if (!gameBoard.isEmpty(new Position(row - 1, column))) {
+			if (!gameBoard.isEmpty(top)) {
 				return true;
-			} else if (!gameBoard.isEmpty(new Position(row, column - 1))) {
+			} else if (!gameBoard.isEmpty(left)) {
 				return true;
 			}
 		} else if (row == 1 && column == 15) {
-			if (!gameBoard.isEmpty(new Position(row + 1, column))) {
+			if (!gameBoard.isEmpty(bottom)) {
 				return true;
-			} else if (!gameBoard.isEmpty(new Position(row, column - 1))) {
+			} else if (!gameBoard.isEmpty(left)) {
 				return true;
 			}
 		} else if (row == 15 && column == 1) {
-			if (!gameBoard.isEmpty(new Position(row - 1, column))) {
+			if (!gameBoard.isEmpty(top)) {
 				return true;
-			} else if (!gameBoard.isEmpty(new Position(row, column + 1))) {
+			} else if (!gameBoard.isEmpty(right)) {
 				return true;
 			}
 		} else {
-			if (!gameBoard.isEmpty(new Position(row - 1, column))) {
+			if (!gameBoard.isEmpty(top)) {
 				return true;
 			} else {
-				if (!gameBoard.isEmpty(new Position(row + 1, column))) {
+				if (!gameBoard.isEmpty(bottom)) {
 					return true;
 				}
 
 				else {
-					if (!gameBoard.isEmpty(new Position(row, column - 1))) {
+					if (!gameBoard.isEmpty(left)) {
 						return true;
 					} else {
-						if (!gameBoard.isEmpty(new Position(row, column + 1))) {
+						if (!gameBoard.isEmpty(right)) {
 							return true;
 						}
 					}

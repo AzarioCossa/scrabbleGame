@@ -1,5 +1,6 @@
 package scrabble.model;
 
+
 public class GameBoard {
 
     private Square[][] squares;
@@ -21,11 +22,20 @@ public class GameBoard {
     }
     
     public Boolean isEmpty(Position position) {
-    	if (squares[position.row()-1][position.column()-1].symbol == '.' ) {
-    		return true;
-    	}
-    	else {
-    		return false;
-    	}
+    	int row = position.row() - 1;
+        int col = position.column() - 1;
+        boolean isEmpty;
+        
+        if (squares[row][col].getTile() == null) {
+        	isEmpty = true;
+        }
+        else {
+        	isEmpty = false;
+        }
+        return isEmpty;
+    }
+    
+    public void placeTileGameBoard(Tile tile, int row, int col) {
+        squares[row][col].placeTileSquare(tile);
     }
 }

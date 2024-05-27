@@ -22,7 +22,7 @@ public class Square {
 		return tile;
 	}
 
-	public void placeTile(Tile tile) {
+	public void placeTileSquare(Tile tile) {
 		this.tile = tile;
 	}
 

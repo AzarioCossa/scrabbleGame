@@ -1,11 +1,14 @@
 package scrabble.controller;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Scanner;
 
 import scrabble.gui.Console;
 import scrabble.gui.GameView;
 import scrabble.model.Bag;
 import scrabble.model.Direction;
+import scrabble.model.FrenchLetters;
 import scrabble.model.GameBoard;
 import scrabble.model.Position;
 import scrabble.model.Rack;
@@ -23,7 +26,6 @@ public class GameController {
 	public GameController(String name) {
 		this.bag = new Bag();
 		this.gameBoard = new GameBoard();
-		this.user = new User(name, initializeRack());
 	}
 
 	public void putTileOfBagInRack(Rack rack) {
@@ -32,33 +34,33 @@ public class GameController {
 			tile = this.bag.drawTile();
 			rack.addTile(tile);
 			this.bag.shuffle();
-			
+
 		} catch (EmptyBagException e) {
 			System.out.println(e.getMessage());
-
 		} catch (RackIsFullException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	 public void exchangeTile(Rack rack, Tile tile) {
-	        try {
-	            rack.drawTile(tile);
-	            Tile newTile = this.bag.drawTile();
-	            rack.addTile(newTile);
-	            try {
-					this.bag.addTile(tile);
-				} catch (BagIsFullException e) {
-					System.out.println(e.getMessage());
-				}
-	            this.bag.shuffle();
-	        } catch (EmptyBagException e) {
-	            System.out.println("The bag is empty: " + e.getMessage());
-	        } catch (RackIsFullException e) {
-	            System.out.println("The rack is full: " + e.getMessage());
-	        }
-	    }
-	
-	
+
+	public void exchangeTile(Rack rack, Tile tile) {
+		try {
+			rack.drawTile(tile);
+			Tile newTile = this.bag.drawTile();
+			rack.addTile(newTile);
+
+			try {
+				this.bag.addTile(tile);
+			} catch (BagIsFullException e) {
+				System.out.println(e.getMessage());
+			}
+			this.bag.shuffle();
+		} catch (EmptyBagException e) {
+			System.out.println("The bag is empty: " + e.getMessage());
+		} catch (RackIsFullException e) {
+			System.out.println("The rack is full: " + e.getMessage());
+		}
+	}
+
 	public Rack initializeRack() {
 		Rack rack = new Rack();
 
@@ -67,14 +69,14 @@ public class GameController {
 				rack.addTile(this.bag.drawTile());
 			}
 
-		} catch (EmptyBagException | RackIsFullException e)  {
-			
+		} catch (EmptyBagException | RackIsFullException e) {
+
 			System.out.println(e.getMessage());
 		}
 		return rack;
 
 	}
-	
+
 	public Position handlePosition() {
 		Position position = correctEntryPosition();
 		while (!validatePosition(position)) {
@@ -173,7 +175,7 @@ public class GameController {
 		}
 		return userChoice;
 	}
-	
+
 	public Tile handleTile() {
 
 		String userChoice = GameView.askTile();
@@ -185,14 +187,33 @@ public class GameController {
 		ArrayList<Tile> rack_content = new ArrayList<Tile>();
 		rack_content.addAll(user.getRack().getTiles());
 		for (Tile tile : rack_content) {
-			String letter = tile.getLetter().toString();
-			if (letter == userChoice) {
+			String letter = tile.getLetter().toString().toLowerCase();
+			if (Objects.equals(letter, userChoice.toLowerCase())) {
 				finalTile = tile;
 			}
 		}
 		return finalTile;
 	}
-	
+
+	public Tile handleTileExchanged() {
+
+		String userChoice = GameView.askTileExchanged();
+		Tile finalTile = null;
+		while (!tileIsInRack(userChoice)) {
+			userChoice = GameView.askTile();
+		}
+
+		ArrayList<Tile> rack_content = new ArrayList<Tile>();
+		rack_content.addAll(user.getRack().getTiles());
+		for (Tile tile : rack_content) {
+			String letter = tile.getLetter().toString().toLowerCase();
+			if (Objects.equals(letter, userChoice)) {
+				finalTile = tile;
+			}
+		}
+		return finalTile;
+	}
+
 	public Boolean tileIsInRack(String tileLetter) {
 		ArrayList<Tile> rackContent = new ArrayList<Tile>();
 		rackContent.addAll(user.getRack().getTiles());
@@ -222,10 +243,155 @@ public class GameController {
 	}
 
 	public void startGame() {
+		Scanner keyboard = new Scanner(System.in);
+		Console.message("Welcome to Scrabble !  ");
+		Console.messageBreak("What's your name ?");
+		String userName = keyboard.nextLine();
+		String userChoice;
+		this.user = new User(userName, initializeRack());
+		Console.messageBreak("Welcome " + userName + "!");
+
+		Console.messageBreak("During the game, a menu will be displayed to allow you to choose what you want to do \n");
+		Console.messageBreak("Differens choices are :\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
 		GameView.printGrid(this.gameBoard);
 		GameView.printRack(this.user.getRack());
-	}
-	
-	
 
+		Boolean endGame = false;
+		while (!endGame) {
+			GameView.printGrid(this.gameBoard);
+			GameView.printRack(this.user.getRack());
+			Console.messageBreak("What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
+			userChoice = keyboard.nextLine();
+			while (!userChoice.equals("1") && !userChoice.equals("2") && !userChoice.equals("3")) {
+				Console.messageBreak("You have to enter numbers 1,2 or 3 !");
+				userChoice = keyboard.nextLine();
+			}
+			if (userChoice.equals("1")) {
+				placeTile();
+				putTileOfBagInRack(user.getRack());
+			} else {
+				if (userChoice.equals("2")) {
+					Console.messageBreak("Which tile of your rack would you exchange ? ");
+					Tile tile = handleTileExchanged();
+					exchangeTile(user.getRack(), tile);
+				} else {
+					if (userChoice.equals("3")) {
+						Console.messageBreak("Thanks for your trust see you soon !");
+						endGame = true;
+					}
+
+				}
+			}
+		}
+
+	}
+
+	public void placeTile() {
+		Tile tile = handleTile();
+		Position center = new Position(8, 8);
+		if (gameBoard.isEmpty(center)) {
+			if (tile.getLetter() == FrenchLetters.JOCKER) {
+				String replacementLetter = GameView.askReplacementLetter();
+				while (!validateEntryReplacementJocker(replacementLetter)) {
+					GameView.askReplacementLetter();
+					Console.messageBreak("Alphabetical character expected !");
+				}
+				user.getRack().replaceJoker(tile);
+			}
+
+			gameBoard.placeTileGameBoard(tile, center.row() - 1, center.column() - 1);
+			user.getRack().drawTile(tile);
+		} else {
+			Position position = handlePosition();
+			while (!isAdjacent(position)) {
+				Console.messageBreak("Error, tile must be placed next to an other ! ");
+				position = handlePosition();
+			}
+
+			if (tile.getLetter() == FrenchLetters.JOCKER) {
+				String replacementLetter = GameView.askReplacementLetter();
+				while (!validateEntryReplacementJocker(replacementLetter)) {
+					GameView.askReplacementLetter();
+					Console.messageBreak("Alphabetical character expected !");
+				}
+				user.getRack().replaceJoker(tile);
+			}
+
+			gameBoard.placeTileGameBoard(tile, position.row() - 1, position.column() - 1);
+			user.getRack().drawTile(tile);
+			GameView.printGrid(this.gameBoard);
+		}
+	}
+
+	public Boolean isAdjacent(Position position) {
+		int row = position.row();
+		int column = position.column();
+		Position left = new Position(row, column - 1);
+		Position right = new Position(row, column + 1);
+		Position top = new Position(row - 1, column);
+		Position bottom = new Position(row + 1, column);
+
+		if (row == 1 && column == 1) {
+			if (!gameBoard.isEmpty(bottom)) {
+				return true;
+			} else if (!gameBoard.isEmpty(right)) {
+				return true;
+			}
+		} else if (row == 15 && column == 15) {
+			if (!gameBoard.isEmpty(top)) {
+				return true;
+			} else if (!gameBoard.isEmpty(left)) {
+				return true;
+			}
+		} else if (row == 1 && column == 15) {
+			if (!gameBoard.isEmpty(bottom)) {
+				return true;
+			} else if (!gameBoard.isEmpty(left)) {
+				return true;
+			}
+		} else if (row == 15 && column == 1) {
+			if (!gameBoard.isEmpty(top)) {
+				return true;
+			} else if (!gameBoard.isEmpty(right)) {
+				return true;
+			}
+		} else {
+			if (!gameBoard.isEmpty(top)) {
+				return true;
+			} else {
+				if (!gameBoard.isEmpty(bottom)) {
+					return true;
+				}
+
+				else {
+					if (!gameBoard.isEmpty(left)) {
+						return true;
+					} else {
+						if (!gameBoard.isEmpty(right)) {
+							return true;
+						}
+					}
+				}
+
+			}
+		}
+		return false;
+	}
+
+	public Boolean validateEntryReplacementJocker(String answer) {
+		String[] number = { "0", "1", "2", "3", "4,", "5", "6", "7", "8", "9" };
+
+		if (answer.length() != 1) {
+			return false;
+		}
+
+		Boolean find = true;
+		for (String element : number) {
+			if (element.equals(answer)) {
+				find = false;
+			}
+		}
+
+		return find;
+	}
 }

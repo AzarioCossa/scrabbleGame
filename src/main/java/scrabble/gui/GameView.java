@@ -48,6 +48,12 @@ public class GameView {
 		return keyboard.nextLine();
 	}
     
+    public static String askTileExchanged() {
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Which tile do you want to exchange ? ");
+		return keyboard.nextLine();
+    }
+    
 	public static String askRow() {
 		Scanner rowScanner = new Scanner(System.in);
 		Console.messageBreak("What is the number of row where you want to play ? Select a number between 1 and 15 only !  ");
@@ -66,4 +72,12 @@ public class GameView {
 		System.out.println("Where do you want to go from here ?(up, right, down ,left)  ");
 		return keyboard.next();
 	}
+
+	public static String askReplacementLetter() {
+		Scanner jockerScanner = new Scanner(System.in);
+	    System.out.println("Enter the letter you want the Joker to represent:");
+	    return jockerScanner.nextLine().toUpperCase();
+	}
+	
+	
 }

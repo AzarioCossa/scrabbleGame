@@ -260,6 +260,7 @@ public class GameController {
 		while (!endGame) {
 			GameView.printGrid(this.gameBoard);
 			GameView.printRack(this.user.getRack());
+			Console.messageBreak("Your score : " + user.getScore() + "\n");
 			Console.messageBreak("What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
 			userChoice = keyboard.nextLine();
 			while (!userChoice.equals("1") && !userChoice.equals("2") && !userChoice.equals("3")) {
@@ -297,9 +298,11 @@ public class GameController {
 					Console.messageBreak("Alphabetical character expected !");
 				}
 				user.getRack().replaceJoker(tile);
+				
 			}
 
 			gameBoard.placeTileGameBoard(tile, center.row() - 1, center.column() - 1);
+			user.incrementScore(tile.getWeight());
 			user.getRack().drawTile(tile);
 		} else {
 			Position position = handlePosition();
@@ -318,10 +321,12 @@ public class GameController {
 			}
 
 			gameBoard.placeTileGameBoard(tile, position.row() - 1, position.column() - 1);
+			user.incrementScore(tile.getWeight());
 			user.getRack().drawTile(tile);
-			GameView.printGrid(this.gameBoard);
 		}
 	}
+	
+	
 
 	public Boolean isAdjacent(Position position) {
 		int row = position.row();
@@ -348,28 +353,64 @@ public class GameController {
 					return true;
 				}
 			}
+			else if (isOnTopOfTheBoard(row)) {
+				if (gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(bottom)) {
+					return true;
+				}
+			}
+			else if (isOnLeftOfTheBoard(column)) {
+				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) ||  gameBoard.isNotEmpty(bottom)) {
+					return true;
+				}
+			}
+			else if (isOnRightOfTheBoard(column)) {
+				if (gameBoard.isNotEmpty(top)  || gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(bottom)) {
+					return true;
+				}
+			}
+			else if (isOnBottomOfBoard(row)) {
+				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left)) {
+					return true;
+				}
+			}
 				else { 
 					if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(bottom)) {
 						return true;
 					}
 			}	
 			return false;
-			}	
+			}
+
+	private boolean isOnBottomOfBoard(int row) {
+		return row == 15;
+	}
+
+	private boolean isOnRightOfTheBoard(int column) {
+		return column == 15;
+	}
+
+	private boolean isOnLeftOfTheBoard(int column) {
+		return column ==1;
+	}
+
+	private boolean isOnTopOfTheBoard(int row) {
+		return row ==1;
+	}	
 
 	private boolean isBottomLeftSquare(int row, int column) {
-		return row == 15 && column == 1;
+		return isOnBottomOfBoard(row) && isOnLeftOfTheBoard(column);
 	}
 
 	private boolean isTopRightSquare(int row, int column) {
-		return row == 1 && column == 15;
+		return isOnTopOfTheBoard(row) && isOnRightOfTheBoard(column);
 	}
 
 	private boolean isBottomRightSquare(int row, int column) {
-		return row == 15 && column == 15;
+		return isOnBottomOfBoard(row) && isOnRightOfTheBoard(column);
 	}
 
 	private boolean isTopLeftSquare(int row, int column) {
-		return row == 1 && column == 1;
+		return isOnTopOfTheBoard(row) && isOnLeftOfTheBoard(column);
 	}
 
 	public Boolean validateEntryReplacementJocker(String answer) {

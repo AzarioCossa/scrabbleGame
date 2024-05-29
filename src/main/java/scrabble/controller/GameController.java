@@ -260,6 +260,7 @@ public class GameController {
 		while (!endGame) {
 			GameView.printGrid(this.gameBoard);
 			GameView.printRack(this.user.getRack());
+			Console.messageBreak("Your score : " + user.getScore() + "\n");
 			Console.messageBreak("What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
 			userChoice = keyboard.nextLine();
 			while (!userChoice.equals("1") && !userChoice.equals("2") && !userChoice.equals("3")) {
@@ -297,9 +298,11 @@ public class GameController {
 					Console.messageBreak("Alphabetical character expected !");
 				}
 				user.getRack().replaceJoker(tile);
+				
 			}
 
 			gameBoard.placeTileGameBoard(tile, center.row() - 1, center.column() - 1);
+			user.incrementScore(tile.getWeight());
 			user.getRack().drawTile(tile);
 		} else {
 			Position position = handlePosition();
@@ -318,9 +321,12 @@ public class GameController {
 			}
 
 			gameBoard.placeTileGameBoard(tile, position.row() - 1, position.column() - 1);
+			user.incrementScore(tile.getWeight());
 			user.getRack().drawTile(tile);
 		}
 	}
+	
+	
 
 	public Boolean isAdjacent(Position position) {
 		int row = position.row();

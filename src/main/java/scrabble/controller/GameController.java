@@ -319,7 +319,6 @@ public class GameController {
 
 			gameBoard.placeTileGameBoard(tile, position.row() - 1, position.column() - 1);
 			user.getRack().drawTile(tile);
-			GameView.printGrid(this.gameBoard);
 		}
 	}
 

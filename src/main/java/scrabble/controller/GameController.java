@@ -353,28 +353,64 @@ public class GameController {
 					return true;
 				}
 			}
+			else if (isOnTopOfTheBoard(row)) {
+				if (gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(bottom)) {
+					return true;
+				}
+			}
+			else if (isOnLeftOfTheBoard(column)) {
+				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) ||  gameBoard.isNotEmpty(bottom)) {
+					return true;
+				}
+			}
+			else if (isOnRightOfTheBoard(column)) {
+				if (gameBoard.isNotEmpty(top)  || gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(bottom)) {
+					return true;
+				}
+			}
+			else if (isOnBottomOfBoard(row)) {
+				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left)) {
+					return true;
+				}
+			}
 				else { 
 					if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(bottom)) {
 						return true;
 					}
 			}	
 			return false;
-			}	
+			}
+
+	private boolean isOnBottomOfBoard(int row) {
+		return row == 15;
+	}
+
+	private boolean isOnRightOfTheBoard(int column) {
+		return column == 15;
+	}
+
+	private boolean isOnLeftOfTheBoard(int column) {
+		return column ==1;
+	}
+
+	private boolean isOnTopOfTheBoard(int row) {
+		return row ==1;
+	}	
 
 	private boolean isBottomLeftSquare(int row, int column) {
-		return row == 15 && column == 1;
+		return isOnBottomOfBoard(row) && isOnLeftOfTheBoard(column);
 	}
 
 	private boolean isTopRightSquare(int row, int column) {
-		return row == 1 && column == 15;
+		return isOnTopOfTheBoard(row) && isOnRightOfTheBoard(column);
 	}
 
 	private boolean isBottomRightSquare(int row, int column) {
-		return row == 15 && column == 15;
+		return isOnBottomOfBoard(row) && isOnRightOfTheBoard(column);
 	}
 
 	private boolean isTopLeftSquare(int row, int column) {
-		return row == 1 && column == 1;
+		return isOnTopOfTheBoard(row) && isOnLeftOfTheBoard(column);
 	}
 
 	public Boolean validateEntryReplacementJocker(String answer) {

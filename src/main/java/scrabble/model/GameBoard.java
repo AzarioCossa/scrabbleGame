@@ -35,6 +35,20 @@ public class GameBoard {
         return isEmpty;
     }
     
+    public Boolean isNotEmpty(Position position) {
+    	int row = position.row() - 1;
+        int col = position.column() - 1;
+        boolean isNotEmpty;
+        
+        if (squares[row][col].getTile() == null) {
+        	isNotEmpty = false;
+        }
+        else {
+        	isNotEmpty = true;
+        }
+        return isNotEmpty;
+    }
+    
     public void placeTileGameBoard(Tile tile, int row, int col) {
         squares[row][col].placeTileSquare(tile);
     }

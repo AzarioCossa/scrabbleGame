@@ -331,51 +331,45 @@ public class GameController {
 		Position top = new Position(row - 1, column);
 		Position bottom = new Position(row + 1, column);
 
-		if (row == 1 && column == 1) {
-			if (!gameBoard.isEmpty(bottom)) {
+		if (isTopLeftSquare(row, column)) {
+			if (gameBoard.isNotEmpty(bottom) || gameBoard.isNotEmpty(right)) {
 				return true;
-			} else if (!gameBoard.isEmpty(right)) {
-				return true;
-			}
-		} else if (row == 15 && column == 15) {
-			if (!gameBoard.isEmpty(top)) {
-				return true;
-			} else if (!gameBoard.isEmpty(left)) {
-				return true;
-			}
-		} else if (row == 1 && column == 15) {
-			if (!gameBoard.isEmpty(bottom)) {
-				return true;
-			} else if (!gameBoard.isEmpty(left)) {
-				return true;
-			}
-		} else if (row == 15 && column == 1) {
-			if (!gameBoard.isEmpty(top)) {
-				return true;
-			} else if (!gameBoard.isEmpty(right)) {
-				return true;
-			}
-		} else {
-			if (!gameBoard.isEmpty(top)) {
-				return true;
-			} else {
-				if (!gameBoard.isEmpty(bottom)) {
+			}}
+		else if (isBottomRightSquare(row, column)) {
+				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(left)) {
 					return true;
 				}
-
-				else {
-					if (!gameBoard.isEmpty(left)) {
-						return true;
-					} else {
-						if (!gameBoard.isEmpty(right)) {
-							return true;
-						}
-					}
+			} else if (isTopRightSquare(row, column)) {
+				if (gameBoard.isNotEmpty(bottom) || gameBoard.isNotEmpty(left)) {
+					return true;
 				}
-
+			} else if (isBottomLeftSquare(row, column)) {
+				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right)) {
+					return true;
+				}
 			}
-		}
-		return false;
+				else { 
+					if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(bottom)) {
+						return true;
+					}
+			}	
+			return false;
+			}	
+
+	private boolean isBottomLeftSquare(int row, int column) {
+		return row == 15 && column == 1;
+	}
+
+	private boolean isTopRightSquare(int row, int column) {
+		return row == 1 && column == 15;
+	}
+
+	private boolean isBottomRightSquare(int row, int column) {
+		return row == 15 && column == 15;
+	}
+
+	private boolean isTopLeftSquare(int row, int column) {
+		return row == 1 && column == 1;
 	}
 
 	public Boolean validateEntryReplacementJocker(String answer) {

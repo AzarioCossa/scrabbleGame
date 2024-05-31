@@ -47,6 +47,11 @@ public class GameView {
 		System.out.println("Which tile do you want to play ? ");
 		return keyboard.nextLine();
 	}
+    public static String askWord() {
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Which word do you want to play ? ");
+		return keyboard.nextLine();
+	}
     
     public static String askTileExchanged() {
 		Scanner keyboard = new Scanner(System.in);

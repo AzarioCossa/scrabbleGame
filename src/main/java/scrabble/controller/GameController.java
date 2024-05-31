@@ -14,6 +14,7 @@ import scrabble.model.Position;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.User;
+import scrabble.model.Word;
 import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.RackIsFullException;
@@ -261,10 +262,12 @@ public class GameController {
 			GameView.printGrid(this.gameBoard);
 			GameView.printRack(this.user.getRack());
 			Console.messageBreak("Your score : " + user.getScore() + "\n");
-			Console.messageBreak("What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
+			Console.messageBreak(
+					"What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n-4: PLace Word");
 			userChoice = keyboard.nextLine();
-			while (!userChoice.equals("1") && !userChoice.equals("2") && !userChoice.equals("3")) {
-				Console.messageBreak("You have to enter numbers 1,2 or 3 !");
+			while (!userChoice.equals("1") && !userChoice.equals("2") && !userChoice.equals("3")
+					&& !userChoice.equals("4")) {
+				Console.messageBreak("You have to enter numbers 1, 2, 3 or 4 !");
 				userChoice = keyboard.nextLine();
 			}
 			if (userChoice.equals("1")) {
@@ -279,12 +282,92 @@ public class GameController {
 					if (userChoice.equals("3")) {
 						Console.messageBreak("Thanks for your trust see you soon !");
 						endGame = true;
+					} else {
+						if (userChoice.equals("4")) {
+							placeWord();
+						}
 					}
 
 				}
 			}
 		}
 
+	}
+
+	public Boolean wordInRack(String word) {
+		ArrayList<String> arrayWord = new ArrayList<String>();
+		Boolean inRack = false;
+		for (int i = 0; i < word.length(); i++) {
+			arrayWord.add(String.valueOf(word.charAt(i)));
+		}
+		for (String letter : arrayWord) {
+			if (!tileIsInRack(letter)) {
+				Console.messageBreak("One of tile wanted is not in the rack !!");
+				return false;
+			}
+
+		}
+
+		return true;
+	}
+
+	public void placeWord() {
+		Boolean endLoop = false;
+		String word;
+
+		while(! endLoop) {
+			word = GameView.askWord();
+			
+			if(!wordInRack(word)) {
+				endLoop = false;
+			}
+			else {
+				Position position = handlePosition();
+				
+			}
+			
+			
+			
+
+//			if (tileIsInRack(word)) {
+//		        Position startPosition = handlePosition();
+//		        Direction direction = handleDirection();
+//
+//		       
+//		        for (int i = 0; i < word.length(); i++) {
+//		            placeTile();
+//		        }
+//
+//		        
+//		        removePlacedTilesFromRack(word);
+//		    } else {
+//		        Console.messageBreak("The chosen word cannot be placed because some tiles are not in the rack.");
+//		        
+//		        placeWord();
+//		    }
+		}
+	}
+
+	public void removePlacedTilesFromRack(String word) {
+		Rack rack = user.getRack();
+		ArrayList<Tile> tilesToRemove = new ArrayList<>();
+
+		for (int i = 0; i < word.length(); i++) {
+			char letter = word.charAt(i);
+			String letterAsString = String.valueOf(letter);
+
+			for (Tile tile : rack.getTiles()) {
+				if (tile.getLetter().toString().equals(letterAsString)) {
+
+					tilesToRemove.add(tile);
+					break;
+				}
+			}
+		}
+
+		for (Tile tile : tilesToRemove) {
+			rack.drawTile(tile);
+		}
 	}
 
 	public void placeTile() {
@@ -298,7 +381,7 @@ public class GameController {
 					Console.messageBreak("Alphabetical character expected !");
 				}
 				user.getRack().replaceJoker(tile);
-				
+
 			}
 
 			gameBoard.placeTileGameBoard(tile, center.row() - 1, center.column() - 1);
@@ -325,8 +408,6 @@ public class GameController {
 			user.getRack().drawTile(tile);
 		}
 	}
-	
-	
 
 	public Boolean isAdjacent(Position position) {
 		int row = position.row();
@@ -339,47 +420,43 @@ public class GameController {
 		if (isTopLeftSquare(row, column)) {
 			if (gameBoard.isNotEmpty(bottom) || gameBoard.isNotEmpty(right)) {
 				return true;
-			}}
-		else if (isBottomRightSquare(row, column)) {
-				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(left)) {
-					return true;
-				}
-			} else if (isTopRightSquare(row, column)) {
-				if (gameBoard.isNotEmpty(bottom) || gameBoard.isNotEmpty(left)) {
-					return true;
-				}
-			} else if (isBottomLeftSquare(row, column)) {
-				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right)) {
-					return true;
-				}
 			}
-			else if (isOnTopOfTheBoard(row)) {
-				if (gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(bottom)) {
-					return true;
-				}
+		} else if (isBottomRightSquare(row, column)) {
+			if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(left)) {
+				return true;
 			}
-			else if (isOnLeftOfTheBoard(column)) {
-				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) ||  gameBoard.isNotEmpty(bottom)) {
-					return true;
-				}
+		} else if (isTopRightSquare(row, column)) {
+			if (gameBoard.isNotEmpty(bottom) || gameBoard.isNotEmpty(left)) {
+				return true;
 			}
-			else if (isOnRightOfTheBoard(column)) {
-				if (gameBoard.isNotEmpty(top)  || gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(bottom)) {
-					return true;
-				}
+		} else if (isBottomLeftSquare(row, column)) {
+			if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right)) {
+				return true;
 			}
-			else if (isOnBottomOfBoard(row)) {
-				if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left)) {
-					return true;
-				}
+		} else if (isOnTopOfTheBoard(row)) {
+			if (gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(bottom)) {
+				return true;
 			}
-				else { 
-					if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(bottom)) {
-						return true;
-					}
-			}	
-			return false;
+		} else if (isOnLeftOfTheBoard(column)) {
+			if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(bottom)) {
+				return true;
 			}
+		} else if (isOnRightOfTheBoard(column)) {
+			if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(left) || gameBoard.isNotEmpty(bottom)) {
+				return true;
+			}
+		} else if (isOnBottomOfBoard(row)) {
+			if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left)) {
+				return true;
+			}
+		} else {
+			if (gameBoard.isNotEmpty(top) || gameBoard.isNotEmpty(right) || gameBoard.isNotEmpty(left)
+					|| gameBoard.isNotEmpty(bottom)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	private boolean isOnBottomOfBoard(int row) {
 		return row == 15;
@@ -390,12 +467,12 @@ public class GameController {
 	}
 
 	private boolean isOnLeftOfTheBoard(int column) {
-		return column ==1;
+		return column == 1;
 	}
 
 	private boolean isOnTopOfTheBoard(int row) {
-		return row ==1;
-	}	
+		return row == 1;
+	}
 
 	private boolean isBottomLeftSquare(int row, int column) {
 		return isOnBottomOfBoard(row) && isOnLeftOfTheBoard(column);
@@ -429,4 +506,5 @@ public class GameController {
 
 		return find;
 	}
+
 }

@@ -46,7 +46,8 @@ public class Rack {
 	        }
 	    }
 	}
-	
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(tiles);

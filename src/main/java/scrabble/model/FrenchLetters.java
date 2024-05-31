@@ -56,4 +56,5 @@ public enum FrenchLetters {
 	public String toString() {
 		return super.toString();
 	}
+	
 }

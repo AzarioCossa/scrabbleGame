@@ -159,7 +159,7 @@ public class GameController {
 	}
 
 	public Direction handleDirection() {
-		String directionChoice = GameView.askDirection();
+		String directionChoice = GameView.askDirection().toLowerCase();
 
 		while (!directionChoice.toLowerCase().equals("up") && !directionChoice.toLowerCase().equals("right")
 				&& !directionChoice.toLowerCase().equals("down") && !directionChoice.toLowerCase().equals("left")) {
@@ -177,11 +177,68 @@ public class GameController {
 		return userChoice;
 	}
 
+	public Boolean validateEntryDirection(String word, Position position, Direction direction) {
+
+		String error = "Your word is too long for this direction !";
+		int row = position.row();
+		int column = position.column();
+		Position copy = new Position(row, column);
+		for (int i = 0; i < word.length()-1; i++) {
+			switch (direction) {
+
+			case UP:
+				if (copy.row() < 1) {
+					Console.messageBreak(error);
+					return false;
+				} else {
+					copy.setRow(copy.row() - 1);
+					break;
+				}
+
+			case DOWN:
+				if (copy.row() > 15) {
+					Console.messageBreak(error);
+					return false;
+				} else {
+					copy.setRow(copy.row() + 1);
+					break;
+				}
+
+			case LEFT:
+				if (copy.column() < 1) {
+					Console.messageBreak(error);
+					return false;
+				} else {
+					copy.setColumn(copy.column() - 1);
+					break;
+				}
+
+			case RIGHT:
+				if (copy.column() > 15) {
+					Console.messageBreak(error);
+					return false;
+				} else {
+					copy.setColumn(copy.column() - 1);
+					break;
+				}
+
+			}
+		}
+		if(copy.row()<1 || copy.row() > 15 || copy.column() < 1 || copy.column() > 15) {
+		Console.messageBreak(error);
+		return false;
+		}
+		else {
+			
+			return true;
+		}
+	}
+
 	public Tile handleTile() {
 
 		String userChoice = GameView.askTile();
 		Tile finalTile = null;
-		while (!tileIsInRack(userChoice)) {
+		while (!tileIsInRack(userChoice, user.getRack())) {
 			userChoice = GameView.askTile();
 		}
 
@@ -200,7 +257,7 @@ public class GameController {
 
 		String userChoice = GameView.askTileExchanged();
 		Tile finalTile = null;
-		while (!tileIsInRack(userChoice)) {
+		while (!tileIsInRack(userChoice, user.getRack())) {
 			userChoice = GameView.askTile();
 		}
 
@@ -215,9 +272,9 @@ public class GameController {
 		return finalTile;
 	}
 
-	public Boolean tileIsInRack(String tileLetter) {
+	public Boolean tileIsInRack(String tileLetter, Rack rack) {
 		ArrayList<Tile> rackContent = new ArrayList<Tile>();
-		rackContent.addAll(user.getRack().getTiles());
+		rackContent.addAll(rack.getTiles());
 		tileLetter = tileLetter.toLowerCase();
 
 		for (Tile tile : rackContent) {
@@ -243,108 +300,150 @@ public class GameController {
 		return gameBoard;
 	}
 
-	public void startGame() {
-		Scanner keyboard = new Scanner(System.in);
-		Console.message("Welcome to Scrabble !  ");
-		Console.messageBreak("What's your name ?");
-		String userName = keyboard.nextLine();
-		String userChoice;
-		this.user = new User(userName, initializeRack());
-		Console.messageBreak("Welcome " + userName + "!");
-
-		Console.messageBreak("During the game, a menu will be displayed to allow you to choose what you want to do \n");
-		Console.messageBreak("Differens choices are :\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
-		GameView.printGrid(this.gameBoard);
-		GameView.printRack(this.user.getRack());
-
-		Boolean endGame = false;
-		while (!endGame) {
-			GameView.printGrid(this.gameBoard);
-			GameView.printRack(this.user.getRack());
-			Console.messageBreak("Your score : " + user.getScore() + "\n");
-			Console.messageBreak(
-					"What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n-4: PLace Word");
-			userChoice = keyboard.nextLine();
-			while (!userChoice.equals("1") && !userChoice.equals("2") && !userChoice.equals("3")
-					&& !userChoice.equals("4")) {
-				Console.messageBreak("You have to enter numbers 1, 2, 3 or 4 !");
-				userChoice = keyboard.nextLine();
-			}
-			if (userChoice.equals("1")) {
-				placeTile();
-				putTileOfBagInRack(user.getRack());
-			} else {
-				if (userChoice.equals("2")) {
-					Console.messageBreak("Which tile of your rack would you exchange ? ");
-					Tile tile = handleTileExchanged();
-					exchangeTile(user.getRack(), tile);
-				} else {
-					if (userChoice.equals("3")) {
-						Console.messageBreak("Thanks for your trust see you soon !");
-						endGame = true;
-					} else {
-						if (userChoice.equals("4")) {
-							placeWord();
-						}
-					}
-
-				}
-			}
-		}
-
-	}
-
 	public Boolean wordInRack(String word) {
-		ArrayList<String> arrayWord = new ArrayList<String>();
+		ArrayList<String> arrayWord = new ArrayList<>();
 		Boolean inRack = false;
 		for (int i = 0; i < word.length(); i++) {
 			arrayWord.add(String.valueOf(word.charAt(i)));
 		}
+		Rack rack = user.getRack();
+		ArrayList<Tile> tiles = user.getRack().getTiles();
+
 		for (String letter : arrayWord) {
-			if (!tileIsInRack(letter)) {
+			if (!tileIsInRack(letter, rack)) {
 				Console.messageBreak("One of tile wanted is not in the rack !!");
 				return false;
 			}
+//			else {
+//				for (int i =0; i< tiles.size(); i++) {
+//					String tileLetter = tiles.get(i).getLetter().toString().toLowerCase();
+//					if (tileLetter.equals(letter)) {
+//						tiles.remove(tiles.get(i));
+//					}
+//				}
+//			}
 
 		}
 
 		return true;
 	}
 
-	public void placeWord() {
-		Boolean endLoop = false;
-		String word;
+	public Boolean wordIsAdjacent(String word, Position position, Direction direction) {
 
-		while(! endLoop) {
-			word = GameView.askWord();
-			
-			if(!wordInRack(word)) {
-				endLoop = false;
+		Position copy = new Position(position.row(), position.column());
+		for (int i = 0; i < word.length(); i++) {
+			if (isAdjacent(copy)) {
+				return true;
 			}
-			else {
-				Position position = handlePosition();
-				
-			}
-			
-			
-			
 
-//			if (tileIsInRack(word)) {
-//		        Position startPosition = handlePosition();
-//		        Direction direction = handleDirection();
-//
-//		       
-//		        for (int i = 0; i < word.length(); i++) {
-//		            placeTile();
-//		        }
-//
-//		        
-//		        removePlacedTilesFromRack(word);
-//		    } else {
-//		        Console.messageBreak("The chosen word cannot be placed because some tiles are not in the rack.");
-//		        
-//		        placeWord();
-//		    }
+			switch (direction) {
+
+			case UP:
+				copy.setRow(copy.row() - 1);
+				break;
+
+			case DOWN:
+				copy.setRow(copy.row() + 1);
+				break;
+
+			case LEFT:
+				copy.setColumn(copy.column() - 1);
+				break;
+
+			case RIGHT:
+				copy.setColumn(copy.column() + 1);
+				break;
+			}
+		}
+		Console.messageBreak("Error, your word must be placed next to a tile ! ");
+		return false;
+	}
+
+	public String handleWord() {
+		String word = GameView.askWord().toLowerCase();
+		;
+
+		while (!wordInRack(word)) {
+			word = GameView.askWord().toLowerCase();
+		}
+
+		return word;
+	}
+
+	public void placeWord(String word) {
+		Position center = new Position(8, 8);
+
+		ArrayList<String> arrayWord = new ArrayList<>();
+
+		for (int i = 0; i < word.length(); i++) {
+			arrayWord.add(String.valueOf(word.charAt(i)));
+		}
+
+		if (gameBoard.isEmpty(center)) {
+			Direction direction = handleDirection();
+			for (String letter : arrayWord) {
+				placeTileOfWord(letter, center);
+
+				switch (direction) {
+
+				case UP:
+					center.setRow(center.row() - 1);
+					break;
+
+				case DOWN:
+					center.setRow(center.row() + 1);
+					break;
+
+				case LEFT:
+					center.setColumn(center.column() - 1);
+					break;
+
+				case RIGHT:
+					center.setColumn(center.column() + 1);
+
+				}
+			}
+		} else {
+			Position position = handlePosition();
+			Direction direction = handleDirection();
+			while (!wordIsAdjacent(word, position, direction) || !validateEntryDirection(word, position, direction)) {
+				position = handlePosition();
+				direction = handleDirection();
+			}
+
+			for (String letter : arrayWord) {
+				placeTileOfWord(letter, position);
+
+				switch (direction) {
+
+				case UP:
+					position.setRow(position.row() - 1);
+					break;
+
+				case DOWN:
+					position.setRow(position.row() + 1);
+					break;
+
+				case LEFT:
+					position.setColumn(position.column() - 1);
+					break;
+
+				case RIGHT:
+					position.setColumn(position.column() + 1);
+				}
+			}
+		}
+	}
+
+	public void placeTileOfWord(String letter, Position position) {
+		ArrayList<Tile> rack_content = new ArrayList<Tile>();
+		rack_content.addAll(user.getRack().getTiles());
+		for (Tile tile : rack_content) {
+			if (letter.toUpperCase().equals(tile.getLetter().toString().toUpperCase())) {
+				gameBoard.placeTileGameBoard(tile, position.row() - 1, position.column() - 1);
+				user.getRack().drawTile(tile);
+				break;
+			}
 		}
 	}
 
@@ -370,8 +469,8 @@ public class GameController {
 		}
 	}
 
-	public void placeTile() {
-		Tile tile = handleTile();
+	public void placeTile(Tile tile) {
+
 		Position center = new Position(8, 8);
 		if (gameBoard.isEmpty(center)) {
 			if (tile.getLetter() == FrenchLetters.JOCKER) {
@@ -457,6 +556,60 @@ public class GameController {
 		}
 		return false;
 	}
+
+	public void startGame() {
+		Scanner keyboard = new Scanner(System.in);
+		Console.message("Welcome to Scrabble !  ");
+		Console.messageBreak("What's your name ?");
+		String userName = keyboard.nextLine();
+		String userChoice;
+		this.user = new User(userName, initializeRack());
+		Console.messageBreak("Welcome " + userName + "!");
+
+		Console.messageBreak("During the game, a menu will be displayed to allow you to choose what you want to do \n");
+		Console.messageBreak("Differens choices are :\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n");
+		GameView.printGrid(this.gameBoard);
+		GameView.printRack(this.user.getRack());
+
+		Boolean endGame = false;
+		while (!endGame) {
+			GameView.printGrid(this.gameBoard);
+			GameView.printRack(this.user.getRack());
+			Console.messageBreak("Your score : " + user.getScore() + "\n");
+//			Console.messageBreak(
+//					"What do you want to do ?:\n-1: Place tile\n-2: Exchange tile\n-3: Leave the game\n-4: PLace Word");
+//			userChoice = keyboard.nextLine();
+//			while (!userChoice.equals("1") && !userChoice.equals("2") && !userChoice.equals("3")
+//					&& !userChoice.equals("4")) {
+//				Console.messageBreak("You have to enter numbers 1, 2, 3 or 4 !");
+//				userChoice = keyboard.nextLine();
+//			}
+//			if (userChoice.equals("1")) {
+//				Tile tile = handleTile();
+//				placeTile(tile);
+//				putTileOfBagInRack(user.getRack());
+//			} else {
+//				if (userChoice.equals("2")) {
+//					Console.messageBreak("Which tile of your rack would you exchange ? ");
+//					Tile tile = handleTileExchanged();
+//					exchangeTile(user.getRack(), tile);
+//				} else {
+//					if (userChoice.equals("3")) {
+//						Console.messageBreak("Thanks for your trust see you soon !");
+//						endGame = true;
+//					} else {
+//						if (userChoice.equals("4")) {
+			String word = handleWord();
+			placeWord(word);
+			for (int i = 0; i < word.length(); i++) {
+				putTileOfBagInRack(user.getRack());
+			}
+		}
+	}
+
+//				}
+	
+
 
 	private boolean isOnBottomOfBoard(int row) {
 		return row == 15;

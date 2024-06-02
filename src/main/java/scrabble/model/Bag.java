@@ -3,10 +3,12 @@ package scrabble.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
 
 public class Bag {
     private ArrayList<Tile> tiles;
+    public final static Integer LIMIT_BAG_CAPACITY = 102;
 
     public Bag() {
         tiles = new ArrayList<>();
@@ -38,5 +40,12 @@ public class Bag {
             }
         }
         shuffle();
+    }
+
+	public Boolean addTile(Tile tile) throws BagIsFullException{
+        if (this.tiles.size() >= LIMIT_BAG_CAPACITY) {
+            throw new BagIsFullException("Le bag est plein !");
+        }
+        return this.tiles.add(tile);
     }
 }

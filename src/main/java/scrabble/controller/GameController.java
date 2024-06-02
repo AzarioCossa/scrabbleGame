@@ -1,7 +1,6 @@
 package scrabble.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import scrabble.gui.GameView;
 import scrabble.model.Bag;
@@ -45,23 +44,19 @@ public class GameController {
 	        if (tileToDraw.getLetter() == tile.getLetter()) {
 	            tileFound = true;
 	            try {
-	                // Retirer la tuile du rack
 	                rack.drawTile(tileToDraw);
-
-	                // Pioche une nouvelle tuile du sac
+	                
 	                Tile tileToAdd = this.bag.drawTile();
 	                if (tileToAdd != null) {
 	                    rack.addTile(tileToAdd);
 	                } 
 
-	                // Ajoute la tuile échangée au sac
 	                try {
 	                    this.bag.addTile(tile);
 	                } catch (BagIsFullException e) {
 	                    System.out.println(e.getMessage());
 	                }
 
-	                // Mélange le sac
 	                this.bag.shuffle();
 	                
 	            } catch (EmptyBagException e) {

@@ -1,5 +1,6 @@
 package scrabble.controller;
 
+import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
@@ -15,11 +16,8 @@ import java.util.List;
 public class DndTilesController {
     private static final DataFormat TILE_FORMAT = new DataFormat("scrabble.tile");
     private static final List<Tile> playedTiles = new ArrayList<>();
-    private static final int TILE_SIZE = 65;
-    private static final int BOARD_SIZE = 15;
 
-
-    public static void manageSourceDragAndDrop(Rectangle source, Tile tile) {
+    public static void manageSourceDragAndDrop(StackPane source, Tile tile) {
         source.setOnDragDetected(event -> {
             Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent clipboard = new ClipboardContent();
@@ -29,9 +27,9 @@ public class DndTilesController {
         });
     }
 
-    public static void manageTargetDragAndDrop(Rectangle target) {
+    public static void manageTargetDragAndDrop(StackPane target, Rectangle targetRect) {
         target.setOnDragOver(event -> {
-            if (event.getGestureSource() instanceof Rectangle && event.getDragboard().hasContent(TILE_FORMAT)) {
+            if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
             event.consume();
@@ -42,23 +40,28 @@ public class DndTilesController {
             boolean success = false;
 
             if (dragboard.hasContent(TILE_FORMAT)) {
-                // Récupérer les données de la tuile du dragboard
+                // Retrieve the tile data from the dragboard
                 Tile tile = (Tile) dragboard.getContent(TILE_FORMAT);
 
-                // Ajouter la tuile à la liste des tuiles jouées
+                // Add the tile to the list of played tiles
                 playedTiles.add(tile);
 
-                // Supprimer visuellement le rectangle du rack
-                StackPane sourceStack = (StackPane) ((Rectangle) event.getGestureSource()).getParent();
-                sourceStack.getChildren().remove(0);
+                // Remove the tile from the rack visually
+                StackPane sourceStack = (StackPane) event.getGestureSource();
+                sourceStack.getChildren().clear();
 
-                // Ajouter visuellement le rectangle à la cible sur le plateau de jeu
-                StackPane targetStack = (StackPane) target.getParent();
-                Rectangle sourceRect = new Rectangle();
-                sourceRect.setWidth(TILE_SIZE);
-                sourceRect.setHeight(TILE_SIZE);
-                sourceRect.setFill(Color.GRAY); // Ajoutez la couleur de la tuile ici
-                targetStack.getChildren().add(sourceRect);
+                // Create a new StackPane with the tile's rectangle and label
+                StackPane tileStack = new StackPane();
+                Rectangle tileRect = new Rectangle();
+                tileRect.widthProperty().bind(targetRect.widthProperty());
+                tileRect.heightProperty().bind(targetRect.heightProperty());
+                tileRect.setFill(Color.BEIGE);
+                tileRect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
+                Label tileLabel = new Label(tile.getLetter().toString());
+                tileStack.getChildren().addAll(tileRect, tileLabel);
+
+                // Add the tile StackPane to the target StackPane
+                target.getChildren().add(tileStack);
 
                 success = true;
             }
@@ -67,7 +70,6 @@ public class DndTilesController {
             event.consume();
         });
     }
-
 
     public static List<Tile> getPlayedTiles() {
         return playedTiles;

@@ -2,6 +2,7 @@ package scrabble.controller;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -20,7 +21,6 @@ import scrabble.model.utils.RackIsFullException;
 
 public class ScrabbleController {
 
-    private static final int TILE_SIZE = 65;
     private static final int BOARD_SIZE = 15;
 
     private GameBoard gameBoard;
@@ -32,6 +32,8 @@ public class ScrabbleController {
 
     @FXML
     private HBox idRack;
+    @FXML
+    private Button btnSubmit;
 
     @FXML
     public void initialize() {
@@ -62,10 +64,9 @@ public class ScrabbleController {
                 rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
 
                 stack.getChildren().add(rect);
-                DndTilesController.manageTargetDragAndDrop(rect);
+                DndTilesController.manageTargetDragAndDrop(stack, rect);
 
                 this.test.add(stack, col, row);
-
             }
         }
     }
@@ -91,7 +92,6 @@ public class ScrabbleController {
             stack.setAlignment(Pos.CENTER);
 
             Rectangle rect = new Rectangle();
-
             rect.widthProperty().bind(this.test.widthProperty().divide(BOARD_SIZE));
             rect.heightProperty().bind(this.test.heightProperty().divide(BOARD_SIZE));
 
@@ -102,9 +102,8 @@ public class ScrabbleController {
             tileLabel.setAlignment(Pos.CENTER);
 
             stack.getChildren().addAll(rect, tileLabel);
-            DndTilesController.manageSourceDragAndDrop(rect,tile);
+            DndTilesController.manageSourceDragAndDrop(stack, tile);
             this.idRack.getChildren().add(stack);
-            
         }
     }
 }

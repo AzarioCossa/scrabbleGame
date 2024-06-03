@@ -1,6 +1,8 @@
 package scrabble.model;
 
-public class Tile {
+import java.io.Serializable;
+
+public class Tile implements Serializable {
 
 	private final FrenchLetters letter;
 	

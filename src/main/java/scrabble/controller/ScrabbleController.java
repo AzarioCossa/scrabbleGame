@@ -62,7 +62,10 @@ public class ScrabbleController {
                 rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
 
                 stack.getChildren().add(rect);
+                DndTilesController.manageTargetDragAndDrop(rect);
+
                 this.test.add(stack, col, row);
+
             }
         }
     }
@@ -89,8 +92,8 @@ public class ScrabbleController {
 
             Rectangle rect = new Rectangle();
 
-            rect.setWidth(TILE_SIZE);
-            rect.setHeight(TILE_SIZE);
+            rect.widthProperty().bind(this.test.widthProperty().divide(BOARD_SIZE));
+            rect.heightProperty().bind(this.test.heightProperty().divide(BOARD_SIZE));
 
             rect.setFill(Color.BEIGE);
             rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
@@ -99,7 +102,9 @@ public class ScrabbleController {
             tileLabel.setAlignment(Pos.CENTER);
 
             stack.getChildren().addAll(rect, tileLabel);
+            DndTilesController.manageSourceDragAndDrop(rect,tile);
             this.idRack.getChildren().add(stack);
+            
         }
     }
 }

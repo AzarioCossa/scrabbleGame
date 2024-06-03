@@ -116,12 +116,16 @@ public class ScrabbleController {
     private void handleSubmit() {
         Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
         if (validateWords(playedTiles)) {
+            finalizeTilesOnBoard(playedTiles);
+            removeTilesFromRack(playedTiles); // Nouvelle méthode pour retirer les tuiles du rack
             refillRack();
             DndTilesController.clearPlayedTiles();
         } else {
             System.out.println("Invalid word placement.");
+            DndTilesController.returnTilesToRack(user.getRack(), idRack);
         }
     }
+
 
     private boolean validateWords(Map<Position, Tile> playedTiles) {
         // Validation logic to check if the words formed are valid.
@@ -140,18 +144,34 @@ public class ScrabbleController {
         return true;
     }
 
+    private void finalizeTilesOnBoard(Map<Position, Tile> playedTiles) {
+        for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
+            Position position = entry.getKey();
+            Tile tile = entry.getValue();
+            gameBoard.placeTileGameBoard(tile, position.row(), position.column());
+        }
+
+        DndTilesController.finalizeTilesOnBoard();
+    }
+
     private void refillRack() {
         Rack rack = user.getRack();
         try {
-            while (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY) {
+            while (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY && !bag.isEmpty()) {
                 rack.addTile(bag.drawTile());
             }
-        } catch (EmptyBagException e) {
-            System.out.println("Bag is empty, cannot refill rack.");
-        } catch (RackIsFullException e) {
-            System.out.println("Rack is full, cannot add more tiles.");
+        } catch (EmptyBagException | RackIsFullException e) {
+            System.out.println(e.getMessage());
         }
-
         displayRack();
     }
+    
+    private void removeTilesFromRack(Map<Position, Tile> playedTiles) {
+        Rack rack = user.getRack();
+        for (Tile tile : playedTiles.values()) {
+            rack.removeTile(tile);
+        }
+        displayRack(); // Met à jour l'affichage du rack après avoir retiré les tuiles
+    }
+
 }

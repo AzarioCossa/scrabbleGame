@@ -38,6 +38,11 @@ public class Bag {
 		}
 		return this.tiles.add(tile);
 	}
+	public Boolean isEmpty() 
+	{
+		return this.tiles.isEmpty();
+	}
+	
     private void generateTiles() {
         for (FrenchLetters letter : FrenchLetters.values()) {
             for (int i = 0; i < letter.getQuantity(); i++) {

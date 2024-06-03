@@ -1,6 +1,7 @@
 package scrabble.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 import scrabble.model.utils.RackIsFullException;
@@ -46,6 +47,10 @@ public class Rack {
 	        }
 	    }
 	}
+	public Boolean removeTile(Tile tile) {
+		return this.tiles.remove(tile);
+	}
+	
 	
 	@Override
 	public int hashCode() {

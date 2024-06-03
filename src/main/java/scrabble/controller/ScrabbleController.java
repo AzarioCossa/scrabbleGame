@@ -18,10 +18,14 @@ import scrabble.model.Tile;
 import scrabble.model.User;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.RackIsFullException;
+import scrabble.model.Position;
+
+import java.util.Map;
 
 public class ScrabbleController {
 
     private static final int BOARD_SIZE = 15;
+    private static final int MIDDLE_INDEX = BOARD_SIZE / 2;
 
     private GameBoard gameBoard;
     private Bag bag;
@@ -42,6 +46,8 @@ public class ScrabbleController {
         user = new User("Player", initializeRack());
         generateBoard();
         displayRack();
+
+        btnSubmit.setOnAction(event -> handleSubmit());
     }
 
     private void generateBoard() {
@@ -64,7 +70,7 @@ public class ScrabbleController {
                 rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
 
                 stack.getChildren().add(rect);
-                DndTilesController.manageTargetDragAndDrop(stack, rect);
+                DndTilesController.manageTargetDragAndDrop(stack, rect, new Position(row, col));
 
                 this.test.add(stack, col, row);
             }
@@ -105,5 +111,47 @@ public class ScrabbleController {
             DndTilesController.manageSourceDragAndDrop(stack, tile);
             this.idRack.getChildren().add(stack);
         }
+    }
+
+    private void handleSubmit() {
+        Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
+        if (validateWords(playedTiles)) {
+            refillRack();
+            DndTilesController.clearPlayedTiles();
+        } else {
+            System.out.println("Invalid word placement.");
+        }
+    }
+
+    private boolean validateWords(Map<Position, Tile> playedTiles) {
+        // Validation logic to check if the words formed are valid.
+        // Check if the first move covers the center square.
+        boolean coversCenter = playedTiles.keySet().stream().anyMatch(position ->
+            position.row() == MIDDLE_INDEX && position.column() == MIDDLE_INDEX
+        );
+
+        if (!coversCenter) {
+            return false;
+        }
+
+        // Additional validation logic to check if all tiles are connected to existing tiles
+        // and form valid words as per game rules.
+
+        return true;
+    }
+
+    private void refillRack() {
+        Rack rack = user.getRack();
+        try {
+            while (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY) {
+                rack.addTile(bag.drawTile());
+            }
+        } catch (EmptyBagException e) {
+            System.out.println("Bag is empty, cannot refill rack.");
+        } catch (RackIsFullException e) {
+            System.out.println("Rack is full, cannot add more tiles.");
+        }
+
+        displayRack();
     }
 }

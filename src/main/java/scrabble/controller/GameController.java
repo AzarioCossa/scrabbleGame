@@ -218,7 +218,7 @@ public class GameController {
 					Console.messageBreak(error);
 					return false;
 				} else {
-					copy.setColumn(copy.column() - 1);
+					copy.setColumn(copy.column() + 1);
 					break;
 				}
 

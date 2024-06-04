@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class Tile implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private final FrenchLetters letter;
 	
 	

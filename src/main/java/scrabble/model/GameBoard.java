@@ -20,6 +20,18 @@ public class GameBoard {
     public Square[][] getSquares() {
         return squares;
     }
+    public Boolean isEmpty() {
+    	for (int row = 0; row < BoardSizeConstants.DEFAULT_NUM_ROWS; row++) {
+            for (int column = 0; column < BoardSizeConstants.DEFAULT_NUM_COLUMNS; column++) {
+            	if (squares[row][column].getTile() != null) {
+                	return false;
+                }
+            }
+        }
+    	return true;
+    }
+    
+    
     
     public Boolean isEmpty(Position position) {
     	int row = position.row() - 1;

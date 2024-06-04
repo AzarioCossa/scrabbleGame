@@ -2,55 +2,51 @@ package scrabble.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
 import scrabble.model.utils.RackIsFullException;
 
 class RackTest {
 
-	@Test
-	public void testDrawTile() throws RackIsFullException  {
-		
-		Rack rack = new Rack();
-		Tile tileToRemove = new Tile(FrenchLetters.B);
+    @Test
+    public void testDrawTile() throws RackIsFullException {
+        Rack rack = new Rack();
+        Tile tileToRemove = new Tile(FrenchLetters.B);
 
-		rack.addTile(new Tile(FrenchLetters.A));
-		rack.addTile(tileToRemove);
-		rack.addTile(new Tile(FrenchLetters.B));
-		assertEquals(tileToRemove, rack.drawTile(tileToRemove));
-		assertFalse(rack.getTiles().contains(tileToRemove));
+        rack.addTile(new Tile(FrenchLetters.A));
+        rack.addTile(tileToRemove);
+        rack.addTile(new Tile(FrenchLetters.C));
 
-		Tile tileNotInRack = new Tile(FrenchLetters.Z);
-		assertNull(rack.drawTile(tileNotInRack));
-	}
+        assertEquals(tileToRemove, rack.drawTile(tileToRemove));
+        assertFalse(rack.getTiles().contains(tileToRemove));
 
-	@Test
-	public void testAddTile() throws RackIsFullException {
-		Rack rack = new Rack();
+        Tile tileNotInRack = new Tile(FrenchLetters.Z);
+        assertNull(rack.drawTile(tileNotInRack));
+    }
 
-		Tile tileToAdd = new Tile(FrenchLetters.A);
+    @Test
+    public void testAddTile() throws RackIsFullException {
+        Rack rack = new Rack();
+        Tile tileToAdd = new Tile(FrenchLetters.A);
 
-		assertTrue(rack.addTile(tileToAdd));
+        assertTrue(rack.addTile(tileToAdd));
+        assertTrue(rack.getTiles().contains(tileToAdd));
+    }
 
-		assertTrue(rack.getTiles().contains(tileToAdd));
-	}
+    @Test
+    public void testGetTiles() throws RackIsFullException {
+        Rack rack = new Rack();
+        rack.addTile(new Tile(FrenchLetters.A));
+        rack.addTile(new Tile(FrenchLetters.B));
+        rack.addTile(new Tile(FrenchLetters.C));
 
-	@Test
-	public void testGetTiles() throws RackIsFullException {
-		ArrayList<Tile> initialTiles = new ArrayList<>();
-		initialTiles.add(new Tile(FrenchLetters.A));
-		initialTiles.add(new Tile(FrenchLetters.B));
-		initialTiles.add(new Tile(FrenchLetters.C));
+        List<Tile> tiles = rack.getTiles();
 
-		Rack rack = new Rack();
-		rack.addTile(new Tile(FrenchLetters.A));
-		rack.addTile(new Tile(FrenchLetters.B));
-		rack.addTile(new Tile(FrenchLetters.C));
-
-		ArrayList<Tile> tiles = rack.getTiles();
-
-		//assertEquals(initialTiles, tiles);
-	}
+        // Ensure that the returned list matches the expected tiles
+        assertEquals(3, tiles.size());
+        assertTrue(tiles.contains(new Tile(FrenchLetters.A)));
+        assertTrue(tiles.contains(new Tile(FrenchLetters.B)));
+        assertTrue(tiles.contains(new Tile(FrenchLetters.C)));
+    }
 }

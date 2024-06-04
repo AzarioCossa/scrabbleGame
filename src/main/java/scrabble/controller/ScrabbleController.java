@@ -88,7 +88,7 @@ public class ScrabbleController {
         }
         return rack;
     }
-
+    
     private void displayRack() {
         this.idRack.getChildren().clear();
         this.idRack.setAlignment(Pos.CENTER);
@@ -113,12 +113,13 @@ public class ScrabbleController {
         }
     }
 
+
     private void handleSubmit() {
         Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
         if (validateWords(playedTiles)) {
             finalizeTilesOnBoard(playedTiles);
-            removeTilesFromRack(playedTiles); // Nouvelle méthode pour retirer les tuiles du rack
-            refillRack();
+            removeTilesFromRack(playedTiles);
+            refillRack(); // This will update the display of the rack
             DndTilesController.clearPlayedTiles();
         } else {
             System.out.println("Invalid word placement.");
@@ -127,23 +128,42 @@ public class ScrabbleController {
     }
 
 
+    private boolean isAdjacentToExistingTile(Position position) {
+        int row = position.row();
+        int col = position.column();
+        Position[] neighbors = {
+            new Position(row - 1, col),
+            new Position(row + 1, col),
+            new Position(row, col - 1),
+            new Position(row, col + 1)
+        };
+
+        for (Position neighbor : neighbors) {
+            if (!gameBoard.isEmpty(neighbor)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+ 
     private boolean validateWords(Map<Position, Tile> playedTiles) {
-        // Validation logic to check if the words formed are valid.
-        // Check if the first move covers the center square.
         boolean coversCenter = playedTiles.keySet().stream().anyMatch(position ->
             position.row() == MIDDLE_INDEX && position.column() == MIDDLE_INDEX
         );
 
-        if (!coversCenter) {
+        if (gameBoard.isEmpty() && !coversCenter) {
             return false;
         }
 
-        // Additional validation logic to check if all tiles are connected to existing tiles
-        // and form valid words as per game rules.
+        boolean touchesExistingTile = playedTiles.keySet().stream().anyMatch(this::isAdjacentToExistingTile);
+        if (gameBoard.isEmpty() || touchesExistingTile) {
+            return true;
+        }
 
-        return true;
+        return false;
     }
-
+    
     private void finalizeTilesOnBoard(Map<Position, Tile> playedTiles) {
         for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
             Position position = entry.getKey();
@@ -163,15 +183,17 @@ public class ScrabbleController {
         } catch (EmptyBagException | RackIsFullException e) {
             System.out.println(e.getMessage());
         }
-        displayRack();
+        displayRack(); // Ensure the display is updated with the new tiles
     }
-    
+
     private void removeTilesFromRack(Map<Position, Tile> playedTiles) {
         Rack rack = user.getRack();
         for (Tile tile : playedTiles.values()) {
             rack.removeTile(tile);
         }
-        displayRack(); // Met à jour l'affichage du rack après avoir retiré les tuiles
+        // No need to call displayRack here
     }
+
+   
 
 }

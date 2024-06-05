@@ -14,24 +14,26 @@ import scrabble.model.GameBoard;
 import scrabble.model.Square;
 import scrabble.model.SquareStar;
 import scrabble.model.Bag;
+import scrabble.model.BoardSizeConstants;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.User;
 import scrabble.model.Word;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.RackIsFullException;
+import scrabble.util.WordsManager;
 import scrabble.model.Position;
 
 import java.util.Map;
 
 public class ScrabbleController {
 
-    private static final int BOARD_SIZE = 15;
-    private static final int MIDDLE_INDEX = BOARD_SIZE / 2;
+  
 
     private GameBoard gameBoard;
     private Bag bag;
     private User user;
+    private WordsManager wordsManager;
 
     @FXML
     private GridPane test;
@@ -46,9 +48,10 @@ public class ScrabbleController {
 
     @FXML
     public void initialize() {
-        gameBoard = new GameBoard();
-        bag = new Bag();
-        user = new User("Player", initializeRack());
+        this.gameBoard = new GameBoard();
+        this.bag = new Bag();
+        this.user = new User("Player", initializeRack());
+        this.wordsManager = new WordsManager(gameBoard);
         generateBoard();
         displayRack();
         lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
@@ -58,13 +61,13 @@ public class ScrabbleController {
     }
 
     private void generateBoard() {
-        for (int row = 0; row < BOARD_SIZE; row++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
+        for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
+            for (int col = 0; col < BoardSizeConstants.BOARD_SIZE; col++) {
                 StackPane stack = new StackPane();
                 Rectangle rect = new Rectangle();
 
-                rect.widthProperty().bind(this.test.widthProperty().divide(BOARD_SIZE));
-                rect.heightProperty().bind(this.test.heightProperty().divide(BOARD_SIZE));
+                rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+                rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
 
                 Square square = gameBoard.getSquares()[row][col];
 
@@ -105,8 +108,8 @@ public class ScrabbleController {
             stack.setAlignment(Pos.CENTER);
 
             Rectangle rect = new Rectangle();
-            rect.widthProperty().bind(this.test.widthProperty().divide(BOARD_SIZE));
-            rect.heightProperty().bind(this.test.heightProperty().divide(BOARD_SIZE));
+            rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+            rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
 
             rect.setFill(Color.BEIGE);
             rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
@@ -123,14 +126,14 @@ public class ScrabbleController {
 
     private void handleSubmit() {
         Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
-        if (validateWords(playedTiles)) {
+        if (this.wordsManager.validateWords(playedTiles)) {
         	 
-            finalizeTilesOnBoard(playedTiles);
-            removeTilesFromRack(playedTiles);
+        	this.finalizeTilesOnBoard(playedTiles);
+        	this.removeTilesFromRack(playedTiles);
             Word word = createWordFromPlayedTiles(playedTiles);
 
-            user.addWord(word);
-            refillRack(); // This will update the display of the rack
+            this.user.addWord(word);
+            this.refillRack(); 
             DndTilesController.clearPlayedTiles();
         } else {
             System.out.println("Invalid word placement.");
@@ -150,43 +153,8 @@ public class ScrabbleController {
         return word;
     }
 
-    
 
-    private boolean isAdjacentToExistingTile(Position position) {
-        int row = position.row();
-        int col = position.column();
-        Position[] neighbors = {
-            new Position(row - 1, col),
-            new Position(row + 1, col),
-            new Position(row, col - 1),
-            new Position(row, col + 1)
-        };
 
-        for (Position neighbor : neighbors) {
-            if (!gameBoard.isEmpty(neighbor)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
- 
-    private boolean validateWords(Map<Position, Tile> playedTiles) {
-        boolean coversCenter = playedTiles.keySet().stream().anyMatch(position ->
-            position.row() == MIDDLE_INDEX && position.column() == MIDDLE_INDEX
-        );
-
-        if (gameBoard.isEmpty() && !coversCenter) {
-            return false;
-        }
-
-        boolean touchesExistingTile = playedTiles.keySet().stream().anyMatch(this::isAdjacentToExistingTile);
-        if (gameBoard.isEmpty() || touchesExistingTile) {
-            return true;
-        }
-
-        return false;
-    }
     
     private void finalizeTilesOnBoard(Map<Position, Tile> playedTiles) {
         for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {

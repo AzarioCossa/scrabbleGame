@@ -7,10 +7,10 @@ public class GameBoard {
 
     public GameBoard() {
 
-        squares = new Square[ BoardSizeConstants.DEFAULT_NUM_ROWS][BoardSizeConstants.DEFAULT_NUM_COLUMNS];
+        squares = new Square[BoardSizeConstants.BOARD_SIZE][BoardSizeConstants.BOARD_SIZE];
 
-        for (int row = 0; row < BoardSizeConstants.DEFAULT_NUM_ROWS; row++) {
-            for (int column = 0; column < BoardSizeConstants.DEFAULT_NUM_COLUMNS; column++) {
+        for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
+            for (int column = 0; column < BoardSizeConstants.BOARD_SIZE; column++) {
                 squares[row][column] = new Square();
             }
         }
@@ -21,8 +21,8 @@ public class GameBoard {
         return squares;
     }
     public Boolean isEmpty() {
-    	for (int row = 0; row < BoardSizeConstants.DEFAULT_NUM_ROWS; row++) {
-            for (int column = 0; column < BoardSizeConstants.DEFAULT_NUM_COLUMNS; column++) {
+    	for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
+            for (int column = 0; column < BoardSizeConstants.BOARD_SIZE ; column++) {
             	if (squares[row][column].getTile() != null) {
                 	return false;
                 }

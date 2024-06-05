@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import scrabble.model.FrenchLetters;
 import scrabble.model.JokerTile;
-import scrabble.util.AlertManager;
 
 public class JokerLetterSelectionController {
 

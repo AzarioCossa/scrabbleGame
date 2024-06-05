@@ -1,6 +1,7 @@
 package scrabble.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import scrabble.model.FrenchLetters;
@@ -11,6 +12,8 @@ public class JokerLetterSelectionController {
 
     @FXML
     private TextField letterTextField;
+    @FXML 
+    private Label lblErrrLettre;
 
     private JokerTile jokerTile;
 
@@ -31,11 +34,12 @@ public class JokerLetterSelectionController {
                 FrenchLetters frenchLetter = FrenchLetters.getLetter(inputLetter);
                 jokerTile.setJockerLetter(frenchLetter);
                 closeWindow();
-            } else {
-                AlertManager.showJokerLetterSelectionAlert(this.jokerTile);
+            }else {
+                lblErrrLettre.setText("Vous devez saisir un caractere");
             }
-        } else {
-            AlertManager.showJokerLetterSelectionAlert(this.jokerTile);
+        }
+        else {
+            lblErrrLettre.setText("Vous devez saisir un caractere");
         }
     }
 

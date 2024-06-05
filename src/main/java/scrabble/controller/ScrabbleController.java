@@ -150,13 +150,7 @@ public class ScrabbleController {
         return word;
     }
 
-    private int calculateWordScore(Word word) {
-        int score = 0;
-        for (Tile tile : word.getTiles().values()) {
-            score += tile.getWeight(); // Supposons que getWeight() retourne le poids de la tuile
-        }
-        return score;
-    }
+    
 
     private boolean isAdjacentToExistingTile(Position position) {
         int row = position.row();

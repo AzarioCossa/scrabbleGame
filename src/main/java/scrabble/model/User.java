@@ -21,7 +21,7 @@ public class User {
         
     }
     
-    public Boolean addWord(Word word) {
+	public Boolean addWord(Word word) {
     	this.incrementScore(this.calculateWordScore(word));
     	return this.words.add(word);
     }
@@ -49,7 +49,7 @@ public class User {
     private int calculateWordScore(Word word) {
         int score = 0;
         for (Tile tile : word.getTiles().values()) {
-            score += tile.getWeight(); // Supposons que getWeight() retourne le poids de la tuile
+            score += tile.getWeight(); 
         }
         return score;
     }

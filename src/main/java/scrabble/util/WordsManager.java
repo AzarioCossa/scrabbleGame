@@ -31,6 +31,7 @@ public class WordsManager {
 	}
 
 	public boolean validateWords(Map<Position, Tile> playedTiles) {
+		/*
 		boolean coversCenter = playedTiles.keySet().stream().anyMatch(
 				position -> position.row() == BoardSizeConstants.MIDDLE_INDEX && position.column() == BoardSizeConstants.MIDDLE_INDEX);
 
@@ -44,5 +45,7 @@ public class WordsManager {
 		}
 
 		return false;
+		*/
+		return true;
 	}
 }

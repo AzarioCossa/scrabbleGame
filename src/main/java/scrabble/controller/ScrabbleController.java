@@ -56,8 +56,6 @@ public class ScrabbleController {
         displayRack();
         lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
         btnSubmit.setOnAction(event -> handleSubmit());
-        
-        
     }
 
     private void generateBoard() {
@@ -175,7 +173,7 @@ public class ScrabbleController {
         } catch (EmptyBagException | RackIsFullException e) {
             System.out.println(e.getMessage());
         }
-        displayRack(); // Ensure the display is updated with the new tiles
+        displayRack();
     }
 
     private void removeTilesFromRack(Map<Position, Tile> playedTiles) {

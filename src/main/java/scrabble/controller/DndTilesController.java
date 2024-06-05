@@ -38,7 +38,10 @@ public class DndTilesController {
     public static void manageTargetDragAndDrop(StackPane target, Rectangle targetRect, Position position) {
         target.setOnDragOver(event -> {
             if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)) {
-                event.acceptTransferModes(TransferMode.MOVE);
+                // Check if the target position is already occupied
+                if (!playedTiles.containsKey(position)) {
+                    event.acceptTransferModes(TransferMode.MOVE);
+                }
             }
             event.consume();
         });
@@ -46,8 +49,8 @@ public class DndTilesController {
         target.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             boolean success = false;
-
-            if (dragboard.hasContent(TILE_FORMAT)) {
+            //verification que si la cas contient déjà un tile on ne puisse pas superposer 
+            if (dragboard.hasContent(TILE_FORMAT) && !playedTiles.containsKey(position)) {
                 Tile tile = (Tile) dragboard.getContent(TILE_FORMAT);
                 playedTiles.put(position, tile);
 
@@ -62,12 +65,12 @@ public class DndTilesController {
                 tileRect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
                 Label tileLabel = new Label(tile.getLetter().toString());
                 tileStack.getChildren().addAll(tileRect, tileLabel);
+                
+                target.getChildren().add(tileStack);
+                playedTilesVisual.put(position, tileStack);
                 if (tile instanceof JokerTile) {
                     AlertManager.showJokerLetterSelectionAlert((JokerTile) tile);
                 }
-                target.getChildren().add(tileStack);
-                playedTilesVisual.put(position, tileStack);
-
                 success = true;
             }
 

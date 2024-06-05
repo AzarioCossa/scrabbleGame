@@ -1,5 +1,6 @@
 package scrabble.controller;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -38,6 +39,9 @@ public class ScrabbleController {
     private HBox idRack;
     @FXML
     private Button btnSubmit;
+    
+    @FXML
+    private Label lblScore;
 
     @FXML
     public void initialize() {
@@ -46,8 +50,10 @@ public class ScrabbleController {
         user = new User("Player", initializeRack());
         generateBoard();
         displayRack();
-
+        lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
         btnSubmit.setOnAction(event -> handleSubmit());
+        
+        
     }
 
     private void generateBoard() {

@@ -20,10 +20,7 @@ public class JokerTile extends Tile {
     	
     }
     
-    @Override
-    public int getWeight() {
-        return jokerLetter.getWeight();
-    }
+   
 
 	@Override
 	public int hashCode() {

@@ -10,10 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import scrabble.model.JokerTile;
 import scrabble.model.Position;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.RackIsFullException;
+import scrabble.util.AlertManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +62,9 @@ public class DndTilesController {
                 tileRect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
                 Label tileLabel = new Label(tile.getLetter().toString());
                 tileStack.getChildren().addAll(tileRect, tileLabel);
-
+                if (tile instanceof JokerTile) {
+                    AlertManager.showJokerLetterSelectionAlert((JokerTile) tile);
+                }
                 target.getChildren().add(tileStack);
                 playedTilesVisual.put(position, tileStack);
 

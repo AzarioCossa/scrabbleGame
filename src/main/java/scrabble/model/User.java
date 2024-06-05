@@ -1,5 +1,7 @@
 package scrabble.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javafx.beans.property.IntegerProperty;
@@ -9,11 +11,19 @@ public class User {
     private Rack rack;
     private final String name;
     private final IntegerProperty score;
+    private List<Word> words;
 
     public User(String name, Rack rack) {
         this.name = name;
         this.rack = rack;
         this.score = new SimpleIntegerProperty(0);
+        this.words = new ArrayList<Word>();
+        
+    }
+    
+    public Boolean addWord(Word word) {
+    	this.incrementScore(this.calculateWordScore(word));
+    	return this.words.add(word);
     }
 
     public Rack getRack() {
@@ -33,6 +43,14 @@ public class User {
     }
 
     public IntegerProperty scoreProperty() {
+        return score;
+    }
+    
+    private int calculateWordScore(Word word) {
+        int score = 0;
+        for (Tile tile : word.getTiles().values()) {
+            score += tile.getWeight(); // Supposons que getWeight() retourne le poids de la tuile
+        }
         return score;
     }
 

@@ -52,6 +52,15 @@ public enum FrenchLetters {
 		return this.weight;
 	}	
 	
+	public static FrenchLetters getLetter(char character) {
+	    for (FrenchLetters letter : FrenchLetters.values()) {
+	        if (letter.toString().charAt(0) == Character.toUpperCase(character)) {
+	            return letter;
+	        }
+	    }
+	    throw new IllegalArgumentException("Invalid character: " + character);
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString();

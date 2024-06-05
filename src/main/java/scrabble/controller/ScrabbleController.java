@@ -17,6 +17,7 @@ import scrabble.model.Bag;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.User;
+import scrabble.model.Word;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.RackIsFullException;
 import scrabble.model.Position;
@@ -123,8 +124,12 @@ public class ScrabbleController {
     private void handleSubmit() {
         Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
         if (validateWords(playedTiles)) {
+        	 
             finalizeTilesOnBoard(playedTiles);
             removeTilesFromRack(playedTiles);
+            Word word = createWordFromPlayedTiles(playedTiles);
+
+            user.addWord(word);
             refillRack(); // This will update the display of the rack
             DndTilesController.clearPlayedTiles();
         } else {
@@ -133,6 +138,25 @@ public class ScrabbleController {
         }
     }
 
+  
+
+    private Word createWordFromPlayedTiles(Map<Position, Tile> playedTiles) {
+        Word word = new Word();
+        for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
+            Position position = entry.getKey();
+            Tile tile = entry.getValue();
+            word.addTile(tile, position);
+        }
+        return word;
+    }
+
+    private int calculateWordScore(Word word) {
+        int score = 0;
+        for (Tile tile : word.getTiles().values()) {
+            score += tile.getWeight(); // Supposons que getWeight() retourne le poids de la tuile
+        }
+        return score;
+    }
 
     private boolean isAdjacentToExistingTile(Position position) {
         int row = position.row();
@@ -197,7 +221,6 @@ public class ScrabbleController {
         for (Tile tile : playedTiles.values()) {
             rack.removeTile(tile);
         }
-        // No need to call displayRack here
     }
 
    

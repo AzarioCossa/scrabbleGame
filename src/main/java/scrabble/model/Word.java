@@ -22,6 +22,8 @@ public class Word {
     public Map<Position, Tile> getTiles() {
         return tiles;
     }
+    
+    
 
     @Override
     public int hashCode() {

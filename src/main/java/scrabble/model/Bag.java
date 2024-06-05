@@ -43,13 +43,19 @@ public class Bag {
 		return this.tiles.isEmpty();
 	}
 	
-    private void generateTiles() {
-        for (FrenchLetters letter : FrenchLetters.values()) {
-            for (int i = 0; i < letter.getQuantity(); i++) {
-                Tile tile = new Tile(letter);
-                tiles.add(tile);
-            }
-        }
-        shuffle();
-    }
+	private void generateTiles() {
+	    for (FrenchLetters letter : FrenchLetters.values()) {
+	        for (int i = 0; i < letter.getQuantity(); i++) {
+	            Tile tile;
+	            if (letter == FrenchLetters.JOCKER) {
+	                tile = new JokerTile();
+	            } else {
+	                tile = new Tile(letter);
+	            }
+	            tiles.add(tile);
+	        }
+	    }
+	    shuffle();
+	}
+
 }

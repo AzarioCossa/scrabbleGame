@@ -5,16 +5,21 @@ import java.util.Objects;
 public class JokerTile extends Tile {
 
 	private static final long serialVersionUID = 1L;
-    private final FrenchLetters jokerLetter;
+    private FrenchLetters jokerLetter;
 
-    public JokerTile(FrenchLetters jokerLetter) {
+    public JokerTile() {
         super(FrenchLetters.JOCKER);
-        this.jokerLetter = jokerLetter;
+        this.jokerLetter = null;
     }
 
     public FrenchLetters getJokerLetter() {
         return jokerLetter;
     }
+    public void setJockerLetter(FrenchLetters letter) {
+    	this.jokerLetter =  letter;
+    	
+    }
+    
 
     @Override
     public int getWeight() {

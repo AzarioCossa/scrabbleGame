@@ -31,198 +31,183 @@ import java.util.Map;
 
 public class ScrabbleController {
 
-  
+	private GameBoard gameBoard;
+	private Bag bag;
+	private User user;
+	private WordsManager wordsManager;
 
-    private GameBoard gameBoard;
-    private Bag bag;
-    private User user;
-    private WordsManager wordsManager;
+	@FXML
+	private GridPane test;
 
-    @FXML
-    private GridPane test;
+	@FXML
+	private HBox idRack;
+	@FXML
+	private Button btnSubmit;
 
-    @FXML
-    private HBox idRack;
-    @FXML
-    private Button btnSubmit;
-    
-    @FXML
-    private Label lblScore;
+	@FXML
+	private Label lblScore;
 
-    @FXML
-    public void initialize() {
-        this.gameBoard = new GameBoard();
-        this.bag = new Bag();
-        this.user = new User("Player", initializeRack());
-        this.wordsManager = new WordsManager(gameBoard);
-        generateBoard();
-        displayRack();
-        lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
-        btnSubmit.setOnAction(event -> handleSubmit());
-    }
+	@FXML
+	public void initialize() {
+		this.gameBoard = new GameBoard();
+		this.bag = new Bag();
+		this.user = new User("Player", initializeRack());
+		this.wordsManager = new WordsManager(gameBoard);
+		generateBoard();
+		displayRack();
+		lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
+		btnSubmit.setOnAction(event -> handleSubmit());
+	}
 
-    private void generateBoard() {
-        for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
-            for (int col = 0; col < BoardSizeConstants.BOARD_SIZE; col++) {
-                StackPane stack = new StackPane();
-                Rectangle rect = new Rectangle();
+	private void generateBoard() {
+		for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
+			for (int col = 0; col < BoardSizeConstants.BOARD_SIZE; col++) {
+				StackPane stack = new StackPane();
+				Rectangle rect = new Rectangle();
 
-                rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-                rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
+				rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+				rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
 
-                Square square = gameBoard.getSquares()[row][col];
+				Square square = gameBoard.getSquares()[row][col];
 
-                if (square instanceof SquareStar) {
-                    rect.setFill(Color.LIGHTPINK);
-                } else {
-                    rect.setFill(Color.GREEN);
-                }
+				if (square instanceof SquareStar) {
+					rect.setFill(Color.LIGHTPINK);
+					System.out.println(new Position(row + 1, col + 1));
+				} else {
+					rect.setFill(Color.GREEN);
+				}
 
-                rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
+				rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
 
-                stack.getChildren().add(rect);
-                DndTilesController.manageTargetDragAndDrop(stack, rect, new Position(row, col));
+				stack.getChildren().add(rect);
+				DndTilesController.manageTargetDragAndDrop(stack, rect, new Position(row + 1, col + 1));
 
-                this.test.add(stack, col, row);
-            }
-        }
-    }
+				this.test.add(stack, col, row);
+			}
+		}
+	}
 
-    private Rack initializeRack() {
-        Rack rack = new Rack();
-        try {
-            for (int i = 0; i < Rack.LIMIT_RACK_CAPACITY; i++) {
-                rack.addTile(bag.drawTile());
-            }
-        } catch (EmptyBagException | RackIsFullException e) {
-            System.out.println(e.getMessage());
-        }
-        return rack;
-    }
-    public static Image loadCardImage(char value) throws IllegalArgumentException  {
-       
-        String imagePath = "src/main/resources/images/bag/a.png";
-        File file = new File(imagePath);
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Image file not found: " + imagePath);
-        }
-        return new Image(file.toURI().toString());
-    }
-    
-    private void displayRack() {
-        this.idRack.getChildren().clear();
-        this.idRack.setAlignment(Pos.CENTER);
+	private Rack initializeRack() {
+		Rack rack = new Rack();
+		try {
+			for (int i = 0; i < Rack.LIMIT_RACK_CAPACITY; i++) {
+				rack.addTile(bag.drawTile());
+			}
+		} catch (EmptyBagException | RackIsFullException e) {
+			System.out.println(e.getMessage());
+		}
+		return rack;
+	}
 
-        for (Tile tile : user.getRack().getTiles()) {
-            StackPane stack = new StackPane();
-            stack.setAlignment(Pos.CENTER);
+	public static Image loadCardImage(char value) throws IllegalArgumentException {
 
-            Rectangle rect = new Rectangle();
-            rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-            rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
+		String imagePath = "src/main/resources/images/bag/a.png";
+		File file = new File(imagePath);
+		if (!file.exists()) {
+			throw new IllegalArgumentException("Image file not found: " + imagePath);
+		}
+		return new Image(file.toURI().toString());
+	}
 
-            rect.setFill(Color.BEIGE);
-            rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
+	private void displayRack() {
+		this.idRack.getChildren().clear();
+		this.idRack.setAlignment(Pos.CENTER);
 
-            Label tileLabel = new Label(tile.getLetter().toString());
-            tileLabel.setAlignment(Pos.CENTER);
+		for (Tile tile : user.getRack().getTiles()) {
+			StackPane stack = new StackPane();
+			stack.setAlignment(Pos.CENTER);
 
-            stack.getChildren().addAll(rect, tileLabel);
-            DndTilesController.manageSourceDragAndDrop(stack, tile);
-            this.idRack.getChildren().add(stack);
-        }
-    }
-    /*
-    
-    private void displayRack() {
-        this.idRack.getChildren().clear();
-        this.idRack.setAlignment(Pos.CENTER);
+			Rectangle rect = new Rectangle();
+			rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+			rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
 
-        for (Tile tile : user.getRack().getTiles()) {
-            // Créer le StackPane pour contenir l'image
-            StackPane stack = new StackPane();
-            stack.setAlignment(Pos.CENTER);
+			rect.setFill(Color.BEIGE);
+			rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
 
-           
+			Label tileLabel = new Label(tile.getLetter().toString());
+			tileLabel.setAlignment(Pos.CENTER);
 
-            // Créer l'ImageView pour afficher l'image
-            ImageView imageView = new ImageView(loadCardImage('a'));
-            imageView.setFitWidth(50); // Ajuster la taille de l'image selon vos besoins
-            imageView.setFitHeight(50);
+			stack.getChildren().addAll(rect, tileLabel);
+			DndTilesController.manageSourceDragAndDrop(stack, tile);
+			this.idRack.getChildren().add(stack);
+		}
+	}
+	/*
+	 * 
+	 * private void displayRack() { this.idRack.getChildren().clear();
+	 * this.idRack.setAlignment(Pos.CENTER);
+	 * 
+	 * for (Tile tile : user.getRack().getTiles()) { // Créer le StackPane pour
+	 * contenir l'image StackPane stack = new StackPane();
+	 * stack.setAlignment(Pos.CENTER);
+	 * 
+	 * 
+	 * 
+	 * // Créer l'ImageView pour afficher l'image ImageView imageView = new
+	 * ImageView(loadCardImage('a')); imageView.setFitWidth(50); // Ajuster la
+	 * taille de l'image selon vos besoins imageView.setFitHeight(50);
+	 * 
+	 * // Ajouter l'ImageView au StackPane stack.getChildren().add(imageView);
+	 * 
+	 * // Ajouter le StackPane au HBox du rack this.idRack.getChildren().add(stack);
+	 * } }
+	 */
 
-            // Ajouter l'ImageView au StackPane
-            stack.getChildren().add(imageView);
+	private void handleSubmit() {
+		Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
+		System.out.println(playedTiles.containsKey(new Position(8, 8)));
+		if (this.wordsManager.validateWords(playedTiles)) {
 
-            // Ajouter le StackPane au HBox du rack
-            this.idRack.getChildren().add(stack);
-        }
-    }
-    */
+			this.finalizeTilesOnBoard(playedTiles);
+			this.removeTilesFromRack(playedTiles);
+			Word word = createWordFromPlayedTiles(playedTiles);
 
+			this.user.addWord(word);
+			this.refillRack();
+			DndTilesController.clearPlayedTiles();
+		} else {
+			System.out.println("Invalid word placement.");
+			DndTilesController.returnTilesToRack(user.getRack(), idRack);
+		}
+	}
 
+	private Word createWordFromPlayedTiles(Map<Position, Tile> playedTiles) {
+		Word word = new Word();
+		for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
+			Position position = entry.getKey();
+			Tile tile = entry.getValue();
+			word.addTile(tile, position);
+		}
+		return word;
+	}
 
+	private void finalizeTilesOnBoard(Map<Position, Tile> playedTiles) {
+		for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
+			Position position = entry.getKey();
+			Tile tile = entry.getValue();
+			gameBoard.placeTileGameBoard(tile, position.row(), position.column());
+		}
 
-    private void handleSubmit() {
-        Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
-        if (this.wordsManager.validateWords(playedTiles)) {
-        	 
-        	this.finalizeTilesOnBoard(playedTiles);
-        	this.removeTilesFromRack(playedTiles);
-            Word word = createWordFromPlayedTiles(playedTiles);
+		DndTilesController.finalizeTilesOnBoard();
+	}
 
-            this.user.addWord(word);
-            this.refillRack(); 
-            DndTilesController.clearPlayedTiles();
-        } else {
-            System.out.println("Invalid word placement.");
-            DndTilesController.returnTilesToRack(user.getRack(), idRack);
-        }
-    }
+	private void refillRack() {
+		Rack rack = user.getRack();
+		try {
+			while (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY && !bag.isEmpty()) {
+				rack.addTile(bag.drawTile());
+			}
+		} catch (EmptyBagException | RackIsFullException e) {
+			System.out.println(e.getMessage());
+		}
+		displayRack();
+	}
 
-  
-
-    private Word createWordFromPlayedTiles(Map<Position, Tile> playedTiles) {
-        Word word = new Word();
-        for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
-            Position position = entry.getKey();
-            Tile tile = entry.getValue();
-            word.addTile(tile, position);
-        }
-        return word;
-    }
-
-
-
-    
-    private void finalizeTilesOnBoard(Map<Position, Tile> playedTiles) {
-        for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
-            Position position = entry.getKey();
-            Tile tile = entry.getValue();
-            gameBoard.placeTileGameBoard(tile, position.row(), position.column());
-        }
-
-        DndTilesController.finalizeTilesOnBoard();
-    }
-
-    private void refillRack() {
-        Rack rack = user.getRack();
-        try {
-            while (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY && !bag.isEmpty()) {
-                rack.addTile(bag.drawTile());
-            }
-        } catch (EmptyBagException | RackIsFullException e) {
-            System.out.println(e.getMessage());
-        }
-        displayRack();
-    }
-
-    private void removeTilesFromRack(Map<Position, Tile> playedTiles) {
-        Rack rack = user.getRack();
-        for (Tile tile : playedTiles.values()) {
-            rack.removeTile(tile);
-        }
-    }
-
-   
+	private void removeTilesFromRack(Map<Position, Tile> playedTiles) {
+		Rack rack = user.getRack();
+		for (Tile tile : playedTiles.values()) {
+			rack.removeTile(tile);
+		}
+	}
 
 }

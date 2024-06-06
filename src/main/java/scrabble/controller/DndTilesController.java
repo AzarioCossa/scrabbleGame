@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import scrabble.model.BoardSizeConstants;
 import scrabble.model.JokerTile;
 import scrabble.model.Position;
 import scrabble.model.Rack;
@@ -37,6 +38,7 @@ public class DndTilesController {
 
     public static void manageTargetDragAndDrop(StackPane target, Rectangle targetRect, Position position) {
         target.setOnDragOver(event -> {
+
             if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)) {
                 // Check if the target position is already occupied
                 if (!playedTiles.containsKey(position)) {
@@ -67,6 +69,7 @@ public class DndTilesController {
                 tileStack.getChildren().addAll(tileRect, tileLabel);
                 
                 target.getChildren().add(tileStack);
+                System.out.println(position);
                 playedTilesVisual.put(position, tileStack);
                 if (tile instanceof JokerTile) {
                     AlertManager.showJokerLetterSelectionAlert((JokerTile) tile);

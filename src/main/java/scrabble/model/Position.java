@@ -14,6 +14,23 @@ public class Position {
 
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(column, row);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		return Objects.equals(column, other.column) && Objects.equals(row, other.row);
+	}
+
 	public int column() {
 		return column;
 	}
@@ -30,21 +47,5 @@ public class Position {
 		this.column = column;
 	}
 
-	@Override
-	public String toString() {
-		return row.toString() + "," + column.toString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Position other = (Position) obj;
-		return Objects.equals(column, other.column) && Objects.equals(row, other.row);
-	}
 
 }

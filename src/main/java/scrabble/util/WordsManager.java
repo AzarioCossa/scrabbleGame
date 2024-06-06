@@ -20,12 +20,14 @@ public class WordsManager {
     }
 
     public boolean validateWords(Map<Position, Tile> tiles) {
-    	return true;
-    	/*
+    	
+    	
         if (gameBoard.isEmpty()) {
+        	System.out.println(passesThroughCenter(tiles));
             if (tiles.size() < 2 || !passesThroughCenter(tiles)) {
                 return false;
             }
+            else {return true;}
         }
 
         boolean isHorizontal = isWordHorizontal(tiles);
@@ -49,7 +51,7 @@ public class WordsManager {
             }
         }
         return true;
-        */
+        
     }
 
     private boolean isWordVertical(Map<Position, Tile> tiles) {

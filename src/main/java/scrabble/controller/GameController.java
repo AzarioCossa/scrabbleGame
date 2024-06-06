@@ -80,7 +80,7 @@ public class GameController {
 
 	public Position handlePosition() {
 		Position position = correctEntryPosition();
-		while (!validatePosition(position)) {
+		while (!positionIsUnused(position)) {
 			position = correctEntryPosition();
 		}
 
@@ -93,7 +93,7 @@ public class GameController {
 		Boolean validateEntry = false;
 		while (!validateEntry) {
 			row = GameView.askRow();
-			if (!validateEntryPositionAttribute(row)) {
+			if (!eEntryPositionAttributeIsInt(row)) {
 				validateEntry = false;
 			} else {
 				rowInt = Integer.parseInt(row);
@@ -111,7 +111,7 @@ public class GameController {
 		validateEntry = false;
 		while (!validateEntry) {
 			column = GameView.askColumn();
-			if (!validateEntryPositionAttribute(column)) {
+			if (!eEntryPositionAttributeIsInt(column)) {
 				validateEntry = false;
 			} else {
 				columnInt = Integer.parseInt(column);
@@ -126,7 +126,7 @@ public class GameController {
 		return new Position(rowInt, columnInt);
 	}
 
-	public Boolean validateEntryPositionAttribute(String entry) {
+	public Boolean eEntryPositionAttributeIsInt(String entry) {
 		Integer entryInt;
 		try {
 			entryInt = Integer.parseInt(entry);
@@ -148,7 +148,7 @@ public class GameController {
 		}
 	}
 
-	public Boolean validatePosition(Position position) {
+	public Boolean positionIsUnused(Position position) {
 		if (!gameBoard.isEmpty(position)) {
 			Console.messageBreak("The choosen square is already used !");
 			Console.lineBreak();
@@ -177,7 +177,7 @@ public class GameController {
 		return userChoice;
 	}
 
-	public Boolean validateEntryDirection(String word, Position position, Direction direction) {
+	public Boolean wordIsTooLongForDirection(String word, Position position, Direction direction) {
 
 		String error = "Your word is too long for this direction !";
 		int row = position.row();
@@ -369,6 +369,15 @@ public class GameController {
 
 		return word;
 	}
+	
+	public Boolean wordiIsLongEnought(String word) {
+		if (word.length() <2 ) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 	public void placeWord(String word) {
 		Position center = new Position(8, 8);
@@ -406,7 +415,7 @@ public class GameController {
 		} else {
 			Position position = handlePosition();
 			Direction direction = handleDirection();
-			while (!wordIsAdjacent(word, position, direction) || !validateEntryDirection(word, position, direction)) {
+			while (!wordIsAdjacent(word, position, direction) || !wordIsTooLongForDirection(word, position, direction)) {
 				position = handlePosition();
 				direction = handleDirection();
 			}

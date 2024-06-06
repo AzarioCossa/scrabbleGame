@@ -26,6 +26,7 @@ import scrabble.model.utils.RackIsFullException;
 import scrabble.util.WordsManager;
 import scrabble.model.Position;
 
+import java.io.File;
 import java.util.Map;
 
 public class ScrabbleController {
@@ -98,6 +99,40 @@ public class ScrabbleController {
         }
         return rack;
     }
+    public static Image loadCardImage(char value) throws IllegalArgumentException  {
+       
+        String imagePath = "src/main/resources/images/bag/a.png";
+        File file = new File(imagePath);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Image file not found: " + imagePath);
+        }
+        return new Image(file.toURI().toString());
+    }
+    
+    private void displayRack() {
+        this.idRack.getChildren().clear();
+        this.idRack.setAlignment(Pos.CENTER);
+
+        for (Tile tile : user.getRack().getTiles()) {
+            StackPane stack = new StackPane();
+            stack.setAlignment(Pos.CENTER);
+
+            Rectangle rect = new Rectangle();
+            rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+            rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
+
+            rect.setFill(Color.BEIGE);
+            rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
+
+            Label tileLabel = new Label(tile.getLetter().toString());
+            tileLabel.setAlignment(Pos.CENTER);
+
+            stack.getChildren().addAll(rect, tileLabel);
+            DndTilesController.manageSourceDragAndDrop(stack, tile);
+            this.idRack.getChildren().add(stack);
+        }
+    }
+    /*
     
     private void displayRack() {
         this.idRack.getChildren().clear();
@@ -108,22 +143,10 @@ public class ScrabbleController {
             StackPane stack = new StackPane();
             stack.setAlignment(Pos.CENTER);
 
-            // Charger l'image
-            String imageUrl = getClass().getClassLoader().getResource("images/bag/" + tile.getLetter().toString().toLowerCase() + ".png").toString()
-;            Image image = null;
-            try {
-                image = new Image(imageUrl);
-            } catch (Exception e) {
-                System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
-            }
-
-            if (image != null && image.isError()) {
-                System.out.println("Erreur lors du chargement de l'image : " + image.getException().getMessage());
-                continue; // Passer à l'itération suivante si l'image n'a pas été chargée correctement
-            }
+           
 
             // Créer l'ImageView pour afficher l'image
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = new ImageView(loadCardImage('a'));
             imageView.setFitWidth(50); // Ajuster la taille de l'image selon vos besoins
             imageView.setFitHeight(50);
 
@@ -134,6 +157,7 @@ public class ScrabbleController {
             this.idRack.getChildren().add(stack);
         }
     }
+    */
 
 
 

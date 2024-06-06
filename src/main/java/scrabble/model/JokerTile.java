@@ -19,8 +19,6 @@ public class JokerTile extends Tile {
     	this.jokerLetter =  letter;
     	
     }
-    
-   
 
 	@Override
 	public int hashCode() {

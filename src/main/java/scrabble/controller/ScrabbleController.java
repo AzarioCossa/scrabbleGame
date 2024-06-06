@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -102,24 +104,38 @@ public class ScrabbleController {
         this.idRack.setAlignment(Pos.CENTER);
 
         for (Tile tile : user.getRack().getTiles()) {
+            // Créer le StackPane pour contenir l'image
             StackPane stack = new StackPane();
             stack.setAlignment(Pos.CENTER);
 
-            Rectangle rect = new Rectangle();
-            rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-            rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
+            // Charger l'image
+            String imageUrl = getClass().getClassLoader().getResource("images/bag/" + tile.getLetter().toString().toLowerCase() + ".png").toString()
+;            Image image = null;
+            try {
+                image = new Image(imageUrl);
+            } catch (Exception e) {
+                System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
+            }
 
-            rect.setFill(Color.BEIGE);
-            rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
+            if (image != null && image.isError()) {
+                System.out.println("Erreur lors du chargement de l'image : " + image.getException().getMessage());
+                continue; // Passer à l'itération suivante si l'image n'a pas été chargée correctement
+            }
 
-            Label tileLabel = new Label(tile.getLetter().toString());
-            tileLabel.setAlignment(Pos.CENTER);
+            // Créer l'ImageView pour afficher l'image
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(50); // Ajuster la taille de l'image selon vos besoins
+            imageView.setFitHeight(50);
 
-            stack.getChildren().addAll(rect, tileLabel);
-            DndTilesController.manageSourceDragAndDrop(stack, tile);
+            // Ajouter l'ImageView au StackPane
+            stack.getChildren().add(imageView);
+
+            // Ajouter le StackPane au HBox du rack
             this.idRack.getChildren().add(stack);
         }
     }
+
+
 
 
     private void handleSubmit() {

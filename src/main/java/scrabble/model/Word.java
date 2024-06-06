@@ -23,8 +23,14 @@ public class Word {
         return tiles;
     }
     
+    public int size() {
+    	return tiles.size();
+    }
     
-
+    public Boolean containsKey(Position pos) {
+    	return tiles.containsKey(pos);
+    }
+    
     @Override
     public int hashCode() {
         return Objects.hash(tiles);

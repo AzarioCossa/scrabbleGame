@@ -28,3 +28,12 @@
     -fx-padding: 20 0 20 0;
     -fx-alignment: center;
 }
+.score {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 48px;
+    -fx-text-fill: #FFD700; /* Couleur or */
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 6, 0, 0, 3);
+    -fx-padding: 10;
+    -fx-alignment: center;
+}

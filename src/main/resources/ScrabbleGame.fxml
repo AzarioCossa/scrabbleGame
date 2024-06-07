@@ -22,12 +22,12 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="SCORE : ">
+            <Label styleClass="score" text="SCORE : ">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="lblScore" text="9999">
+            <Label fx:id="lblScore" styleClass="score" text="9999">
                <font>
                   <Font size="36.0" />
                </font>

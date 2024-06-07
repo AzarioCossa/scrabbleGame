@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import scrabble.model.GameBoard;
 import scrabble.model.Square;
-import scrabble.model.SquareStar;
+
 import scrabble.model.Bag;
 import scrabble.model.BoardSizeConstants;
 import scrabble.model.Rack;
@@ -70,11 +70,9 @@ public class ScrabbleController {
 	            stack.setStyle("-fx-border-color: black; -fx-border-width: 1;");
 	            Square square = gameBoard.getSquares()[row][col];
 
-	            if (square instanceof SquareStar) {
-	                imageView.setImage(ImageLoaderManager.loadSquareImage("star"));
-	            } else {
-	                imageView.setImage(ImageLoaderManager.loadSquareImage("images"));
-	            }
+	         
+	            imageView.setImage(ImageLoaderManager.loadSquareImage(square.getSquareType()));
+	            
 
 	            stack.getChildren().add(imageView);
 	            DndTilesController.manageTargetDragAndDrop(stack, imageView, new Position(row + 1, col + 1));
@@ -139,7 +137,7 @@ public class ScrabbleController {
 			this.removeTilesFromRack(playedTiles);
 			Word word = createWordFromPlayedTiles(playedTiles);
 
-			this.user.addWord(word);
+			this.user.addWord(word,this.gameBoard);
 			this.refillRack();
 			DndTilesController.clearPlayedTiles();
 		} else {

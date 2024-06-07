@@ -34,7 +34,7 @@ public class GameView {
                 if (square.getTile() != null) {
                     Console.message(" | " + square.getTile().getLetter() + " | ");
                 } else {
-                    Console.message(" | " + square.getSymbol() + " | ");
+                    Console.message(" | " + "." + " | ");
                 }
             }
             Console.lineBreak();

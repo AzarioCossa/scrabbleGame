@@ -2,6 +2,7 @@ package scrabble.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javafx.beans.property.IntegerProperty;
@@ -21,8 +22,8 @@ public class User {
         
     }
     
-	public Boolean addWord(Word word) {
-    	this.incrementScore(this.calculateWordScore(word));
+	public Boolean addWord(Word word,GameBoard gameBoard) {
+    	this.incrementScore(this.calculateWordScore(word, gameBoard));
     	return this.words.add(word);
     }
 
@@ -46,11 +47,44 @@ public class User {
         return score;
     }
     
-    private int calculateWordScore(Word word) {
+    private int calculateWordScore(Word word, GameBoard gameBoard) {
         int score = 0;
-        for (Tile tile : word.getTiles().values()) {
-            score += tile.getWeight(); 
+        int wordMultiplier = 1; // Initialiser le multiplicateur de mot
+
+        for (Map.Entry<Position, Tile> entry : word.getTiles().entrySet()) {
+            Position position = entry.getKey();
+            Tile tile = entry.getValue();
+
+            int letterMultiplier = 1;
+
+     
+            Square square = gameBoard.getSquares()[position.row()-1][position.column()-1];
+            SquareType bonus = square.getSquareType();
+
+            switch (bonus) {
+                case DOUBLE_LETTER:
+                    letterMultiplier = 2;
+                    break;
+                case TRIPLE_LETTER:
+                    letterMultiplier = 3;
+                    break;
+                case DOUBLE_WORD:
+                    wordMultiplier *= 2;
+                    break;
+                case TRIPLE_WORD:
+                    wordMultiplier *= 3;
+                    break;
+                default:
+                	break;
+                
+            }
+
+            System.out.println(tile.getWeight());
+            score += tile.getWeight() * letterMultiplier;
         }
+
+        score *= wordMultiplier;
+
         return score;
     }
 

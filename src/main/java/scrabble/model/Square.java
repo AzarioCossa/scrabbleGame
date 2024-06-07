@@ -2,22 +2,18 @@ package scrabble.model;
 
 public class Square {
 
-    protected char symbol;
     protected Tile tile;
+    protected SquareType squareType;
+    
 
-    protected Square(char symbol) {
+    protected Square(SquareType squareType) {
         this.tile = null;
-        this.symbol = symbol;
+        this.squareType = squareType;
+ 
     }
-
-    public Square() {
-        this('.');
-    }
-
-    public char getSymbol() {
-        return symbol;
-    }
-
+	public SquareType getSquareType() {
+		return this.squareType;
+	}
     public Tile getTile() {
         return tile;
     }

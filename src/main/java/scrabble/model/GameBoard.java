@@ -6,15 +6,34 @@ public class GameBoard {
     private Square[][] squares;
 
     public GameBoard() {
-
         squares = new Square[BoardSizeConstants.BOARD_SIZE][BoardSizeConstants.BOARD_SIZE];
+
 
         for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
             for (int column = 0; column < BoardSizeConstants.BOARD_SIZE; column++) {
-                squares[row][column] = new Square();
+                String bonusType = BoardSizeConstants.boardLayout[row][column];
+                switch (bonusType) {
+                    case "C":
+                        squares[row][column] = new Square(SquareType.CENTRAL); 
+                        break;
+                    case "TW":
+                        squares[row][column] = new Square(SquareType.TRIPLE_WORD);
+                        break;
+                    case "DW":
+                        squares[row][column] = new Square(SquareType.DOUBLE_WORD); 
+                        break;
+                    case "TL":
+                        squares[row][column] = new Square(SquareType.TRIPLE_LETTER); 
+                        break;
+                    case "DL":
+                        squares[row][column] = new Square(SquareType.DOUBLE_LETTER);
+                        break;
+                    default:
+                        squares[row][column] = new Square(SquareType.STANDARD);
+                        break;
+                }
             }
         }
-        squares[7][7] = new SquareStar();
     }
 
     public Square[][] getSquares() {

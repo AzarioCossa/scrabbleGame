@@ -7,6 +7,7 @@ import scrabble.model.Rack;
 import scrabble.model.User;
 
 public class ScrabbleApplicationConsole {
+
 	private static String SEPARATOR = "---------------------------------------------------------";
 
 	public static void main(String[] args) {

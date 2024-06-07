@@ -12,6 +12,7 @@ import scrabble.model.JokerTile;
 import java.io.IOException;
 
 public class AlertManager {
+	private AlertManager () {}
 
 	   public static void showJokerLetterSelectionAlert(JokerTile jokerTile) {
 	        try {

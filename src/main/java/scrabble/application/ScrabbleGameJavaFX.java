@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class ScrabbleGameJavaFX extends Application {
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load the FXML file from the resources

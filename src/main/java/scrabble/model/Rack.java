@@ -2,6 +2,7 @@ package scrabble.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -9,15 +10,15 @@ import scrabble.model.utils.RackIsFullException;
 
 public class Rack {
 	private ArrayList<Tile> tiles;
-	public final static Integer LIMIT_RACK_CAPACITY = 7;
+	public static final Integer LIMIT_RACK_CAPACITY = 7;
 
 		
 	public Rack() {
-		tiles = new ArrayList<Tile>();
+		tiles = new ArrayList<>();
 	}
 
 
-	public ArrayList<Tile> getTiles() {
+	public List<Tile> getTiles() {
 		return tiles;
 	}
 	 public void shuffle() {

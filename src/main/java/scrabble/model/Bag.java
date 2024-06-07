@@ -2,6 +2,7 @@ package scrabble.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
@@ -9,7 +10,7 @@ import scrabble.model.utils.RackIsFullException;
 
 public class Bag {
     private ArrayList<Tile> tiles;
-    public final static Integer LIMIT_BAG_CAPACITY = 102;
+    public static final Integer LIMIT_BAG_CAPACITY = 102;
     
     public Bag() {
         tiles = new ArrayList<>();
@@ -20,7 +21,7 @@ public class Bag {
         Collections.shuffle(tiles);
     }
 
-    public ArrayList<Tile> getTiles() {
+    public List<Tile> getTiles() {
 		return tiles;
 	}
 

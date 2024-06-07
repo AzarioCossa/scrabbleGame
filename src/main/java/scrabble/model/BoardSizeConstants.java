@@ -1,10 +1,12 @@
 package scrabble.model;
 
 public class BoardSizeConstants {
+	private BoardSizeConstants() {}
+	
 	
 	public static final int BOARD_SIZE = 15;
     public static final int MIDDLE_INDEX = 8;
-    public static final String[][] boardLayout = {
+    protected static final String[][] boardLayout = {
             {"TW", "", "", "DL", "", "", "", "TW", "", "", "", "DL", "", "", "TW"},
             {"", "DW", "", "", "", "TL", "", "", "", "TL", "", "", "", "DW", ""},
             {"", "", "DW", "", "", "", "DL", "", "DL", "", "", "", "DW", "", ""},

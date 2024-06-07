@@ -1,6 +1,5 @@
 package scrabble.model;
 
-import java.util.Objects;
 
 public class JokerTile extends Tile {
 

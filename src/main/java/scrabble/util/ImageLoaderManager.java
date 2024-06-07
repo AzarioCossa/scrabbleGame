@@ -4,6 +4,8 @@ import javafx.scene.image.Image;
 import scrabble.model.SquareType;
 
 public class ImageLoaderManager {
+	private ImageLoaderManager() {}
+
     public static Image loadCardImage(String value) throws IllegalArgumentException {
         Image image = null;
         try {

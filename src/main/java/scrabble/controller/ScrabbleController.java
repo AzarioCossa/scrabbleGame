@@ -5,17 +5,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import scrabble.model.GameBoard;
 import scrabble.model.Square;
 
@@ -74,7 +67,6 @@ public class ScrabbleController {
 				try {
 					this.exchangeTile(this.user.getRack(), tile);
 				} catch (RackIsFullException | EmptyBagException | BagIsFullException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				this.displayRack();

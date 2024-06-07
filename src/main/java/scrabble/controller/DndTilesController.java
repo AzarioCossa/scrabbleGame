@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DndTilesController {
+	private DndTilesController() {}
     private static final DataFormat TILE_FORMAT = new DataFormat("scrabble.tile");
     private static final Map<Position, Tile> playedTiles = new HashMap<>();
     private static final Map<Position, StackPane> playedTilesVisual = new HashMap<>();

@@ -18,8 +18,7 @@ public class User {
         this.name = name;
         this.rack = rack;
         this.score = new SimpleIntegerProperty(0);
-        this.words = new ArrayList<Word>();
-        
+        this.words = new ArrayList<>();
     }
     
 	public Boolean addWord(Word word,GameBoard gameBoard) {
@@ -48,8 +47,8 @@ public class User {
     }
     
     private int calculateWordScore(Word word, GameBoard gameBoard) {
-        int score = 0;
-        int wordMultiplier = 1; // Initialiser le multiplicateur de mot
+        int wordScore = 0;
+        int wordMultiplier = 1;
 
         for (Map.Entry<Position, Tile> entry : word.getTiles().entrySet()) {
             Position position = entry.getKey();
@@ -80,12 +79,12 @@ public class User {
             }
 
             System.out.println(tile.getWeight());
-            score += tile.getWeight() * letterMultiplier;
+            wordScore  += tile.getWeight() * letterMultiplier;
         }
 
-        score *= wordMultiplier;
+        wordScore *= wordMultiplier;
 
-        return score;
+        return wordScore ;
     }
 
     @Override

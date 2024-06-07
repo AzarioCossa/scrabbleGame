@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
@@ -146,4 +147,34 @@ public class DndTilesController {
 
         clearPlayedTiles();
     }
+    
+    public static void manageBagOver(DragEvent event, ScrabbleController controller) {
+        if (event.getDragboard().hasContent(TILE_FORMAT)) {
+        
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+            event.consume();
+        }
+    }
+
+    public static Tile manageBagDropped(DragEvent event, ScrabbleController controller, Rack rack) {
+        Dragboard db = event.getDragboard();
+        Tile tile = (Tile) db.getContent(TILE_FORMAT);
+
+        boolean success = false;
+        if (db.hasContent(TILE_FORMAT)) {
+        	System.out.println("qdsf");
+            String tileLetter = db.getString();
+            
+            ImageView imageView = (ImageView) event.getSource();
+            //controller.exchangeTile(rack, tile);
+            
+            //controller.displayRack();
+            success = true;
+            
+        }
+        event.setDropCompleted(success);
+        event.consume();
+        return tile;
+    }
+
 }

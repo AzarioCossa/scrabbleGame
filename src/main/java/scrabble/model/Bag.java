@@ -31,6 +31,11 @@ public class Bag {
 		}
 		throw new EmptyBagException("You can't draw a tile when the bag is empty");
     }
+	
+	public int size() {
+		return tiles.size();
+	}
+	
 
 	public Boolean addTile(Tile tile) throws BagIsFullException{
 		if (this.tiles.size() >= LIMIT_BAG_CAPACITY) {

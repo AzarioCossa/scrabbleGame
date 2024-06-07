@@ -40,6 +40,15 @@ public class AnimationManager {
        
         fadeTransition.play();
     }
+    private static void rectanglePropertyForShadow(ImageView imageView,Rectangle grayFilter) {
+        Bounds boundsInLocal = imageView.getBoundsInLocal();
+
+        grayFilter.setWidth(boundsInLocal.getWidth());
+        grayFilter.setHeight(boundsInLocal.getHeight());
+        grayFilter.setOpacity(0.3);
+    }
+    
+    
     public static void addShadowOnHover(StackPane stackPane, ImageView imageView) {
         Rectangle grayFilter = new Rectangle();
         grayFilter.setFill(Color.BLACK);
@@ -49,16 +58,11 @@ public class AnimationManager {
 
         
         stackPane.setOnMouseEntered(event -> {
-            Bounds boundsInLocal = imageView.getBoundsInLocal();
-            grayFilter.setWidth(boundsInLocal.getWidth());
-            grayFilter.setHeight(boundsInLocal.getHeight());
-            grayFilter.setOpacity(0.3);
+        	AnimationManager.rectanglePropertyForShadow(imageView,grayFilter);
         });
         stackPane.setOnDragOver(event -> {
-            Bounds boundsInLocal = imageView.getBoundsInLocal();
-            grayFilter.setWidth(boundsInLocal.getWidth());
-            grayFilter.setHeight(boundsInLocal.getHeight());
-            grayFilter.setOpacity(0.3);
+        	AnimationManager.rectanglePropertyForShadow(imageView,grayFilter);
+
         });
 
 

@@ -11,9 +11,13 @@ public class ScrabbleGameJavaFX extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load the FXML file from the resources
+
         Parent root = FXMLLoader.load(getClass().getResource("/ScrabbleGame.fxml"));
         primaryStage.setTitle("War Card Game in JavaFX");
-        primaryStage.setScene(new Scene(root));
+        Scene scene  = new Scene(root);
+        scene.getStylesheets().add("/css/game-page.css");
+        primaryStage.setScene(scene);
+        
         primaryStage.show();
 
         // Charger et définir l'icône

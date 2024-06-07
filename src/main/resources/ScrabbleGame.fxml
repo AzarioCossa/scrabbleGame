@@ -13,7 +13,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="950.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scrabble.controller.ScrabbleController">
    <top>
-      <Label text="SCRABBLE" BorderPane.alignment="CENTER">
+      <Label id="title" styleClass="title" text="SCRABBLE" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER">
          <font>
             <Font name="Courier New" size="50.0" />
          </font>
@@ -44,16 +44,16 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnShuffle" mnemonicParsing="false" text="SHUFFLE">
+            <Button id="button" fx:id="btnShuffle" mnemonicParsing="false" text="SHUFFLE">
                <font>
-                  <Font size="32.0" />
+                  <Font name="DejaVu Sans Mono" size="32.0" />
                </font>
                <HBox.margin>
                   <Insets left="20.0" right="50.0" />
                </HBox.margin>
             </Button>
             <HBox fx:id="idRack" prefHeight="100.0" prefWidth="650.0" />
-            <Button fx:id="btnSubmit" mnemonicParsing="false" text="SUBMIT">
+            <Button id="button" fx:id="btnSubmit" mnemonicParsing="false" text="SUBMIT">
                <font>
                   <Font size="32.0" />
                </font>
@@ -65,7 +65,7 @@
       </HBox>
    </bottom>
    <center>
-      <GridPane fx:id="test" maxHeight="850.0" maxWidth="850.0" BorderPane.alignment="CENTER_LEFT">
+      <GridPane fx:id="test" maxHeight="850.0" maxWidth="850.0" BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -101,7 +101,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <BorderPane.margin>
-            <Insets />
+            <Insets right="300.0" />
          </BorderPane.margin>
       </GridPane>
    </center>

@@ -1,6 +1,7 @@
 package scrabble.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
@@ -19,6 +20,9 @@ public class Rack {
 	public ArrayList<Tile> getTiles() {
 		return tiles;
 	}
+	 public void shuffle() {
+	        Collections.shuffle(tiles);
+	  }
 	
 
 	public Boolean addTile(Tile tile) throws RackIsFullException{

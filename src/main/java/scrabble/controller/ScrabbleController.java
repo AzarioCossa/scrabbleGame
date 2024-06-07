@@ -122,8 +122,14 @@ public class ScrabbleController {
 	    }
 	}
 
-
-
+	@FXML 
+	private void onShuffleButtonClicked() {
+		
+		this.user.getRack().shuffle();
+		this.displayRack();
+		
+	}
+	@FXML
 	private void handleSubmit() {
 		Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
 		System.out.println(playedTiles.containsKey(new Position(8, 8)));

@@ -28,6 +28,7 @@ import scrabble.model.Word;
 import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.RackIsFullException;
+import scrabble.util.AlertManager;
 import scrabble.util.ImageLoaderManager;
 import scrabble.util.WordsManager;
 import scrabble.model.Position;
@@ -70,7 +71,12 @@ public class ScrabbleController {
 		bagImgView.setOnDragDropped(event -> {
 			Tile tile = DndTilesController.manageBagDropped(event, this, this.user.getRack());
 			if (tile != null) {
-				this.exchangeTile(this.user.getRack(), tile);
+				try {
+					this.exchangeTile(this.user.getRack(), tile);
+				} catch (RackIsFullException | EmptyBagException | BagIsFullException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				this.displayRack();
 			}
 		});
@@ -125,7 +131,7 @@ public class ScrabbleController {
 				img.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 				img.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace(); 
+				e.printStackTrace();
 				continue;
 			}
 
@@ -196,34 +202,25 @@ public class ScrabbleController {
 		displayRack();
 	}
 
-	public void exchangeTile(Rack rack, Tile tile) {
-		if (hasExchangedThisTurn) {
-			System.out.println("You can only exchange tiles once per turn.");
-			return;
-		}
-
+	public void exchangeTile(Rack rack, Tile tile) throws RackIsFullException, EmptyBagException, BagIsFullException {
 		if (bag.size() < 7) {
-			System.out.println("Not enough tiles in the bag to exchange.");
+			AlertManager.showError("Not enough tiles in the bag to exchange.");
 			return;
 		}
 
-		try {
-			rack.removeTile(tile);
-			Tile newTile = bag.drawTile();
-			rack.addTile(newTile);
-
-			try {
-				bag.addTile(tile);
-			} catch (BagIsFullException e) {
-				System.out.println(e.getMessage());
-			}
-			bag.shuffle();
-			this.hasExchangedThisTurn = true;
-		} catch (EmptyBagException e) {
-			System.out.println("The bag is empty: " + e.getMessage());
-		} catch (RackIsFullException e) {
-			System.out.println("The rack is full: " + e.getMessage());
+		if (hasExchangedThisTurn) {
+			AlertManager.showError("You can only exchange tiles once per turn.");
+			return;
 		}
+
+		rack.removeTile(tile);
+		Tile newTile = bag.drawTile();
+		rack.addTile(newTile);
+
+		bag.addTile(tile);
+
+		this.hasExchangedThisTurn = true;
+
 	}
 
 	private void removeTilesFromRack(Map<Position, Tile> playedTiles) {

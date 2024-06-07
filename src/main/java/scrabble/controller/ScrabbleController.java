@@ -23,6 +23,7 @@ import scrabble.model.User;
 import scrabble.model.Word;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.RackIsFullException;
+import scrabble.util.ImageLoaderManager;
 import scrabble.util.WordsManager;
 import scrabble.model.Position;
 
@@ -58,33 +59,29 @@ public class ScrabbleController {
 		lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
 		btnSubmit.setOnAction(event -> handleSubmit());
 	}
-
 	private void generateBoard() {
-		for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
-			for (int col = 0; col < BoardSizeConstants.BOARD_SIZE; col++) {
-				StackPane stack = new StackPane();
-				Rectangle rect = new Rectangle();
+	    for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
+	        for (int col = 0; col < BoardSizeConstants.BOARD_SIZE; col++) {
+	            StackPane stack = new StackPane();
+	            ImageView imageView = new ImageView();
+	           
+	            imageView.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+	            imageView.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+	            stack.setStyle("-fx-border-color: black; -fx-border-width: 1;");
+	            Square square = gameBoard.getSquares()[row][col];
 
-				rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-				rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
+	            if (square instanceof SquareStar) {
+	                imageView.setImage(ImageLoaderManager.loadSquareImage("star"));
+	            } else {
+	                imageView.setImage(ImageLoaderManager.loadSquareImage("images"));
+	            }
 
-				Square square = gameBoard.getSquares()[row][col];
+	            stack.getChildren().add(imageView);
+	            DndTilesController.manageTargetDragAndDrop(stack, imageView, new Position(row + 1, col + 1));
 
-				if (square instanceof SquareStar) {
-					rect.setFill(Color.LIGHTPINK);
-					System.out.println(new Position(row + 1, col + 1));
-				} else {
-					rect.setFill(Color.GREEN);
-				}
-
-				rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
-
-				stack.getChildren().add(rect);
-				DndTilesController.manageTargetDragAndDrop(stack, rect, new Position(row + 1, col + 1));
-
-				this.test.add(stack, col, row);
-			}
-		}
+	            this.test.add(stack, col, row);
+	        }
+	    }
 	}
 
 	private Rack initializeRack() {
@@ -99,59 +96,34 @@ public class ScrabbleController {
 		return rack;
 	}
 
-	public static Image loadCardImage(char value) throws IllegalArgumentException {
-
-		String imagePath = "src/main/resources/images/bag/a.png";
-		File file = new File(imagePath);
-		if (!file.exists()) {
-			throw new IllegalArgumentException("Image file not found: " + imagePath);
-		}
-		return new Image(file.toURI().toString());
-	}
-
+	
 	private void displayRack() {
-		this.idRack.getChildren().clear();
-		this.idRack.setAlignment(Pos.CENTER);
+	    this.idRack.getChildren().clear();
+	    this.idRack.setAlignment(Pos.CENTER);
 
-		for (Tile tile : user.getRack().getTiles()) {
-			StackPane stack = new StackPane();
-			stack.setAlignment(Pos.CENTER);
+	    for (Tile tile : user.getRack().getTiles()) {
+	        StackPane stack = new StackPane();
+	        stack.setAlignment(Pos.CENTER);
 
-			Rectangle rect = new Rectangle();
-			rect.widthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-			rect.heightProperty().bind(this.test.heightProperty().divide(BoardSizeConstants.BOARD_SIZE));
+	        char letter = tile.getLetter().toString().charAt(0); // Assurez-vous que getLetter() retourne FrenchLetters
+	        ImageView img = null;
 
-			rect.setFill(Color.BEIGE);
-			rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
+	        try {
+	            img = new ImageView(ImageLoaderManager.loadCardImage(letter));
+	            img.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+	            img.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+	        } catch (IllegalArgumentException e) {
+	            e.printStackTrace(); // ou gestion appropriée de l'erreur
+	            continue; // sauter cette tuile si l'image n'est pas trouvée
+	        }
 
-			Label tileLabel = new Label(tile.getLetter().toString());
-			tileLabel.setAlignment(Pos.CENTER);
-
-			stack.getChildren().addAll(rect, tileLabel);
-			DndTilesController.manageSourceDragAndDrop(stack, tile);
-			this.idRack.getChildren().add(stack);
-		}
+	        stack.getChildren().add(img);
+	        DndTilesController.manageSourceDragAndDrop(stack, tile);
+	        this.idRack.getChildren().add(stack);
+	    }
 	}
-	/*
-	 * 
-	 * private void displayRack() { this.idRack.getChildren().clear();
-	 * this.idRack.setAlignment(Pos.CENTER);
-	 * 
-	 * for (Tile tile : user.getRack().getTiles()) { // Créer le StackPane pour
-	 * contenir l'image StackPane stack = new StackPane();
-	 * stack.setAlignment(Pos.CENTER);
-	 * 
-	 * 
-	 * 
-	 * // Créer l'ImageView pour afficher l'image ImageView imageView = new
-	 * ImageView(loadCardImage('a')); imageView.setFitWidth(50); // Ajuster la
-	 * taille de l'image selon vos besoins imageView.setFitHeight(50);
-	 * 
-	 * // Ajouter l'ImageView au StackPane stack.getChildren().add(imageView);
-	 * 
-	 * // Ajouter le StackPane au HBox du rack this.idRack.getChildren().add(stack);
-	 * } }
-	 */
+
+
 
 	private void handleSubmit() {
 		Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
@@ -185,7 +157,7 @@ public class ScrabbleController {
 		for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
 			Position position = entry.getKey();
 			Tile tile = entry.getValue();
-			gameBoard.placeTileGameBoard(tile, position.row(), position.column());
+			gameBoard.placeTileGameBoard(tile, position.row()-1, position.column()-1);
 		}
 
 		DndTilesController.finalizeTilesOnBoard();

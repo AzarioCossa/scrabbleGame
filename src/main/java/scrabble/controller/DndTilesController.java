@@ -2,6 +2,8 @@ package scrabble.controller;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
@@ -17,6 +19,7 @@ import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.RackIsFullException;
 import scrabble.util.AlertManager;
+import scrabble.util.ImageLoaderManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,8 +38,9 @@ public class DndTilesController {
             event.consume();
         });
     }
+    
 
-    public static void manageTargetDragAndDrop(StackPane target, Rectangle targetRect, Position position) {
+    public static void manageTargetDragAndDrop(StackPane target, ImageView targetRect, Position position) {
         target.setOnDragOver(event -> {
 
             if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)) {
@@ -53,27 +57,32 @@ public class DndTilesController {
             boolean success = false;
             //verification que si la cas contient déjà un tile on ne puisse pas superposer 
             if (dragboard.hasContent(TILE_FORMAT) && !playedTiles.containsKey(position)) {
-                Tile tile = (Tile) dragboard.getContent(TILE_FORMAT);
-                playedTiles.put(position, tile);
+            	Tile tile = (Tile) dragboard.getContent(TILE_FORMAT);
+            	playedTiles.put(position, tile);
 
-                StackPane sourceStack = (StackPane) event.getGestureSource();
-                sourceStack.getChildren().clear();
+            	StackPane sourceStack = (StackPane) event.getGestureSource();
+            	sourceStack.getChildren().clear();
 
-                StackPane tileStack = new StackPane();
-                Rectangle tileRect = new Rectangle();
-                tileRect.widthProperty().bind(targetRect.widthProperty());
-                tileRect.heightProperty().bind(targetRect.heightProperty());
-                tileRect.setFill(Color.BEIGE);
-                tileRect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
-                Label tileLabel = new Label(tile.getLetter().toString());
-                tileStack.getChildren().addAll(tileRect, tileLabel);
-                
-                target.getChildren().add(tileStack);
-                System.out.println(position);
-                playedTilesVisual.put(position, tileStack);
-                if (tile instanceof JokerTile) {
-                    AlertManager.showJokerLetterSelectionAlert((JokerTile) tile);
-                }
+            	StackPane tileStack = new StackPane();
+
+            	// Créer l'objet ImageView avec l'image de la tuile
+            	ImageView imageView = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString().charAt(0)));
+
+            	// Lier la taille de l'image à la taille de la case de destination (targetRect)
+            	imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
+            	imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
+
+            	Label tileLabel = new Label(tile.getLetter().toString());
+            	tileStack.getChildren().addAll(imageView, tileLabel);
+
+            	target.getChildren().add(tileStack);
+            	System.out.println(position);
+            	playedTilesVisual.put(position, tileStack);
+
+            	if (tile instanceof JokerTile) {
+            	    AlertManager.showJokerLetterSelectionAlert((JokerTile) tile);
+            	}
+
                 success = true;
             }
 

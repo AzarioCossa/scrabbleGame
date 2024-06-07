@@ -1,14 +1,8 @@
 package scrabble.util;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.FillTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Bounds;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;

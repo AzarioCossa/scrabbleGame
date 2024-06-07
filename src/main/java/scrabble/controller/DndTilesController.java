@@ -18,6 +18,7 @@ import scrabble.model.Tile;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.model.utils.RackIsFullException;
 import scrabble.util.ScenesManager;
+import scrabble.util.AnimationManager;
 import scrabble.util.ImageLoaderManager;
 
 import java.util.HashMap;

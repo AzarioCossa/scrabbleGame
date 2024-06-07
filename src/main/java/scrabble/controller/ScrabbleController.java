@@ -101,6 +101,7 @@ public class ScrabbleController {
 				stack.getChildren().add(imageView);
 				DndTilesController.manageTargetDragAndDrop(stack, imageView, new Position(row + 1, col + 1));
 				AnimationManager.animateFade(stack);
+				AnimationManager.addShadowOnHover(stack, imageView);
 				this.test.add(stack, col, row);
 			}
 		}

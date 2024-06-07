@@ -1,5 +1,6 @@
 package scrabble.controller;
 
+import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -9,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import scrabble.model.GameBoard;
 import scrabble.model.Square;
 
@@ -22,7 +24,8 @@ import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.model.utils.RackIsFullException;
-import scrabble.util.AlertManager;
+import scrabble.util.ScenesManager;
+import scrabble.util.AnimationManager;
 import scrabble.util.ImageLoaderManager;
 import scrabble.util.WordsManager;
 import scrabble.model.Position;
@@ -60,7 +63,7 @@ public class ScrabbleController {
 		try {
 			generateBoard();
 		} catch (ImageLoadException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 		displayRack();
@@ -78,6 +81,7 @@ public class ScrabbleController {
 				this.displayRack();
 			}
 		});
+	
 
 	}
 
@@ -96,7 +100,7 @@ public class ScrabbleController {
 
 				stack.getChildren().add(imageView);
 				DndTilesController.manageTargetDragAndDrop(stack, imageView, new Position(row + 1, col + 1));
-
+				AnimationManager.animateFade(stack);
 				this.test.add(stack, col, row);
 			}
 		}
@@ -134,13 +138,14 @@ public class ScrabbleController {
 			}
 
 			stack.getChildren().add(img);
+			AnimationManager.animateStackPane(stack);
 			DndTilesController.manageSourceDragAndDrop(stack, tile);
 			this.idRack.getChildren().add(stack);
 		}
 	}
 
 	@FXML
-	private void onShuffleButtonClicked() {
+	private void shuffleOnButtonClicked() {
 
 		this.user.getRack().shuffle();
 		this.displayRack();
@@ -202,12 +207,12 @@ public class ScrabbleController {
 
 	public void exchangeTile(Rack rack, Tile tile) throws RackIsFullException, EmptyBagException, BagIsFullException {
 		if (bag.size() < 7) {
-			AlertManager.showError("Not enough tiles in the bag to exchange.");
+			ScenesManager.showError("Not enough tiles in the bag to exchange.");
 			return;
 		}
 
 		if (hasExchangedThisTurn) {
-			AlertManager.showError("You can only exchange tiles once per turn.");
+			ScenesManager.showError("You can only exchange tiles once per turn.");
 			return;
 		}
 
@@ -224,9 +229,13 @@ public class ScrabbleController {
 	private void removeTilesFromRack(Map<Position, Tile> playedTiles) {
 		Rack rack = user.getRack();
 		for (Tile tile : playedTiles.values()) {
-			System.out.println("supression");
-			System.out.println(rack.removeTile(tile));
+			rack.removeTile(tile);
 		}
 	}
+
+	
+
+	
+
 
 }

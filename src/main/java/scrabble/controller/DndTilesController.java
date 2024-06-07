@@ -17,7 +17,7 @@ import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.model.utils.RackIsFullException;
-import scrabble.util.AlertManager;
+import scrabble.util.ScenesManager;
 import scrabble.util.ImageLoaderManager;
 
 import java.util.HashMap;
@@ -79,7 +79,7 @@ public class DndTilesController {
             	playedTilesVisual.put(position, tileStack);
 
             	if (tile instanceof JokerTile) {
-                    AlertManager.showJokerLetterSelectionAlert((JokerTile) tile);
+                    ScenesManager.showJokerLetterSelectionAlert((JokerTile) tile);
                     System.out.println("qfsgd");
                    System.out.println( ((JokerTile) tile).getJokerLetter());
                 }

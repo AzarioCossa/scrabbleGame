@@ -70,7 +70,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button id="button" fx:id="btnShuffle" mnemonicParsing="false" onMouseClicked="#onShuffleButtonClicked" text="SHUFFLE">
+            <Button id="button" fx:id="btnShuffle" mnemonicParsing="false" onMouseClicked="#shuffleOnButtonClicked" text="SHUFFLE">
                <font>
                   <Font name="DejaVu Sans Mono" size="32.0" />
                </font>

@@ -14,7 +14,8 @@ public class JokerLetterSelectionController {
     @FXML 
     private Label lblErrrLettre;
 
-    private JokerTile jokerTile;
+
+	private JokerTile jokerTile ;
 
     public void initialize() {
     	
@@ -31,7 +32,8 @@ public class JokerLetterSelectionController {
             char inputLetter = letter.charAt(0);
             if (Character.isAlphabetic(inputLetter)) {
                 FrenchLetters frenchLetter = FrenchLetters.getLetter(inputLetter);
-                jokerTile.setJockerLetter(frenchLetter);
+                this.jokerTile.setJockerLetter(frenchLetter);
+                
                 closeWindow();
             }else {
                 lblErrrLettre.setText("Vous devez saisir un caractere");
@@ -42,8 +44,13 @@ public class JokerLetterSelectionController {
         }
     }
 
+    public JokerTile jokerTile() {
+		return this.jokerTile;
+	}
     private void closeWindow() {
         Stage stage = (Stage) letterTextField.getScene().getWindow();
         stage.close();
     }
+
+    
 }

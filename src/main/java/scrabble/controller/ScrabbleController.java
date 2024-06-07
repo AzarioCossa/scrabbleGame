@@ -105,11 +105,10 @@ public class ScrabbleController {
 	        StackPane stack = new StackPane();
 	        stack.setAlignment(Pos.CENTER);
 
-	        char letter = tile.getLetter().toString().charAt(0); // Assurez-vous que getLetter() retourne FrenchLetters
 	        ImageView img = null;
 
 	        try {
-	            img = new ImageView(ImageLoaderManager.loadCardImage(letter));
+	            img = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
 	            img.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 	            img.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 	        } catch (IllegalArgumentException e) {
@@ -178,7 +177,8 @@ public class ScrabbleController {
 	private void removeTilesFromRack(Map<Position, Tile> playedTiles) {
 		Rack rack = user.getRack();
 		for (Tile tile : playedTiles.values()) {
-			rack.removeTile(tile);
+			System.out.println("supression");
+			System.out.println(rack.removeTile(tile));
 		}
 	}
 

@@ -15,30 +15,13 @@ public class JokerTile extends Tile {
     public FrenchLetters getJokerLetter() {
         return jokerLetter;
     }
-    public void setJockerLetter(FrenchLetters letter) {
+    public FrenchLetters setJockerLetter(FrenchLetters letter) {
     	this.jokerLetter =  letter;
+    	return this.jokerLetter;
     	
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(jokerLetter);
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		JokerTile other = (JokerTile) obj;
-		return jokerLetter == other.jokerLetter;
-	}
+	
 
   
 }

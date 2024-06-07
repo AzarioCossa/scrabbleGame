@@ -3,7 +3,7 @@ package scrabble.util;
 import javafx.scene.image.Image;
 
 public class ImageLoaderManager {
-    public static Image loadCardImage(char value) throws IllegalArgumentException {
+    public static Image loadCardImage(String value) throws IllegalArgumentException {
         Image image = null;
         try {
             image = new Image(ImageLoaderManager.class.getResourceAsStream("/images/bag/" + value + ".png"));

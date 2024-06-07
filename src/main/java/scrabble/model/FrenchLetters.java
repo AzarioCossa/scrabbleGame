@@ -14,21 +14,21 @@ public enum FrenchLetters {
 	H(2,4),    // Letter H: Quantity - 2, Weight - 4
 	I(8,1),    // Letter I: Quantity - 8, Weight - 1
 	J(1,8),    // Letter J: Quantity - 1, Weight - 8
-	K(1,10),   // Letter K: Quantity - 1, Weight - 10
+	K(1,5),   // Letter K: Quantity - 1, Weight - 10
 	L(5,1),    // Letter L: Quantity - 5, Weight - 1
-	M(3,2),    // Letter M: Quantity - 3, Weight - 2
+	M(3,3),    // Letter M: Quantity - 3, Weight - 2
 	N(6,1),    // Letter N: Quantity - 6, Weight - 1
 	O(6,1),    // Letter O: Quantity - 6, Weight - 1
 	P(2,3),    // Letter P: Quantity - 2, Weight - 3
-	Q(1,8),    // Letter Q: Quantity - 1, Weight - 8
+	Q(1,10),    // Letter Q: Quantity - 1, Weight - 8
 	R(6,1),    // Letter R: Quantity - 6, Weight - 1
 	S(6,1),    // Letter S: Quantity - 6, Weight - 1
 	T(6,1),    // Letter T: Quantity - 6, Weight - 1
 	U(6,1),    // Letter U: Quantity - 6, Weight - 1
 	V(2,4),    // Letter V: Quantity - 2, Weight - 4
-	W(1,10),   // Letter W: Quantity - 1, Weight - 10
-	X(1,10),   // Letter X: Quantity - 1, Weight - 10
-	Y(1,10),   // Letter Y: Quantity - 1, Weight - 10
+	W(1,4),   // Letter W: Quantity - 1, Weight - 10
+	X(1,8),   // Letter X: Quantity - 1, Weight - 10
+	Y(1,4),   // Letter Y: Quantity - 1, Weight - 10
 	Z(1,10),   // Letter Z: Quantity - 1, Weight - 10
 	JOCKER(2,0); // Special Joker tile: Quantity - 2, Weight - 0
 	

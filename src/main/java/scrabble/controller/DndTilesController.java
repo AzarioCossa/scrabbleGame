@@ -10,9 +10,6 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import scrabble.model.BoardSizeConstants;
 import scrabble.model.JokerTile;
 import scrabble.model.Position;
 import scrabble.model.Rack;
@@ -58,7 +55,6 @@ public class DndTilesController {
             //verification que si la cas contient déjà un tile on ne puisse pas superposer 
             if (dragboard.hasContent(TILE_FORMAT) && !playedTiles.containsKey(position)) {
             	Tile tile = (Tile) dragboard.getContent(TILE_FORMAT);
-            	playedTiles.put(position, tile);
 
             	StackPane sourceStack = (StackPane) event.getGestureSource();
             	sourceStack.getChildren().clear();
@@ -66,22 +62,26 @@ public class DndTilesController {
             	StackPane tileStack = new StackPane();
 
             	// Créer l'objet ImageView avec l'image de la tuile
-            	ImageView imageView = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString().charAt(0)));
+            	ImageView imageView = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
 
             	// Lier la taille de l'image à la taille de la case de destination (targetRect)
             	imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
             	imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
 
-            	Label tileLabel = new Label(tile.getLetter().toString());
-            	tileStack.getChildren().addAll(imageView, tileLabel);
+            	
+            	tileStack.getChildren().addAll(imageView);
 
             	target.getChildren().add(tileStack);
             	System.out.println(position);
             	playedTilesVisual.put(position, tileStack);
 
             	if (tile instanceof JokerTile) {
-            	    AlertManager.showJokerLetterSelectionAlert((JokerTile) tile);
-            	}
+                    AlertManager.showJokerLetterSelectionAlert((JokerTile) tile);
+                    System.out.println("qfsgd");
+                   System.out.println( ((JokerTile) tile).getJokerLetter());
+                }
+            	playedTiles.put(position, tile);
+
 
                 success = true;
             }
@@ -123,22 +123,25 @@ public class DndTilesController {
         idRack.setAlignment(Pos.CENTER);
 
         for (Tile tile : rack.getTiles()) {
-            StackPane stack = new StackPane();
-            stack.setAlignment(Pos.CENTER);
+        	 StackPane stack = new StackPane();
+ 	        stack.setAlignment(Pos.CENTER);
 
-            Rectangle rect = new Rectangle();
-            rect.setWidth(50);
-            rect.setHeight(50);
+ 	        ImageView img = null;
 
-            rect.setFill(Color.BEIGE);
-            rect.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
+ 	        try {
+ 	            img = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
+ 	            img.setFitWidth(60);
+ 	            img.setFitHeight(60);
+ 	            //img.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+ 	            //img.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+ 	        } catch (IllegalArgumentException e) {
+ 	            e.printStackTrace(); // ou gestion appropriée de l'erreur
+ 	            continue; // sauter cette tuile si l'image n'est pas trouvée
+ 	        }
 
-            Label tileLabel = new Label(tile.getLetter().toString());
-            tileLabel.setAlignment(Pos.CENTER);
-
-            stack.getChildren().addAll(rect, tileLabel);
-            manageSourceDragAndDrop(stack, tile);
-            idRack.getChildren().add(stack);
+ 	        stack.getChildren().add(img);
+ 	        DndTilesController.manageSourceDragAndDrop(stack, tile);
+ 	        idRack.getChildren().add(stack);
         }
 
         clearPlayedTiles();

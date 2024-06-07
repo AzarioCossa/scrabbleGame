@@ -2,31 +2,32 @@ package scrabble.util;
 
 import javafx.scene.image.Image;
 import scrabble.model.SquareType;
+import scrabble.model.utils.ImageLoadException;
 
 public class ImageLoaderManager {
 	private ImageLoaderManager() {}
 
-    public static Image loadCardImage(String value) throws IllegalArgumentException {
+    public static Image loadCardImage(String value) throws ImageLoadException {
         Image image = null;
         try {
             image = new Image(ImageLoaderManager.class.getResourceAsStream("/images/bag/" + value + ".png"));
             if (image.isError()) {
-                throw new IllegalArgumentException("Image not found for value: " + value);
+                throw new ImageLoadException("Image not found for value: " + value);
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error loading image for value: " + value, e);
+            throw new ImageLoadException("Error loading image for value: " + value);
         }
         return image;
     }
-    public static Image loadSquareImage(SquareType squareType) throws IllegalArgumentException {
+    public static Image loadSquareImage(SquareType squareType) throws ImageLoadException {
         Image image = null;
         try {
             image = new Image(ImageLoaderManager.class.getResourceAsStream("/images/general/" + squareType.name() + ".png"));
             if (image.isError()) {
-                throw new IllegalArgumentException("Image not found for value: " + squareType.toString());
+                throw new ImageLoadException("Image not found for value: " + squareType.toString());
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error loading image for value: " + squareType.toString(), e);
+            throw new ImageLoadException("Error loading image for value: " + squareType.toString());
         }
         return image;
     }

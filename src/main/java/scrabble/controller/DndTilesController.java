@@ -15,6 +15,7 @@ import scrabble.model.JokerTile;
 import scrabble.model.Position;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
+import scrabble.model.utils.ImageLoadException;
 import scrabble.model.utils.RackIsFullException;
 import scrabble.util.AlertManager;
 import scrabble.util.ImageLoaderManager;
@@ -64,15 +65,15 @@ public class DndTilesController {
             	StackPane tileStack = new StackPane();
 
             	// Créer l'objet ImageView avec l'image de la tuile
-            	ImageView imageView = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
-
-            	// Lier la taille de l'image à la taille de la case de destination (targetRect)
-            	imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
-            	imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
-
-            	
-            	tileStack.getChildren().addAll(imageView);
-
+            	ImageView imageView;
+				try {
+					imageView = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
+					imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
+	            	imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
+	            	tileStack.getChildren().addAll(imageView);
+				} catch (ImageLoadException e) {
+					e.printStackTrace();
+				}
             	target.getChildren().add(tileStack);
             	System.out.println(position);
             	playedTilesVisual.put(position, tileStack);
@@ -136,7 +137,7 @@ public class DndTilesController {
  	            img.setFitHeight(60);
  	            //img.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
  	            //img.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
- 	        } catch (IllegalArgumentException e) {
+ 	        } catch (ImageLoadException e) {
  	            e.printStackTrace(); // ou gestion appropriée de l'erreur
  	            continue; // sauter cette tuile si l'image n'est pas trouvée
  	        }

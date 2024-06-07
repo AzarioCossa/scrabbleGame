@@ -20,6 +20,7 @@ import scrabble.model.User;
 import scrabble.model.Word;
 import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
+import scrabble.model.utils.ImageLoadException;
 import scrabble.model.utils.RackIsFullException;
 import scrabble.util.AlertManager;
 import scrabble.util.ImageLoaderManager;
@@ -56,7 +57,12 @@ public class ScrabbleController {
 		this.bag = new Bag();
 		this.user = new User("Player", initializeRack());
 		this.wordsManager = new WordsManager(gameBoard);
-		generateBoard();
+		try {
+			generateBoard();
+		} catch (ImageLoadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		displayRack();
 		lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
 		btnSubmit.setOnAction(event -> handleSubmit());
@@ -75,7 +81,7 @@ public class ScrabbleController {
 
 	}
 
-	private void generateBoard() {
+	private void generateBoard() throws ImageLoadException {
 		for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
 			for (int col = 0; col < BoardSizeConstants.BOARD_SIZE; col++) {
 				StackPane stack = new StackPane();
@@ -122,7 +128,7 @@ public class ScrabbleController {
 				img = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
 				img.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 				img.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-			} catch (IllegalArgumentException e) {
+			} catch (ImageLoadException e) {
 				e.printStackTrace();
 				continue;
 			}

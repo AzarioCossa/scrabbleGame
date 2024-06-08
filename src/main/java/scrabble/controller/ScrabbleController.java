@@ -64,9 +64,9 @@ public class ScrabbleController {
 		displayRack();
 		lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
 		btnSubmit.setOnAction(event -> handleSubmit());
-		bagImgView.setOnDragOver(event -> DndTilesController.manageBagOver(event, this));
+		bagImgView.setOnDragOver(DndTilesController::manageBagOver);
 		bagImgView.setOnDragDropped(event -> {
-			Tile tile = DndTilesController.manageBagDropped(event, this, this.user.getRack());
+			Tile tile = DndTilesController.manageBagDropped(event);
 			if (tile != null) {
 				try {
 					this.exchangeTile(this.user.getRack(), tile);
@@ -142,7 +142,7 @@ public class ScrabbleController {
 
 		} else {
 			System.out.println("Invalid word placement.");
-			DndTilesController.returnTilesToRack(user.getRack(), idRack);
+			DndTilesController.returnTilesToRack();
 			this.displayRack();
 		}
 	}
@@ -170,7 +170,7 @@ public class ScrabbleController {
 	private void refillRack() {
 		Rack rack = user.getRack();
 		try {
-			while (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY && !bag.isEmpty()) {
+			while (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY && Boolean.TRUE.equals(!bag.isEmpty())) {
 				rack.addTile(bag.drawTile());
 			}
 		} catch (EmptyBagException | RackIsFullException e) {
@@ -204,10 +204,5 @@ public class ScrabbleController {
 			rack.removeTile(tile);
 		}
 	}
-
-	
-
-	
-
 
 }

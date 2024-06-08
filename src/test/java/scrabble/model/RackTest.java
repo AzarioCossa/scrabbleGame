@@ -10,7 +10,7 @@ import scrabble.model.utils.RackIsFullException;
 class RackTest {
 
     @Test
-    public void testDrawTile() throws RackIsFullException {
+    void testDrawTile() throws RackIsFullException {
         Rack rack = new Rack();
         Tile tileToRemove = new Tile(FrenchLetters.B);
 
@@ -26,7 +26,7 @@ class RackTest {
     }
 
     @Test
-    public void testAddTile() throws RackIsFullException {
+     void testAddTile() throws RackIsFullException {
         Rack rack = new Rack();
         Tile tileToAdd = new Tile(FrenchLetters.A);
 
@@ -35,7 +35,7 @@ class RackTest {
     }
 
     @Test
-    public void testGetTiles() throws RackIsFullException {
+     void testGetTiles() throws RackIsFullException {
         Rack rack = new Rack();
         rack.addTile(new Tile(FrenchLetters.A));
         rack.addTile(new Tile(FrenchLetters.B));

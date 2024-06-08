@@ -1,22 +1,18 @@
 package scrabble.controller;
 
-
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import scrabble.gui.TilePane;
 import scrabble.model.JokerTile;
 import scrabble.model.Position;
-import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.util.ScenesManager;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,12 +38,11 @@ public class DndTilesController {
 	public static void manageTargetDragAndDrop(StackPane target, ImageView targetRect, Position position) {
 		target.setOnDragOver(event -> {
 
-			if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)) {
-				// Check if the target position is already occupied
-				if (!playedTiles.containsKey(position)) {
-					event.acceptTransferModes(TransferMode.MOVE);
-				}
+			if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)
+					&& !playedTiles.containsKey(position)) {
+				event.acceptTransferModes(TransferMode.MOVE);
 			}
+
 			event.consume();
 		});
 
@@ -99,7 +94,7 @@ public class DndTilesController {
 		playedTilesVisual.clear();
 	}
 
-	public static void returnTilesToRack(Rack rack, HBox idRack) {
+	public static void returnTilesToRack() {
 		for (StackPane tileStack : playedTilesVisual.values()) {
 			tileStack.getChildren().clear();
 		}
@@ -107,7 +102,7 @@ public class DndTilesController {
 
 	}
 
-	public static void manageBagOver(DragEvent event, ScrabbleController controller) {
+	public static void manageBagOver(DragEvent event) {
 		if (event.getDragboard().hasContent(TILE_FORMAT)) {
 
 			event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -115,7 +110,7 @@ public class DndTilesController {
 		}
 	}
 
-	public static Tile manageBagDropped(DragEvent event, ScrabbleController controller, Rack rack) {
+	public static Tile manageBagDropped(DragEvent event) {
 		Dragboard db = event.getDragboard();
 		Tile tile = (Tile) db.getContent(TILE_FORMAT);
 

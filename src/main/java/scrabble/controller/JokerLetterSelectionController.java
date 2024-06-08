@@ -14,12 +14,7 @@ public class JokerLetterSelectionController {
     @FXML 
     private Label lblErrrLettre;
 
-
 	private JokerTile jokerTile ;
-
-    public void initialize() {
-    	
-    }
 
     public void setJokerTile(JokerTile jokerTile) {
         this.jokerTile = jokerTile;

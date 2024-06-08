@@ -8,47 +8,37 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class AnimationManager {
-	private AnimationManager () {}
-	
-    public static void animateStackPane(StackPane stackPane) {
-        Duration animationDuration = Duration.seconds(1.5);
-        double startY = -100;
-        double endY = 0;
+	private AnimationManager() {
+	}
 
-      
-        TranslateTransition translateTransition = new TranslateTransition(animationDuration, stackPane);
-        translateTransition.setFromY(startY);
-        translateTransition.setToY(endY);
-        translateTransition.play();
-    }
-    public static void animateFade(StackPane stackPane) {
-    
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), stackPane);
+	public static void animateStackPane(StackPane stackPane) {
+		Duration animationDuration = Duration.seconds(1.5);
+		double startY = -100;
+		double endY = 0;
 
-        
-        fadeTransition.setFromValue(0); 
-        fadeTransition.setToValue(1); 
+		TranslateTransition translateTransition = new TranslateTransition(animationDuration, stackPane);
+		translateTransition.setFromY(startY);
+		translateTransition.setToY(endY);
+		translateTransition.play();
+	}
 
-       
-        fadeTransition.play();
-    }
+	public static void animateFade(StackPane stackPane) {
 
-    
-    
-    public static void addShadowOnHover(StackPane stackPane, ImageView imageView) {
-    	  ColorAdjust colorAdjust = new ColorAdjust();
-          colorAdjust.setBrightness(-0.2);
+		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), stackPane);
 
-        
-        stackPane.setOnMouseEntered(event -> 
-            imageView.setEffect(colorAdjust)
-        );
-        //stackPane.setOnDragOver(event -> 
-        	
-        //stackPane.setEffect(colorAdjust));
-      
+		fadeTransition.setFromValue(0);
+		fadeTransition.setToValue(1);
 
-        stackPane.setOnMouseExited(event ->                imageView.setEffect(null));
-        //stackPane.setOnDragDone(event ->    {stackPane.setEffect(null);event.consume();});
+		fadeTransition.play();
+	}
 
-    }}
+	public static void addShadowOnHover(StackPane stackPane, ImageView imageView) {
+		ColorAdjust colorAdjust = new ColorAdjust();
+		colorAdjust.setBrightness(-0.2);
+
+		stackPane.setOnMouseEntered(event -> imageView.setEffect(colorAdjust));
+
+		stackPane.setOnMouseExited(event -> imageView.setEffect(null));
+
+	}
+}

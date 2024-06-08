@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 class UserTest {
 
 	@Test
-	public void testConstructorAndGetters() {
+	void testConstructorAndGetters() {
 		Bag bag = new Bag();
 
 		String name = "John";

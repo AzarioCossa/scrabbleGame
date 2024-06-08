@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class TileTest {
 	
 	@Test
-    public void testConstructorAndGetLetter() {
+    void testConstructorAndGetLetter() {
         FrenchLetters letter = FrenchLetters.A;
         Tile tile = new Tile(letter);
 

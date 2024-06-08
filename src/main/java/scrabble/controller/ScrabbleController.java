@@ -1,6 +1,8 @@
 package scrabble.controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -34,6 +36,7 @@ public class ScrabbleController {
 	private Bag bag;
 	private User user;
 	private WordsManager wordsManager;
+	private IntegerProperty round;
 
 	@FXML
 	private GridPane test;
@@ -48,12 +51,16 @@ public class ScrabbleController {
 
 	@FXML
 	private ImageView bagImgView;
+	
+	@FXML
+	private Label lblRound;
 
 	@FXML
 	public void initialize() {
+		this.round = new SimpleIntegerProperty(1);
 		this.gameBoard = new GameBoard();
 		this.bag = new Bag();
-		this.user = new User("Player", initializeRack());
+		this.user = new User("Louis", initializeRack());
 		this.wordsManager = new WordsManager(gameBoard);
 		try {
 			generateBoard();
@@ -63,6 +70,7 @@ public class ScrabbleController {
 		}
 		displayRack();
 		lblScore.textProperty().bind(Bindings.convert(user.scoreProperty()));
+		lblRound.textProperty().bind(Bindings.convert(this.round));
 		btnSubmit.setOnAction(event -> handleSubmit());
 		bagImgView.setOnDragOver(DndTilesController::manageBagOver);
 		bagImgView.setOnDragDropped(event -> {
@@ -79,6 +87,9 @@ public class ScrabbleController {
 	
 
 	}
+	private void nextRound() {
+        this.round.set(round.get() + 1);
+	 }
 
 	private void generateBoard() throws ImageLoadException {
 		for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
@@ -139,6 +150,7 @@ public class ScrabbleController {
 			this.refillRack();
 			DndTilesController.clearPlayedTiles();
 			this.user.setHasExchangedThisTurn(false);
+			this.nextRound();
 
 		} else {
 			System.out.println("Invalid word placement.");

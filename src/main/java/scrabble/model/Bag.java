@@ -6,7 +6,6 @@ import java.util.List;
 
 import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
-import scrabble.model.utils.RackIsFullException;
 
 public class Bag {
     private ArrayList<Tile> tiles;
@@ -40,7 +39,7 @@ public class Bag {
 
 	public Boolean addTile(Tile tile) throws BagIsFullException{
 		if (this.tiles.size() >= LIMIT_BAG_CAPACITY) {
-			throw new BagIsFullException("Le bag est plein !");
+			throw new BagIsFullException("The bag is full");
 		}
 		return this.tiles.add(tile);
 	}

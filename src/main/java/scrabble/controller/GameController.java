@@ -93,7 +93,7 @@ public class GameController {
 		Boolean validateEntry = false;
 		while (!validateEntry) {
 			row = GameView.askRow();
-			if (!eEntryPositionAttributeIsInt(row)) {
+			if (!EntryPositionAttributeIsInt(row)) {
 				validateEntry = false;
 			} else {
 				rowInt = Integer.parseInt(row);
@@ -111,7 +111,7 @@ public class GameController {
 		validateEntry = false;
 		while (!validateEntry) {
 			column = GameView.askColumn();
-			if (!eEntryPositionAttributeIsInt(column)) {
+			if (!EntryPositionAttributeIsInt(column)) {
 				validateEntry = false;
 			} else {
 				columnInt = Integer.parseInt(column);
@@ -126,7 +126,7 @@ public class GameController {
 		return new Position(rowInt, columnInt);
 	}
 
-	public Boolean eEntryPositionAttributeIsInt(String entry) {
+	public Boolean EntryPositionAttributeIsInt(String entry) {
 		Integer entryInt;
 		try {
 			entryInt = Integer.parseInt(entry);
@@ -183,7 +183,7 @@ public class GameController {
 		int row = position.row();
 		int column = position.column();
 		Position copy = new Position(row, column);
-		for (int i = 0; i < word.length()-1; i++) {
+		for (int i = 0; i < word.length() - 1; i++) {
 			switch (direction) {
 
 			case UP:
@@ -224,12 +224,11 @@ public class GameController {
 
 			}
 		}
-		if(copy.row()<1 || copy.row() > 15 || copy.column() < 1 || copy.column() > 15) {
-		Console.messageBreak(error);
-		return false;
-		}
-		else {
-			
+		if (copy.row() < 1 || copy.row() > 15 || copy.column() < 1 || copy.column() > 15) {
+			Console.messageBreak(error);
+			return false;
+		} else {
+
 			return true;
 		}
 	}
@@ -361,33 +360,107 @@ public class GameController {
 
 	public String handleWord() {
 		String word = GameView.askWord().toLowerCase();
-		;
 
-		while (!wordInRack(word)) {
+		while (!wordInRack(word) || !wordiIsLongEnought(word)) {
 			word = GameView.askWord().toLowerCase();
 		}
 
 		return word;
 	}
-	
+
 	public Boolean wordiIsLongEnought(String word) {
-		if (word.length() <2 ) {
+		if (word.length() < 2) {
+			Console.messageBreak("A word must contain at least 2 letters");
+			return false;
+		} else {
+			
 			return true;
 		}
-		else {
-			return false;
-		}
 	}
+	
+	public boolean tileOnTheRoad(Position position, Direction direction) {
+		int row = position.row();
+		int column = position.column();
+		Position nextPosition = new Position(row,column);
+		switch (direction) {
+		case UP : 
+			nextPosition.setRow(position.row()-1);
+			if(gameBoard.isNotEmpty(nextPosition)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		case DOWN : 
+			nextPosition.setRow(position.row()+1);
+			if(gameBoard.isNotEmpty(nextPosition)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		case RIGHT : 
+			nextPosition.setRow(position.column()+1);
+			if(gameBoard.isNotEmpty(nextPosition)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		case LEFT : 
+			nextPosition.setRow(position.column()-1);
+			if(gameBoard.isNotEmpty(nextPosition)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		return false;
+		
+	}
+	
+	public int calculateGap(Position position,Direction direction) {
+		int gap = 0;
+		Position nextPosition = new Position(position.row(), position.column());
+		
+		while (tileOnTheRoad(nextPosition, direction)) {
+			gap++;
+			
+			switch (direction) {
+
+			case UP:
+				nextPosition.setRow(nextPosition.row() - 1);
+				break;
+
+			case DOWN:
+				nextPosition.setRow(nextPosition.row() + 1);
+				break;
+
+			case LEFT:
+				nextPosition.setColumn(nextPosition.column() - 1);
+				break;
+
+			case RIGHT:
+				nextPosition.setColumn(nextPosition.column() + 1);
+				break;
+			}
+		}
+		return gap;
+	}
+	
 
 	public void placeWord(String word) {
 		Position center = new Position(8, 8);
-
+		int gap;
+		
 		ArrayList<String> arrayWord = new ArrayList<>();
-
+		
 		for (int i = 0; i < word.length(); i++) {
 			arrayWord.add(String.valueOf(word.charAt(i)));
 		}
-
+		
 		if (gameBoard.isEmpty(center)) {
 			Direction direction = handleDirection();
 			for (String letter : arrayWord) {
@@ -419,27 +492,34 @@ public class GameController {
 				position = handlePosition();
 				direction = handleDirection();
 			}
-
+			Position nextPosition = new Position(position.row(),position.column());
 			for (String letter : arrayWord) {
-				placeTileOfWord(letter, position);
+				gap = calculateGap(nextPosition, direction);
+				placeTileOfWord(letter, nextPosition); 
 
 				switch (direction) {
 
 				case UP:
-					position.setRow(position.row() - 1);
+					nextPosition.setRow(nextPosition.row() - 1);
+					nextPosition.setRow(nextPosition.row() - gap);
 					break;
 
 				case DOWN:
-					position.setRow(position.row() + 1);
+					nextPosition.setRow(nextPosition.row() + 1);
+					nextPosition.setRow(nextPosition.row() + gap);
 					break;
 
 				case LEFT:
-					position.setColumn(position.column() - 1);
+					nextPosition.setColumn(nextPosition.column() - 1);
+					nextPosition.setColumn(nextPosition.column() - gap);
 					break;
 
 				case RIGHT:
-					position.setColumn(position.column() + 1);
+					nextPosition.setColumn(nextPosition.column() + 1);
+					nextPosition.setColumn(nextPosition.column() +  gap);
+					break;
 				}
+
 			}
 		}
 	}
@@ -567,6 +647,7 @@ public class GameController {
 	}
 
 	public void startGame() {
+		Position center = new Position(8, 8);
 		Scanner keyboard = new Scanner(System.in);
 		Console.message("Welcome to Scrabble !  ");
 		Console.messageBreak("What's your name ?");
@@ -613,12 +694,12 @@ public class GameController {
 			for (int i = 0; i < word.length(); i++) {
 				putTileOfBagInRack(user.getRack());
 			}
+
 		}
+
 	}
 
 //				}
-	
-
 
 	private boolean isOnBottomOfBoard(int row) {
 		return row == 15;

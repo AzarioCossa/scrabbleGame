@@ -2,11 +2,9 @@ package scrabble.util;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
-import javafx.geometry.Bounds;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class AnimationManager {
@@ -34,33 +32,23 @@ public class AnimationManager {
        
         fadeTransition.play();
     }
-    private static void rectanglePropertyForShadow(ImageView imageView,Rectangle grayFilter) {
-        Bounds boundsInLocal = imageView.getBoundsInLocal();
 
-        grayFilter.setWidth(boundsInLocal.getWidth());
-        grayFilter.setHeight(boundsInLocal.getHeight());
-        grayFilter.setOpacity(0.3);
-    }
     
     
     public static void addShadowOnHover(StackPane stackPane, ImageView imageView) {
-        Rectangle grayFilter = new Rectangle();
-        grayFilter.setFill(Color.BLACK);
-        grayFilter.setOpacity(0);
-
-        stackPane.getChildren().add(grayFilter);
+    	  ColorAdjust colorAdjust = new ColorAdjust();
+          colorAdjust.setBrightness(-0.2);
 
         
-        stackPane.setOnMouseEntered(event -> {
-        	AnimationManager.rectanglePropertyForShadow(imageView,grayFilter);
-        });
-        stackPane.setOnDragOver(event -> {
-        	AnimationManager.rectanglePropertyForShadow(imageView,grayFilter);
+        stackPane.setOnMouseEntered(event -> 
+            stackPane.setEffect(colorAdjust)
+        );
+        //stackPane.setOnDragOver(event -> 
+        	
+        //stackPane.setEffect(colorAdjust));
+      
 
-        });
-
-
-        stackPane.setOnMouseExited(event -> grayFilter.setOpacity(0));
-        stackPane.setOnDragExited(event -> grayFilter.setOpacity(0));
+        stackPane.setOnMouseExited(event ->                 stackPane.setEffect(null));
+        //stackPane.setOnDragDone(event ->    {stackPane.setEffect(null);event.consume();});
 
     }}

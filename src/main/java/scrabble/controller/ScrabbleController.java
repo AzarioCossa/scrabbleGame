@@ -13,7 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import scrabble.model.GameBoard;
 import scrabble.model.Square;
-
+import scrabble.gui.GameSquarePane;
 import scrabble.model.Bag;
 import scrabble.model.BoardSizeConstants;
 import scrabble.model.Rack;
@@ -88,20 +88,7 @@ public class ScrabbleController {
 	private void generateBoard() throws ImageLoadException {
 		for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
 			for (int col = 0; col < BoardSizeConstants.BOARD_SIZE; col++) {
-				StackPane stack = new StackPane();
-				ImageView imageView = new ImageView();
-
-				imageView.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-				imageView.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-				stack.setStyle("-fx-border-color: black; -fx-border-width: 1;");
-				Square square = gameBoard.getSquares()[row][col];
-
-				imageView.setImage(ImageLoaderManager.loadSquareImage(square.getSquareType()));
-
-				stack.getChildren().add(imageView);
-				DndTilesController.manageTargetDragAndDrop(stack, imageView, new Position(row + 1, col + 1));
-				AnimationManager.animateFade(stack);
-				AnimationManager.addShadowOnHover(stack, imageView);
+				StackPane stack = new GameSquarePane(this.test,gameBoard,new Position(row+1,col+1));
 				this.test.add(stack, col, row);
 			}
 		}

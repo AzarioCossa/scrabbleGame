@@ -13,8 +13,8 @@ public class ScrabbleGameJavaFX extends Application {
      
 
         Parent root = FXMLLoader.load(getClass().getResource("/MainWindow.fxml"));
-        primaryStage.setTitle("War Card Game in JavaFX");
-        Scene scene  = new Scene(root);
+        primaryStage.setTitle("Scrabble in JavaFX");
+        Scene scene  = new Scene(root,1920,1080);
         scene.getStylesheets().add("/css/game-page.css");
         primaryStage.setScene(scene);
         

@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import scrabble.util.WordsManager;
 
 public class User {
     private Rack rack;
@@ -32,7 +33,8 @@ public class User {
         this.hasExchangedThisTurn = hasExchanged;
     }
 	public Boolean addWord(Word word,GameBoard gameBoard) {
-    	this.incrementScore(this.calculateWordScore(word, gameBoard));
+		WordsManager wordManager  = new WordsManager(gameBoard);
+    	this.incrementScore(wordManager.calculateWordScore(word));
     	return this.words.add(word);
     }
 
@@ -56,47 +58,7 @@ public class User {
         return score;
     }
     
-    private int calculateWordScore(Word word, GameBoard gameBoard) {
-        int wordScore = 0;
-        int wordMultiplier = 1;
-
-        for (Map.Entry<Position, Tile> entry : word.getTiles().entrySet()) {
-            Position position = entry.getKey();
-            Tile tile = entry.getValue();
-
-            int letterMultiplier = 1;
-
-     
-            Square square = gameBoard.getSquares()[position.row()-1][position.column()-1];
-            SquareType bonus = square.getSquareType();
-
-            switch (bonus) {
-                case DOUBLE_LETTER:
-                    letterMultiplier = 2;
-                    break;
-                case TRIPLE_LETTER:
-                    letterMultiplier = 3;
-                    break;
-                case DOUBLE_WORD:
-                    wordMultiplier *= 2;
-                    break;
-                case TRIPLE_WORD:
-                    wordMultiplier *= 3;
-                    break;
-                default:
-                	break;
-                
-            }
-
-            System.out.println(tile.getWeight());
-            wordScore  += tile.getWeight() * letterMultiplier;
-        }
-
-        wordScore *= wordMultiplier;
-
-        return wordScore ;
-    }
-
+    
     @Override
     public int hashCode() {
         return Objects.hash(name, rack);

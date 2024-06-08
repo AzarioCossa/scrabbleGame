@@ -13,14 +13,24 @@ public class User {
     private final String name;
     private final IntegerProperty score;
     private List<Word> words;
+	private boolean hasExchangedThisTurn;
+
 
     public User(String name, Rack rack) {
         this.name = name;
         this.rack = rack;
         this.score = new SimpleIntegerProperty(0);
         this.words = new ArrayList<>();
+        this.hasExchangedThisTurn = false;
     }
     
+    public boolean hasExchangedThisTurn() {
+        return hasExchangedThisTurn;
+    }
+
+    public void setHasExchangedThisTurn(boolean hasExchanged) {
+        this.hasExchangedThisTurn = hasExchanged;
+    }
 	public Boolean addWord(Word word,GameBoard gameBoard) {
     	this.incrementScore(this.calculateWordScore(word, gameBoard));
     	return this.words.add(word);

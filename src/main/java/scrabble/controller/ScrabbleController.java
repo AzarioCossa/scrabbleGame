@@ -1,6 +1,5 @@
 package scrabble.controller;
 
-import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -10,9 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
 import scrabble.model.GameBoard;
-import scrabble.model.Square;
 import scrabble.gui.GameSquarePane;
 import scrabble.gui.TilePane;
 import scrabble.model.Bag;
@@ -26,8 +23,6 @@ import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.model.utils.RackIsFullException;
 import scrabble.util.ScenesManager;
-import scrabble.util.AnimationManager;
-import scrabble.util.ImageLoaderManager;
 import scrabble.util.WordsManager;
 import scrabble.model.Position;
 
@@ -39,7 +34,6 @@ public class ScrabbleController {
 	private Bag bag;
 	private User user;
 	private WordsManager wordsManager;
-	private boolean hasExchangedThisTurn = false;
 
 	@FXML
 	private GridPane test;
@@ -117,7 +111,6 @@ public class ScrabbleController {
 				stack = new TilePane(this.test,tile);
 				this.idRack.getChildren().add(stack);
 			} catch (ImageLoadException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -145,7 +138,7 @@ public class ScrabbleController {
 			this.user.addWord(word, this.gameBoard);
 			this.refillRack();
 			DndTilesController.clearPlayedTiles();
-			this.hasExchangedThisTurn = false;
+			this.user.setHasExchangedThisTurn(false);
 
 		} else {
 			System.out.println("Invalid word placement.");
@@ -192,7 +185,7 @@ public class ScrabbleController {
 			return;
 		}
 
-		if (hasExchangedThisTurn) {
+		if (this.user.hasExchangedThisTurn()) {
 			ScenesManager.showError("You can only exchange tiles once per turn.");
 			return;
 		}
@@ -202,9 +195,7 @@ public class ScrabbleController {
 		rack.addTile(newTile);
 
 		bag.addTile(tile);
-
-		this.hasExchangedThisTurn = true;
-
+		this.user.setHasExchangedThisTurn(true);
 	}
 
 	private void removeTilesFromRack(Map<Position, Tile> playedTiles) {

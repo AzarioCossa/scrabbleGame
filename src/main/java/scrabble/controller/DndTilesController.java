@@ -68,7 +68,6 @@ public class DndTilesController {
 					System.out.println(position);
 					playedTilesVisual.put(position, tileStack);
 				} catch (ImageLoadException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 

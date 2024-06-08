@@ -1,8 +1,6 @@
 package scrabble.controller;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -11,173 +9,126 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import scrabble.gui.TilePane;
 import scrabble.model.JokerTile;
 import scrabble.model.Position;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.ImageLoadException;
-import scrabble.model.utils.RackIsFullException;
 import scrabble.util.ScenesManager;
-import scrabble.util.AnimationManager;
-import scrabble.util.ImageLoaderManager;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DndTilesController {
-	private DndTilesController() {}
-    private static final DataFormat TILE_FORMAT = new DataFormat("scrabble.tile");
-    private static final Map<Position, Tile> playedTiles = new HashMap<>();
-    private static final Map<Position, StackPane> playedTilesVisual = new HashMap<>();
+	private DndTilesController() {
+	}
 
-    public static void manageSourceDragAndDrop(StackPane source, Tile tile) {
-        source.setOnDragDetected(event -> {
-            Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent clipboard = new ClipboardContent();
-            clipboard.put(TILE_FORMAT, tile);
-            dragboard.setContent(clipboard);
-            event.consume();
-        });
-    }
-    
+	private static final DataFormat TILE_FORMAT = new DataFormat("scrabble.tile");
+	private static final Map<Position, Tile> playedTiles = new HashMap<>();
+	private static final Map<Position, StackPane> playedTilesVisual = new HashMap<>();
 
-    public static void manageTargetDragAndDrop(StackPane target, ImageView targetRect, Position position) {
-        target.setOnDragOver(event -> {
+	public static void manageSourceDragAndDrop(StackPane source, Tile tile) {
+		source.setOnDragDetected(event -> {
+			Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
+			ClipboardContent clipboard = new ClipboardContent();
+			clipboard.put(TILE_FORMAT, tile);
+			dragboard.setContent(clipboard);
+			event.consume();
+		});
+	}
 
-            if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)) {
-                // Check if the target position is already occupied
-                if (!playedTiles.containsKey(position)) {
-                    event.acceptTransferModes(TransferMode.MOVE);
-                }
-            }
-            event.consume();
-        });
+	public static void manageTargetDragAndDrop(StackPane target, ImageView targetRect, Position position) {
+		target.setOnDragOver(event -> {
 
-        target.setOnDragDropped(event -> {
-            Dragboard dragboard = event.getDragboard();
-            boolean success = false;
-            //verification que si la cas contient déjà un tile on ne puisse pas superposer 
-            if (dragboard.hasContent(TILE_FORMAT) && !playedTiles.containsKey(position)) {
-            	Tile tile = (Tile) dragboard.getContent(TILE_FORMAT);
+			if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)) {
+				// Check if the target position is already occupied
+				if (!playedTiles.containsKey(position)) {
+					event.acceptTransferModes(TransferMode.MOVE);
+				}
+			}
+			event.consume();
+		});
 
-            	StackPane sourceStack = (StackPane) event.getGestureSource();
-            	sourceStack.getChildren().clear();
+		target.setOnDragDropped(event -> {
+			Dragboard dragboard = event.getDragboard();
+			boolean success = false;
+			// verification que si la cas contient déjà un tile on ne puisse pas superposer
+			if (dragboard.hasContent(TILE_FORMAT) && !playedTiles.containsKey(position)) {
+				Tile tile = (Tile) dragboard.getContent(TILE_FORMAT);
 
-            	StackPane tileStack = new StackPane();
+				StackPane sourceStack = (StackPane) event.getGestureSource();
+				sourceStack.getChildren().clear();
 
-            	// Créer l'objet ImageView avec l'image de la tuile
-            	ImageView imageView;
+				StackPane tileStack;
 				try {
-					imageView = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
-					imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
-	            	imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
-	            	tileStack.getChildren().addAll(imageView);
+					tileStack = new TilePane(targetRect, tile);
+					target.getChildren().add(tileStack);
+					System.out.println(position);
+					playedTilesVisual.put(position, tileStack);
 				} catch (ImageLoadException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-            	target.getChildren().add(tileStack);
-            	System.out.println(position);
-            	playedTilesVisual.put(position, tileStack);
 
-            	if (tile instanceof JokerTile) {
-                    ScenesManager.showJokerLetterSelectionAlert((JokerTile) tile);
-                    System.out.println("qfsgd");
-                   System.out.println( ((JokerTile) tile).getJokerLetter());
-                }
-            	playedTiles.put(position, tile);
+				if (tile instanceof JokerTile) {
+					ScenesManager.showJokerLetterSelectionAlert((JokerTile) tile);
+					System.out.println("qfsgd");
+					System.out.println(((JokerTile) tile).getJokerLetter());
+				}
+				playedTiles.put(position, tile);
 
+				success = true;
+			}
 
-                success = true;
-            }
+			event.setDropCompleted(success);
+			event.consume();
+		});
+	}
 
-            event.setDropCompleted(success);
-            event.consume();
-        });
-    }
+	public static Map<Position, Tile> getPlayedTiles() {
+		return playedTiles;
+	}
 
-    public static Map<Position, Tile> getPlayedTiles() {
-        return playedTiles;
-    }
+	public static void clearPlayedTiles() {
+		playedTiles.clear();
+		playedTilesVisual.clear();
+	}
 
-    public static void clearPlayedTiles() {
-        playedTiles.clear();
-        playedTilesVisual.clear();
-    }
+	public static void finalizeTilesOnBoard() {
+		playedTilesVisual.clear();
+	}
 
-    public static void finalizeTilesOnBoard() {
-        playedTilesVisual.clear();
-    }
+	public static void returnTilesToRack(Rack rack, HBox idRack) {
+		for (StackPane tileStack : playedTilesVisual.values()) {
+			tileStack.getChildren().clear();
+		}
+		clearPlayedTiles();
 
-    public static void returnTilesToRack(Rack rack, HBox idRack) {
-        for (Tile tile : playedTiles.values()) {
-            try {
-                if (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY) {
-                    rack.addTile(tile);
-                }
-            } catch (RackIsFullException e) {
-                System.out.println("Rack is full, cannot return tile.");
-            }
-        }
+	}
 
-        for (StackPane tileStack : playedTilesVisual.values()) {
-            tileStack.getChildren().clear();
-        }
+	public static void manageBagOver(DragEvent event, ScrabbleController controller) {
+		if (event.getDragboard().hasContent(TILE_FORMAT)) {
 
-        idRack.getChildren().clear();
-        idRack.setAlignment(Pos.CENTER);
+			event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+			event.consume();
+		}
+	}
 
-        for (Tile tile : rack.getTiles()) {
-        	 StackPane stack = new StackPane();
- 	        stack.setAlignment(Pos.CENTER);
+	public static Tile manageBagDropped(DragEvent event, ScrabbleController controller, Rack rack) {
+		Dragboard db = event.getDragboard();
+		Tile tile = (Tile) db.getContent(TILE_FORMAT);
 
- 	        ImageView img = null;
+		boolean success = false;
+		if (db.hasContent(TILE_FORMAT)) {
 
- 	        try {
- 	            img = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
- 	            img.setFitWidth(60);
- 	            img.setFitHeight(60);
- 	            //img.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
- 	            //img.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
- 	        } catch (ImageLoadException e) {
- 	            e.printStackTrace(); // ou gestion appropriée de l'erreur
- 	            continue; // sauter cette tuile si l'image n'est pas trouvée
- 	        }
+			success = true;
 
- 	        stack.getChildren().add(img);
- 	        DndTilesController.manageSourceDragAndDrop(stack, tile);
- 	        idRack.getChildren().add(stack);
-        }
-
-        clearPlayedTiles();
-    }
-    
-    public static void manageBagOver(DragEvent event, ScrabbleController controller) {
-        if (event.getDragboard().hasContent(TILE_FORMAT)) {
-        
-            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-            event.consume();
-        }
-    }
-
-    public static Tile manageBagDropped(DragEvent event, ScrabbleController controller, Rack rack) {
-        Dragboard db = event.getDragboard();
-        Tile tile = (Tile) db.getContent(TILE_FORMAT);
-
-        boolean success = false;
-        if (db.hasContent(TILE_FORMAT)) {
-        	System.out.println("qdsf");
-            String tileLetter = db.getString();
-            
-            ImageView imageView = (ImageView) event.getSource();
-            //controller.exchangeTile(rack, tile);
-            
-            //controller.displayRack();
-            success = true;
-            
-        }
-        event.setDropCompleted(success);
-        event.consume();
-        return tile;
-    }
+		}
+		event.setDropCompleted(success);
+		event.consume();
+		return tile;
+	}
 
 }

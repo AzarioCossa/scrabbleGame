@@ -1,0 +1,43 @@
+package scrabble.gui;
+
+import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import scrabble.controller.DndTilesController;
+import scrabble.model.BoardSizeConstants;
+import scrabble.model.Tile;
+import scrabble.model.utils.ImageLoadException;
+import scrabble.util.AnimationManager;
+import scrabble.util.ImageLoaderManager;
+
+public class TilePane extends StackPane {
+
+	public TilePane(GridPane visualGameBoard, Tile tile) throws ImageLoadException {
+
+		this.setAlignment(Pos.CENTER);
+
+		ImageView img = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
+		img.fitWidthProperty().bind(visualGameBoard.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+		img.fitHeightProperty().bind(visualGameBoard.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+
+		this.getChildren().add(img);
+		AnimationManager.animateStackPane(this);
+		DndTilesController.manageSourceDragAndDrop(this, tile);
+		visualGameBoard.getChildren().add(this);
+	}
+
+	public TilePane(ImageView targetRect, Tile tile) throws ImageLoadException {
+
+		this.setAlignment(Pos.CENTER);
+
+		ImageView imageView;
+
+		imageView = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
+		imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
+		imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
+		this.getChildren().add(imageView);
+
+	}
+
+}

@@ -27,7 +27,7 @@ public class GameSquarePane extends StackPane {
 		imageView.fitWidthProperty().bind(this.visualGameBoard.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 		imageView.fitHeightProperty().bind(this.visualGameBoard.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 		this.setStyle("-fx-border-color: black; -fx-border-width: 1;");
-		Square square = physicGameBoard.getSquares()[position.row()-1][position.column()-1];
+		Square square = this.physicGameBoard.getSquares()[position.row()-1][position.column()-1];
 
 		imageView.setImage(ImageLoaderManager.loadSquareImage(square.getSquareType()));
 

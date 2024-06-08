@@ -41,14 +41,14 @@ public class AnimationManager {
 
         
         stackPane.setOnMouseEntered(event -> 
-            stackPane.setEffect(colorAdjust)
+            imageView.setEffect(colorAdjust)
         );
         //stackPane.setOnDragOver(event -> 
         	
         //stackPane.setEffect(colorAdjust));
       
 
-        stackPane.setOnMouseExited(event ->                 stackPane.setEffect(null));
+        stackPane.setOnMouseExited(event ->                imageView.setEffect(null));
         //stackPane.setOnDragDone(event ->    {stackPane.setEffect(null);event.consume();});
 
     }}

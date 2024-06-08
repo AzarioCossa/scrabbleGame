@@ -14,6 +14,7 @@ import javafx.util.Duration;
 import scrabble.model.GameBoard;
 import scrabble.model.Square;
 import scrabble.gui.GameSquarePane;
+import scrabble.gui.TilePane;
 import scrabble.model.Bag;
 import scrabble.model.BoardSizeConstants;
 import scrabble.model.Rack;
@@ -111,24 +112,15 @@ public class ScrabbleController {
 		this.idRack.setAlignment(Pos.CENTER);
 
 		for (Tile tile : user.getRack().getTiles()) {
-			StackPane stack = new StackPane();
-			stack.setAlignment(Pos.CENTER);
-
-			ImageView img = null;
-
+			StackPane stack;
 			try {
-				img = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
-				img.fitWidthProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
-				img.fitHeightProperty().bind(this.test.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
+				stack = new TilePane(this.test,tile);
+				this.idRack.getChildren().add(stack);
 			} catch (ImageLoadException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-				continue;
 			}
-
-			stack.getChildren().add(img);
-			AnimationManager.animateStackPane(stack);
-			DndTilesController.manageSourceDragAndDrop(stack, tile);
-			this.idRack.getChildren().add(stack);
+			
 		}
 	}
 
@@ -158,6 +150,7 @@ public class ScrabbleController {
 		} else {
 			System.out.println("Invalid word placement.");
 			DndTilesController.returnTilesToRack(user.getRack(), idRack);
+			this.displayRack();
 		}
 	}
 

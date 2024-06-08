@@ -16,7 +16,7 @@ public class WordsManager {
     }
 
     public boolean validateWords(Map<Position, Tile> tiles) {
-    	return true;
+    	return false;
     	/*
         if (gameBoard.isEmpty()) {
             if (tiles.size() < 2 || !passesThroughCenter(tiles)) {

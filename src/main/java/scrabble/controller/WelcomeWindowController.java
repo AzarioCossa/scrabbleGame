@@ -2,6 +2,7 @@ package scrabble.controller;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,5 +24,11 @@ public class WelcomeWindowController {
 		  stage.setScene(scene);
 		  stage.show();
 	}
+	
+	@FXML 
+	private void handleQuitButton(ActionEvent event) {
+	    Platform.exit(); 
+	}
+	
 
 }

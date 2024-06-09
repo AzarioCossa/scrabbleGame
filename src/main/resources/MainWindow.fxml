@@ -24,7 +24,7 @@
                         <Insets right="40.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="124.0" text="QUIT">
+                  <Button mnemonicParsing="false" onAction="#handleQuitButton" prefHeight="34.0" prefWidth="124.0" text="QUIT">
                      <HBox.margin>
                         <Insets left="40.0" />
                      </HBox.margin>

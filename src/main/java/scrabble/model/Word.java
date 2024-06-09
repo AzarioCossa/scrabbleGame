@@ -3,12 +3,16 @@ package scrabble.model;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Word {
     private Map<Position, Tile> tiles;
 
+    public Word(Map<Position, Tile> tiles) {
+    	this.tiles = tiles != null ? tiles : new HashMap<>();
+    }
     public Word() {
-        this.tiles = new HashMap<>();
+    	this(null);
     }
 
     public Boolean addTile(Tile tile, Position position) {
@@ -46,5 +50,11 @@ public class Word {
             return false;
         Word other = (Word) obj;
         return Objects.equals(tiles, other.tiles);
+    }
+    @Override
+    public String toString() {
+        return tiles.entrySet().stream()
+            .map(entry -> "Position: " + entry.getKey().row() + ", " + entry.getKey().column() + " Letter: " + entry.getValue().getLetter())
+            .collect(Collectors.joining(", "));
     }
 }

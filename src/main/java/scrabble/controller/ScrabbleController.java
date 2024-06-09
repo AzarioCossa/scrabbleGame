@@ -139,14 +139,15 @@ public class ScrabbleController {
 	@FXML
 	private void handleSubmit() {
 		Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
-		System.out.println(playedTiles.containsKey(new Position(8, 8)));
-		if (this.wordsManager.validateWords(playedTiles)) {
 
+		if (this.wordsManager.validateWords(playedTiles)) {
 			this.finalizeTilesOnBoard(playedTiles);
 			this.removeTilesFromRack(playedTiles);
 			Word word = createWordFromPlayedTiles(playedTiles);
 
-			this.user.addWord(word, this.gameBoard);
+			this.user.addWord(word);
+			
+			this.user.incrementScore(wordsManager.calculateMoveScore(playedTiles));
 			this.refillRack();
 			DndTilesController.clearPlayedTiles();
 			this.user.setHasExchangedThisTurn(false);

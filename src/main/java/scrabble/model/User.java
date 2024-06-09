@@ -31,9 +31,7 @@ public class User {
     public void setHasExchangedThisTurn(boolean hasExchanged) {
         this.hasExchangedThisTurn = hasExchanged;
     }
-	public Boolean addWord(Word word,GameBoard gameBoard) {
-		WordsManager wordManager  = new WordsManager(gameBoard);
-    	this.incrementScore(wordManager.calculateWordScore(word));
+	public Boolean addWord(Word word) {
     	return this.words.add(word);
     }
 

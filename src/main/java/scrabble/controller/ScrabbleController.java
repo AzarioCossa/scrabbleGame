@@ -13,7 +13,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import scrabble.model.GameBoard;
 import scrabble.gui.GameSquarePane;
-import scrabble.gui.RackPane;
 import scrabble.gui.TilePane;
 import scrabble.model.Bag;
 import scrabble.model.BoardSizeConstants;

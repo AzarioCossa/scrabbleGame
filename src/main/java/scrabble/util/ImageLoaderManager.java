@@ -7,7 +7,7 @@ import scrabble.model.utils.ImageLoadException;
 public class ImageLoaderManager {
 	private ImageLoaderManager() {}
 
-    public static Image loadCardImage(String value) throws ImageLoadException {
+    public static Image loadTileImage(String value) throws ImageLoadException {
         Image image = null;
         try {
             image = new Image(ImageLoaderManager.class.getResourceAsStream("/images/bag/" + value + ".png"));
@@ -19,6 +19,7 @@ public class ImageLoaderManager {
         }
         return image;
     }
+    
     public static Image loadSquareImage(SquareType squareType) throws ImageLoadException {
         Image image = null;
         try {

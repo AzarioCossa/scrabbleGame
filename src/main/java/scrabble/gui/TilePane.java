@@ -19,7 +19,7 @@ public class TilePane extends StackPane {
 
 		this.setAlignment(Pos.CENTER);
 
-		ImageView img = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
+		ImageView img = new ImageView(ImageLoaderManager.loadTileImage(tile.getLetter().toString()));
 		img.fitWidthProperty().bind(visualGameBoard.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 		img.fitHeightProperty().bind(visualGameBoard.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 
@@ -36,7 +36,7 @@ public class TilePane extends StackPane {
 
 		ImageView imageView;
 
-		imageView = new ImageView(ImageLoaderManager.loadCardImage(tile.getLetter().toString()));
+		imageView = new ImageView(ImageLoaderManager.loadTileImage(tile.getLetter().toString()));
 		imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
 		imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
 		this.getChildren().add(imageView);

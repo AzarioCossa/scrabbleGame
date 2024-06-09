@@ -32,6 +32,15 @@ public class Rack {
 		return this.tiles.add(tile);
 	}
 	
+    public void swapTiles(Tile tile1, Tile tile2) {
+        int index1 = tiles.indexOf(tile1);
+        int index2 = tiles.indexOf(tile2);
+        if (index1 != -1 && index2 != -1) {
+            Collections.swap(tiles, index1, index2);
+        }
+    }
+
+	
 	
 	public Tile drawTile(Tile tile) {
 	    if (tiles.contains(tile)) {

@@ -12,8 +12,8 @@ public class AnimationManager {
 	}
 
 	public static void animateStackPane(StackPane stackPane) {
-		Duration animationDuration = Duration.seconds(1.5);
-		double startY = -100;
+		Duration animationDuration = Duration.seconds(0.5);
+		double startY = -45;
 		double endY = 0;
 
 		TranslateTransition translateTransition = new TranslateTransition(animationDuration, stackPane);

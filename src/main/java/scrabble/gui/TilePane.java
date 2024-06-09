@@ -4,8 +4,10 @@ import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+
 import scrabble.controller.DndTilesController;
 import scrabble.model.BoardSizeConstants;
+import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.util.AnimationManager;
@@ -13,7 +15,7 @@ import scrabble.util.ImageLoaderManager;
 
 public class TilePane extends StackPane {
 
-	public TilePane(GridPane visualGameBoard, Tile tile) throws ImageLoadException {
+	public TilePane(GridPane visualGameBoard, Tile tile, Rack rack) throws ImageLoadException {
 
 		this.setAlignment(Pos.CENTER);
 
@@ -24,6 +26,7 @@ public class TilePane extends StackPane {
 		this.getChildren().add(img);
 		AnimationManager.animateStackPane(this);
 		DndTilesController.manageSourceDragAndDrop(this, tile);
+		DndTilesController.setupDragAndDrop(this,tile,rack);
 		visualGameBoard.getChildren().add(this);
 	}
 

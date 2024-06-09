@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import scrabble.gui.TilePane;
 import scrabble.model.JokerTile;
 import scrabble.model.Position;
+import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.util.ScenesManager;
@@ -60,7 +61,6 @@ public class DndTilesController {
 				try {
 					tileStack = new TilePane(targetRect, tile);
 					target.getChildren().add(tileStack);
-					System.out.println(position);
 					playedTilesVisual.put(position, tileStack);
 				} catch (ImageLoadException e) {
 					e.printStackTrace();
@@ -124,5 +124,45 @@ public class DndTilesController {
 		event.consume();
 		return tile;
 	}
+	
+	public static void setupDragAndDrop(StackPane tilePane, Tile tile, Rack rack) {
+        tilePane.setOnDragDetected(event -> {
+            Dragboard db = tilePane.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.put(TILE_FORMAT, tile);
+            db.setContent(content);
+            event.consume();
+        });
 
+        tilePane.setOnDragOver(event -> {
+            if (event.getDragboard().hasContent(TILE_FORMAT)) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+
+        tilePane.setOnDragEntered(event -> {
+            if (event.getDragboard().hasContent(TILE_FORMAT)) {
+                tilePane.setOpacity(0.3);
+            }
+        });
+
+        tilePane.setOnDragExited(event -> {
+            tilePane.setOpacity(1);
+        });
+
+        tilePane.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasContent(TILE_FORMAT)) {
+                Tile sourceTile = (Tile) db.getContent(TILE_FORMAT);
+                rack.swapTiles(sourceTile, tile);
+                success = true;
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+    }
 }
+
+

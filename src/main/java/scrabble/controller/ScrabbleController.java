@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import scrabble.model.GameBoard;
 import scrabble.gui.GameSquarePane;
+import scrabble.gui.RackPane;
 import scrabble.gui.TilePane;
 import scrabble.model.Bag;
 import scrabble.model.BoardSizeConstants;
@@ -62,6 +63,7 @@ public class ScrabbleController {
 		this.bag = new Bag();
 		this.user = new User("Louis", initializeRack());
 		this.wordsManager = new WordsManager(gameBoard);
+
 		try {
 			generateBoard();
 		} catch (ImageLoadException e) {
@@ -83,6 +85,9 @@ public class ScrabbleController {
 				}
 				this.displayRack();
 			}
+		});
+		idRack.setOnDragDone(event -> {
+		    this.displayRack();
 		});
 	
 
@@ -119,7 +124,7 @@ public class ScrabbleController {
 		for (Tile tile : user.getRack().getTiles()) {
 			StackPane stack;
 			try {
-				stack = new TilePane(this.test,tile);
+				stack = new TilePane(this.test,tile, this.user.getRack());
 				this.idRack.getChildren().add(stack);
 			} catch (ImageLoadException e) {
 				e.printStackTrace();

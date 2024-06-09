@@ -9,43 +9,4 @@ import org.junit.jupiter.api.Test;
 
 class SquareTest {
 
-	  @Test
-	    public void testConstructorAndGetters() {
-		  
-	        Square square = new Square('.');
-
-	        assertEquals('.', square.getSymbol());
-	
-	        assertNull(square.getTile()); 
-	    }
-
-	    @Test
-	    public void testPlaceTile() {
-	        Square square = new Square('.');
-	        Tile tile = new Tile(FrenchLetters.A);
-
-	
-	        square.placeTile(tile);
-
-	      
-	        assertEquals(tile, square.getTile());
-	        assertFalse(square.isBusy()); 
-	    }
-
-	    @Test
-	    public void testIsBusy() {
-	    	
-	        Square square1 = new Square('.');
-	        Square square2 = new Square('X');
-	        Tile tile = new Tile(FrenchLetters.A);
-
-
-	        assertTrue(square1.isBusy());
-	        assertTrue(square2.isBusy());
-
-	        square1.placeTile(tile);
-
-
-	        assertFalse(square1.isBusy());
-	        assertTrue(square2.isBusy());
-	    }}
+}

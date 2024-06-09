@@ -1,23 +1,28 @@
 package scrabble.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import scrabble.model.utils.RackIsFullException;
 
 public class Rack {
 	private ArrayList<Tile> tiles;
-	public final static Integer LIMIT_RACK_CAPACITY = 7;
+	public static final Integer LIMIT_RACK_CAPACITY = 7;
 
 		
 	public Rack() {
-		tiles = new ArrayList<Tile>();
+		tiles = new ArrayList<>();
 	}
 
 
-	public ArrayList<Tile> getTiles() {
+	public List<Tile> getTiles() {
 		return tiles;
 	}
+	 public void shuffle() {
+	        Collections.shuffle(tiles);
+	  }
 	
 
 	public Boolean addTile(Tile tile) throws RackIsFullException{
@@ -27,6 +32,15 @@ public class Rack {
 		return this.tiles.add(tile);
 	}
 	
+    public void swapTiles(Tile tile1, Tile tile2) {
+        int index1 = tiles.indexOf(tile1);
+        int index2 = tiles.indexOf(tile2);
+        if (index1 != -1 && index2 != -1) {
+            Collections.swap(tiles, index1, index2);
+        }
+    }
+
+	
 	
 	public Tile drawTile(Tile tile) {
 	    if (tiles.contains(tile)) {
@@ -35,6 +49,19 @@ public class Rack {
 	    } else {
 	        return null;
 	    }
+	}
+	
+	public void replaceJoker(Tile newTile) {
+	    for (int i = 0; i < tiles.size(); i++) {
+	        Tile tile = tiles.get(i);
+	        if (tile.getLetter() == FrenchLetters.JOCKER) {
+	            tiles.set(i, newTile);
+	            break;
+	        }
+	    }
+	}
+	public Boolean removeTile(Tile tile) {
+		return this.tiles.remove(tile);
 	}
 	
 	

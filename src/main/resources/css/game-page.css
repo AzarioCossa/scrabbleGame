@@ -1,0 +1,39 @@
+.button {
+    -fx-background-color: rgba(95,51,132,0.9);
+    -fx-background-radius: 40;
+    -fx-background-insets: 0, 1;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-padding: 25 35;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 4, 0, 0, 1);
+    -fx-border-radius: 40;
+    -fx-border-color: transparent;
+    -fx-transition: all 0.3s ease;
+}
+
+.button:hover {
+    -fx-background-color: 
+        linear-gradient(#1C86EE, #1E90FF),
+        radial-gradient(center 50% 50%, radius 100%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.9), 6, 0, 0, 1.5);
+}
+
+.title {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 50px;
+    -fx-text-fill: #1E90FF; /* Couleur bleue solide */
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 4, 0, 0, 2);
+    -fx-padding: 20 0 20 0;
+    -fx-alignment: center;
+}
+.score {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 48px;
+    -fx-text-fill: #FFD700; /* Couleur or */
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 6, 0, 0, 3);
+    -fx-padding: 10;
+    -fx-alignment: center;
+}

@@ -1,6 +1,26 @@
 package scrabble.model;
 
 public class BoardSizeConstants {
-    public static final int DEFAULT_NUM_ROWS = 15;
-    public static final int DEFAULT_NUM_COLUMNS = 15;
+	private BoardSizeConstants() {}
+	
+	
+	public static final int BOARD_SIZE = 15;
+    public static final int MIDDLE_INDEX = 8;
+    protected static final String[][] boardLayout = {
+            {"TW", "", "", "DL", "", "", "", "TW", "", "", "", "DL", "", "", "TW"},
+            {"", "DW", "", "", "", "TL", "", "", "", "TL", "", "", "", "DW", ""},
+            {"", "", "DW", "", "", "", "DL", "", "DL", "", "", "", "DW", "", ""},
+            {"DL", "", "", "DW", "", "", "", "DL", "", "", "", "DW", "", "", "DL"},
+            {"", "", "", "", "DW", "", "", "", "", "", "DW", "", "", "", ""},
+            {"", "TL", "", "", "", "TL", "", "", "", "TL", "", "", "", "TL", ""},
+            {"", "", "DL", "", "", "", "DL", "", "DL", "", "", "", "DL", "", ""},
+            {"TW", "", "", "DL", "", "", "", "C", "", "", "", "DL", "", "", "TW"},
+            {"", "", "DL", "", "", "", "DL", "", "DL", "", "", "", "DL", "", ""},
+            {"", "TL", "", "", "", "TL", "", "", "", "TL", "", "", "", "TL", ""},
+            {"", "", "", "", "DW", "", "", "", "", "", "DW", "", "", "", ""},
+            {"DL", "", "", "DW", "", "", "", "DL", "", "", "", "DW", "", "", "DL"},
+            {"", "", "DW", "", "", "", "DL", "", "DL", "", "", "", "DW", "", ""},
+            {"", "DW", "", "", "", "TL", "", "", "", "TL", "", "", "", "DW", ""},
+            {"TW", "", "", "DL", "", "", "", "TW", "", "", "", "DL", "", "", "TW"}
+        };
 }

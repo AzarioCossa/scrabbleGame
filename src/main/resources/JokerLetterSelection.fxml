@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scrabble.controller.JokerLetterSelectionController">
+   <children>
+      <Label alignment="TOP_CENTER" prefHeight="54.0" prefWidth="599.0" text="Entrez la lettre du Joker" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="44.0" />
+         </font>
+      </Label>
+      <TextField fx:id="letterTextField" maxWidth="400.0" prefHeight="46.0" prefWidth="200.0" promptText="lettre attendu">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="50.0" />
+         </VBox.margin>
+      </TextField>
+      <Button mnemonicParsing="false" onMouseClicked="#submitLetter" prefHeight="68.0" prefWidth="238.0" text="Valider">
+         <font>
+            <Font name="DejaVu Sans Bold" size="27.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="50.0" />
+         </VBox.margin>
+      </Button>
+      <Label fx:id="lblErrrLettre" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>

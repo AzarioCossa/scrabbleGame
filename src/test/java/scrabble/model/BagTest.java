@@ -9,6 +9,7 @@ import scrabble.model.utils.EmptyBagException;
 
 class BagTest {
 
+
 	private static final int INITIAL_BAG_SIZE = 102;
 	
 	@Test
@@ -34,6 +35,7 @@ class BagTest {
     	Assertions.assertEquals("You can't draw a tile when the bag is empty", thrown.getMessage());
     }
 	
+
 	
 
 }

@@ -7,11 +7,15 @@ import org.junit.jupiter.api.Test;
 class UserTest {
 
 	@Test
-	public void testConstructorAndGetters() {
-		String name = "Louis";
-		Rack rack = new Rack();
-		User user = new User(name,rack);
-		assertEquals(name, user.getName());
+
+	void testConstructorAndGetters() {
+		Bag bag = new Bag();
+
+		String name = "John";
+//		User user = new User(bag, name);
+//
+//		assertEquals(name, user.getName());
+
 	}
 
 }

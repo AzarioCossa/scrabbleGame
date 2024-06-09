@@ -305,22 +305,30 @@ public class GameController {
 		for (int i = 0; i < word.length(); i++) {
 			arrayWord.add(String.valueOf(word.charAt(i)));
 		}
-		Rack rack = user.getRack();
-		ArrayList<Tile> tiles = user.getRack().getTiles();
+		Rack rack = new Rack();
+		for (Tile tile : user.getRack().getTiles()) {
+			try {
+				rack.addTile(tile);
+			} catch (RackIsFullException e) {
+				Console.message(null);
+			}
+		}
 
 		for (String letter : arrayWord) {
 			if (!tileIsInRack(letter, rack)) {
 				Console.messageBreak("One of tile wanted is not in the rack !!");
 				return false;
 			}
-//			else {
-//				for (int i =0; i< tiles.size(); i++) {
-//					String tileLetter = tiles.get(i).getLetter().toString().toLowerCase();
-//					if (tileLetter.equals(letter)) {
-//						tiles.remove(tiles.get(i));
-//					}
-//				}
-//			}
+			else {
+				for (int i =0; i< rack.getTiles().size(); i++) {
+					String tileLetter = rack.getTiles().get(i).getLetter().toString().toLowerCase();
+					if (tileLetter.equals(letter)) {
+						rack.drawTile(rack.getTiles().get(i));
+						break;
+					}
+				}
+				
+			}
 
 		}
 
@@ -401,7 +409,7 @@ public class GameController {
 				return false;
 			}
 		case RIGHT : 
-			nextPosition.setRow(position.column()+1);
+			nextPosition.setColumn(position.column()+1);
 			if(gameBoard.isNotEmpty(nextPosition)) {
 				return true;
 			}
@@ -409,7 +417,7 @@ public class GameController {
 				return false;
 			}
 		case LEFT : 
-			nextPosition.setRow(position.column()-1);
+			nextPosition.setColumn(position.column()-1);
 			if(gameBoard.isNotEmpty(nextPosition)) {
 				return true;
 			}

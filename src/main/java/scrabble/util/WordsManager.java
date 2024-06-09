@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class WordsManager {
@@ -37,7 +34,7 @@ public class WordsManager {
 
             Square square = gameBoard.getSquares()[position.row() - 1][position.column() - 1];
             SquareType bonus = square.getSquareType();
-            System.out.println(bonus);
+
             switch (bonus) {
                 case DOUBLE_LETTER:
                     letterMultiplier = 2;
@@ -74,7 +71,7 @@ public class WordsManager {
     public boolean validateWords(Map<Position, Tile> tiles) {
         if (gameBoard.isEmpty()) {
 
-
+        
             if (tiles.size() < 2) {
                 return false; // Le mot doit être au moins de 2 lettres
             }
@@ -112,14 +109,14 @@ public class WordsManager {
 
     private boolean isWordAligned(Map<Position, Tile> tiles) {
         if (tiles.isEmpty()) {
-            return false; // S'il n'y a pas de tuiles, le mot n'est pas aligné
+            return false; 
         }
 
         boolean sameRow = true;
         boolean sameColumn = true;
 
         Iterator<Position> iterator = tiles.keySet().iterator();
-        Position firstPosition = iterator.next(); // Obtenez la première position s'il y en a une
+        Position firstPosition = iterator.next();
 
         int initialRow = firstPosition.row();
         int initialColumn = firstPosition.column();
@@ -140,10 +137,9 @@ public class WordsManager {
     private boolean isWordConnected(Map<Position, Tile> tiles) {
         for (Position position : tiles.keySet()) {
             if (gameBoard.isNotEmpty(position)) {
-                return true; // Le mot est connecté à un mot existant
+                return true; 
             }
 
-            // Vérifiez les tuiles adjacentes
             int row = position.row();
             int col = position.column();
 
@@ -155,7 +151,7 @@ public class WordsManager {
             }
         }
 
-        return false; // Le mot n'est pas connecté à un mot existant
+        return false;
     }
 
     
@@ -221,8 +217,7 @@ public class WordsManager {
      
 
         for (Word word : words) {
-        	System.out.println("Found word: " + word);
-        	System.out.println(calculateWordScore(word));
+        	
             totalScore += calculateWordScore(word);
         }
 

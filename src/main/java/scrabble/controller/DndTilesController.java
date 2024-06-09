@@ -36,7 +36,8 @@ public class DndTilesController {
 		});
 	}
 
-	public static void manageTargetDragAndDrop(StackPane target, ImageView targetRect, Position position) {
+	public static void manageTargetDragAndDrop(StackPane target, Position position) {
+		
 		target.setOnDragOver(event -> {
 
 			if (event.getGestureSource() instanceof StackPane && event.getDragboard().hasContent(TILE_FORMAT)
@@ -48,6 +49,7 @@ public class DndTilesController {
 		});
 
 		target.setOnDragDropped(event -> {
+		    ImageView targetRect = (ImageView) target.getChildren().get(0);
 			Dragboard dragboard = event.getDragboard();
 			boolean success = false;
 			// verification que si la cas contient déjà un tile on ne puisse pas superposer
@@ -95,6 +97,7 @@ public class DndTilesController {
 	}
 
 	public static void returnTilesToRack() {
+		
 		for (StackPane tileStack : playedTilesVisual.values()) {
 			tileStack.getChildren().clear();
 		}
@@ -155,6 +158,7 @@ public class DndTilesController {
             Dragboard db = event.getDragboard();
             boolean success = false;
             if (db.hasContent(TILE_FORMAT)) {
+            	
                 Tile sourceTile = (Tile) db.getContent(TILE_FORMAT);
                 rack.swapTiles(sourceTile, tile);
                 success = true;

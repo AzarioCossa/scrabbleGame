@@ -32,7 +32,7 @@ public class GameSquarePane extends StackPane {
 		imageView.setImage(ImageLoaderManager.loadSquareImage(square.getSquareType()));
 
 		this.getChildren().add(imageView);
-		DndTilesController.manageTargetDragAndDrop(this, imageView, this.position);
+		DndTilesController.manageTargetDragAndDrop(this, this.position);
 		AnimationManager.animateFade(this);
 		AnimationManager.addShadowOnHover(this, imageView);
 		

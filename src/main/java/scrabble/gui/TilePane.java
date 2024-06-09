@@ -10,7 +10,6 @@ import scrabble.model.BoardSizeConstants;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.ImageLoadException;
-import scrabble.util.AnimationManager;
 import scrabble.util.ImageLoaderManager;
 
 public class TilePane extends StackPane {
@@ -24,7 +23,6 @@ public class TilePane extends StackPane {
 		img.fitHeightProperty().bind(visualGameBoard.widthProperty().divide(BoardSizeConstants.BOARD_SIZE));
 
 		this.getChildren().add(img);
-		AnimationManager.animateStackPane(this);
 		DndTilesController.manageSourceDragAndDrop(this, tile);
 		DndTilesController.setupDragAndDrop(this,tile,rack);
 		visualGameBoard.getChildren().add(this);

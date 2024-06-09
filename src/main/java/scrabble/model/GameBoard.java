@@ -1,5 +1,6 @@
 package scrabble.model;
 
+import scrabble.model.utils.TilePlacementException;
 
 public class GameBoard {
 
@@ -80,7 +81,11 @@ public class GameBoard {
         return isNotEmpty;
     }
     
-    public void placeTileGameBoard(Tile tile, int row, int col) {
+    public void placeTileGameBoard(Tile tile, int row, int col) throws TilePlacementException {
+        if (row < 0 || row >= BoardSizeConstants.BOARD_SIZE || col < 0 || col >= BoardSizeConstants.BOARD_SIZE) {
+            throw new TilePlacementException("Row or column index is out of bounds.");
+        }
+
         squares[row][col].placeTileSquare(tile);
     }
 }

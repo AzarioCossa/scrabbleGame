@@ -24,6 +24,7 @@ import scrabble.model.utils.BagIsFullException;
 import scrabble.model.utils.EmptyBagException;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.model.utils.RackIsFullException;
+import scrabble.model.utils.TilePlacementException;
 import scrabble.util.ScenesManager;
 import scrabble.util.WordsManager;
 import scrabble.model.Position;
@@ -85,9 +86,9 @@ public class ScrabbleController {
 				this.displayRack();
 			}
 		});
-		idRack.setOnDragDone(event -> {
-		    this.displayRack();
-		});
+		//idRack.setOnDragDone(event -> {
+		  //  this.displayRack();
+		//});
 	
 
 	}
@@ -145,13 +146,18 @@ public class ScrabbleController {
 		Map<Position, Tile> playedTiles = DndTilesController.getPlayedTiles();
 
 		if (this.wordsManager.validateWords(playedTiles)) {
-			this.finalizeTilesOnBoard(playedTiles);
 			this.removeTilesFromRack(playedTiles);
 			Word word = createWordFromPlayedTiles(playedTiles);
 
 			this.user.addWord(word);
+			try {
+				this.finalizeTilesOnBoard(playedTiles);
+			} catch (TilePlacementException e) {
+				e.printStackTrace();
+			}
 			
 			this.user.incrementScore(wordsManager.calculateMoveScore(playedTiles));
+
 			this.refillRack();
 			DndTilesController.clearPlayedTiles();
 			this.user.setHasExchangedThisTurn(false);
@@ -174,7 +180,7 @@ public class ScrabbleController {
 		return word;
 	}
 
-	private void finalizeTilesOnBoard(Map<Position, Tile> playedTiles) {
+	private void finalizeTilesOnBoard(Map<Position, Tile> playedTiles) throws TilePlacementException {
 		for (Map.Entry<Position, Tile> entry : playedTiles.entrySet()) {
 			Position position = entry.getKey();
 			Tile tile = entry.getValue();

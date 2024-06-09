@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import scrabble.util.WordsManager;
 
 public class User {
     private Rack rack;

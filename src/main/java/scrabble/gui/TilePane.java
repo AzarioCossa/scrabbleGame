@@ -28,7 +28,7 @@ public class TilePane extends StackPane {
 		visualGameBoard.getChildren().add(this);
 	}
 
-	public TilePane(ImageView targetRect, Tile tile, Rack rack) throws ImageLoadException {
+	public TilePane(ImageView targetRect, Tile tile) throws ImageLoadException {
 
 		this.setAlignment(Pos.CENTER);
 
@@ -38,7 +38,7 @@ public class TilePane extends StackPane {
 		imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
 		imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
 		DndTilesController.manageSourceDragAndDrop(this, tile);
-		DndTilesController.setupDragAndDrop(this,tile,rack);
+		
 		this.getChildren().add(imageView);
 
 	}

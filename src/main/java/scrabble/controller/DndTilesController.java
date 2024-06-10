@@ -61,7 +61,7 @@ public class DndTilesController {
 
 				StackPane tileStack;
 				try {
-					tileStack = new TilePane(targetRect, tile,rack);
+					tileStack = new TilePane(targetRect, tile);
 					target.getChildren().add(tileStack);
 					playedTilesVisual.put(position, tileStack);
 				} catch (ImageLoadException e) {

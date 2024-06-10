@@ -25,7 +25,7 @@ public class GameView {
     public static void printGrid(GameBoard gameBoard) {
         Square[][] squares = gameBoard.getSquares();
         int columns = BoardSizeConstants.DEFAULT_NUM_COLUMNS;
-        int rows = BoardSizeConstants.DEFAULT_NUM_ROWS;
+        int rows = BoardSizeConstants.DEFAULT_NUM_ROW;
 
         for (int i = 0; i < columns; i++) {
         	Console.lineBreak();
@@ -45,6 +45,11 @@ public class GameView {
     public static String askTile() {
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Which tile do you want to play ? ");
+		return keyboard.nextLine();
+	}
+    public static String askWord() {
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Which word do you want to play ? ");
 		return keyboard.nextLine();
 	}
     

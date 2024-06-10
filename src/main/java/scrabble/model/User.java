@@ -5,12 +5,13 @@ import java.util.Objects;
 public class User {
 	private Rack rack;
 	private final String name;
+	private int score;
 	
 
 	public User(String name, Rack rack) {
 		this.name = name;
 		this.rack = rack;
-
+		this.score = 0;
 	}
 
 
@@ -22,6 +23,13 @@ public class User {
 		return name;
 	}
 
+	public int getScore() {
+		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
 
 	@Override
 	public int hashCode() {

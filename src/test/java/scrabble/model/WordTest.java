@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The WordTest class contains unit tests for the Word class.
+ */
 class WordTest {
 
     private Word word;
@@ -17,6 +19,9 @@ class WordTest {
     private Position position1;
     private Position position2;
 
+    /**
+     * Sets up the tiles, positions, and word before all tests.
+     */
     @BeforeAll
     public void setUp() {
         tileA = new Tile(FrenchLetters.A);
@@ -26,12 +31,18 @@ class WordTest {
         word = new Word();
     }
 
+    /**
+     * Tests the addTile method of the Word class.
+     */
     @Test
     void testAddTile() {
         assertTrue(word.addTile(tileA, position1));
         assertFalse(word.addTile(tileA, position1));
     }
 
+    /**
+     * Tests the getTiles method of the Word class.
+     */
     @Test
     void testGetTiles() {
         word.addTile(tileA, position1);
@@ -41,6 +52,9 @@ class WordTest {
         assertEquals(tileA, tiles.get(position1));
     }
 
+    /**
+     * Tests the size method of the Word class.
+     */
     @Test
     void testSize() {
         assertEquals(0, word.size());
@@ -48,6 +62,9 @@ class WordTest {
         assertEquals(1, word.size());
     }
 
+    /**
+     * Tests the containsKey method of the Word class.
+     */
     @Test
     void testContainsKey() {
         assertFalse(word.containsKey(position1));
@@ -55,12 +72,15 @@ class WordTest {
         assertTrue(word.containsKey(position1));
     }
 
+    /**
+     * Tests the equals and hashCode methods of the Word class.
+     */
     @Test
     void testEqualsAndHashCode() {
         Map<Position, Tile> tilesMap = new HashMap<>();
         tilesMap.put(position1, tileA);
         Word anotherWord = new Word(tilesMap);
-        
+
         word.addTile(tileA, position1);
 
         assertEquals(word, anotherWord);
@@ -69,6 +89,4 @@ class WordTest {
         anotherWord.addTile(tileB, position2);
         assertNotEquals(word, anotherWord);
     }
-
-   
 }

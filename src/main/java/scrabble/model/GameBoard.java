@@ -7,9 +7,9 @@ public class GameBoard {
 
     public GameBoard() {
 
-        squares = new Square[ BoardSizeConstants.DEFAULT_NUM_ROWS][BoardSizeConstants.DEFAULT_NUM_COLUMNS];
+        squares = new Square[ BoardSizeConstants.DEFAULT_NUM_ROW][BoardSizeConstants.DEFAULT_NUM_COLUMNS];
 
-        for (int row = 0; row < BoardSizeConstants.DEFAULT_NUM_ROWS; row++) {
+        for (int row = 0; row < BoardSizeConstants.DEFAULT_NUM_ROW; row++) {
             for (int column = 0; column < BoardSizeConstants.DEFAULT_NUM_COLUMNS; column++) {
                 squares[row][column] = new Square();
             }
@@ -51,5 +51,9 @@ public class GameBoard {
     
     public void placeTileGameBoard(Tile tile, int row, int col) {
         squares[row][col].placeTileSquare(tile);
+    }
+    
+    public Square square(Position position) {
+    	return squares[position.row()-1][position.column()-1];
     }
 }

@@ -25,7 +25,7 @@ public class GameView {
     public static void printGrid(GameBoard gameBoard) {
         Square[][] squares = gameBoard.getSquares();
         int columns = BoardSizeConstants.DEFAULT_NUM_COLUMNS;
-        int rows = BoardSizeConstants.DEFAULT_NUM_ROWS;
+        int rows = BoardSizeConstants.DEFAULT_NUM_ROW;
 
         for (int i = 0; i < columns; i++) {
         	Console.lineBreak();

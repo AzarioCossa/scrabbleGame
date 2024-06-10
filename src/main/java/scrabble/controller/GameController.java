@@ -561,8 +561,8 @@ public class GameController {
 		}
 	}
 
-	public void placeTile(Tile tile) {
-
+	public void placeTile() {
+		Tile tile = handleTile();
 		Position center = new Position(8, 8);
 		if (gameBoard.isEmpty(center)) {
 			if (tile.getLetter() == FrenchLetters.JOCKER) {
@@ -571,6 +571,7 @@ public class GameController {
 					GameView.askReplacementLetter();
 					Console.messageBreak("Alphabetical character expected !");
 				}
+				tile = new Tile(FrenchLetters.valueOf(replacementLetter));
 				user.getRack().replaceJoker(tile);
 
 			}
@@ -591,6 +592,7 @@ public class GameController {
 					GameView.askReplacementLetter();
 					Console.messageBreak("Alphabetical character expected !");
 				}
+				tile = new Tile(FrenchLetters.valueOf(replacementLetter));
 				user.getRack().replaceJoker(tile);
 			}
 
@@ -600,25 +602,6 @@ public class GameController {
 		}
 	}
 
-	public int calculatePointWord(String word) {
-		ArrayList<String> arrayWord = new ArrayList<>();
-		ArrayList<Tile> rack_content = new ArrayList<Tile>();
-		rack_content.addAll(user.getRack().getTiles());
-		int point = 0;
-
-		for (int i = 0; i < word.length(); i++) {
-			arrayWord.add(String.valueOf(word.charAt(i)));
-		}
-
-		for (String letter : arrayWord) {
-			for (Tile tile : rack_content) {
-				if (letter.toLowerCase().equals(tile.getLetter().toString().toLowerCase())) {
-					point = point + tile.getWeight();
-				}
-			}
-		}
-		return point;
-	}
 
 	public Boolean isAdjacentHorizontally(Position position) {
 		Position nextPosition = new Position(position.row(), position.column() + 1);
@@ -768,8 +751,7 @@ public class GameController {
 				userChoice = keyboard.nextLine();
 			}
 			if (userChoice.equals("1")) {
-				Tile tile = handleTile();
-				placeTile(tile);
+				placeTile();
 				putTileOfBagInRack(user.getRack());
 			} else {
 				if (userChoice.equals("2")) {

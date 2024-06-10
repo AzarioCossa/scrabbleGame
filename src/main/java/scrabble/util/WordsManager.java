@@ -62,50 +62,33 @@ public class WordsManager {
         return wordScore;
     }
 
-    /**
-     * Validate the words formed by the tiles on the board.
-     *
-     * @param tiles the map of positions and tiles to validate
-     * @return true if the words are valid, false otherwise
-     */
     public boolean validateWords(Map<Position, Tile> tiles) {
-        if (gameBoard.isEmpty()) {
-
-        
-            if (tiles.size() < 2) {
-                return false; // Le mot doit être au moins de 2 lettres
-            }
-
-            boolean passesThroughCenter = false;
-            Position centerPosition = new Position(BoardSizeConstants.BOARD_SIZE / 2 + 1, BoardSizeConstants.BOARD_SIZE / 2 + 1);
-
-            for (Position position : tiles.keySet()) {
-                if (position.equals(centerPosition)) {
-                    passesThroughCenter = true;
-                    break;
-                }
-            }
-
-            if (!passesThroughCenter) {
-                return false; // Le mot doit passer par le centre
-            }
-
-            if (!isWordAligned(tiles)) {
-                return false; // Le mot doit être aligné horizontalement ou verticalement
-            }
-
+        if (Boolean.TRUE.equals(gameBoard.isEmpty())) {
+            return validateFirstWord(tiles);
         } else {
-            if (!isWordAligned(tiles)) {
-                return false; // Le mot doit être aligné horizontalement ou verticalement
-            }
-
-            if (!isWordConnected(tiles)) {
-                return false; // Le mot doit être connecté à un mot existant
-            }
+            return validateConnectedWord(tiles);
         }
+    }
 
+    private boolean validateFirstWord(Map<Position, Tile> tiles) {
+        if (tiles.size() < 2 || !passesThroughCenter(tiles) || !isWordAligned(tiles)) {
+            return false;
+        }
         return true;
     }
+
+    private boolean validateConnectedWord(Map<Position, Tile> tiles) {
+        if (!isWordAligned(tiles) || !isWordConnected(tiles)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean passesThroughCenter(Map<Position, Tile> tiles) {
+        Position centerPosition = new Position(BoardSizeConstants.MIDDLE_INDEX, BoardSizeConstants.MIDDLE_INDEX);
+        return tiles.keySet().contains(centerPosition);
+    }
+
 
     private boolean isWordAligned(Map<Position, Tile> tiles) {
         if (tiles.isEmpty()) {
@@ -136,7 +119,7 @@ public class WordsManager {
 
     private boolean isWordConnected(Map<Position, Tile> tiles) {
         for (Position position : tiles.keySet()) {
-            if (gameBoard.isNotEmpty(position)) {
+            if (Boolean.TRUE.equals(gameBoard.isNotEmpty(position))) {
                 return true; 
             }
 
@@ -157,18 +140,16 @@ public class WordsManager {
     
     public Set<Word> findAllWords(Map<Position, Tile> tiles) {
         Set<Word> allWords = new HashSet<>();
-
-        // Iterate over each position in the tiles map
+        
         for (Position position : tiles.keySet()) {
-            // Check horizontally
+
             Word horizontalWord = findWord(position, true);
-            if (horizontalWord.getTiles().size() > 1) { // Word must be more than one tile
+            if (horizontalWord.getTiles().size() > 1) {
                 allWords.add(horizontalWord);
             }
 
-            // Check vertically
             Word verticalWord = findWord(position, false);
-            if (verticalWord.getTiles().size() > 1) { // Word must be more than one tile
+            if (verticalWord.getTiles().size() > 1) {
                 allWords.add(verticalWord);
             }
         }
@@ -179,7 +160,6 @@ public class WordsManager {
     private Word findWord(Position start, boolean horizontal) {
         Map<Position, Tile> wordTiles = new HashMap<>();
 
-        // Find the start of the word
         Position position = start;
         while (true) {
             Tile tile = getTileAtPosition(position);
@@ -188,7 +168,6 @@ public class WordsManager {
             position = horizontal ? new Position(position.row(), position.column() - 1) : new Position(position.row() - 1, position.column());
         }
 
-        // Find the end of the word
         position = horizontal ? new Position(start.row(), start.column() + 1) : new Position(start.row() + 1, start.column());
         while (true) {
             Tile tile = getTileAtPosition(position);

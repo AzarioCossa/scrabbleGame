@@ -162,7 +162,6 @@ public class ScrabbleController {
 			this.nextRound();
 
 		} else {
-			System.out.println("Invalid word placement.");
 			DndTilesController.returnTilesToRack(this.user.getRack());
 			this.displayRack();
 		}

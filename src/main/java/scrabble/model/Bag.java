@@ -36,7 +36,7 @@ public class Bag {
      * @return an unmodifiable list of tiles in the bag
      */
     public List<Tile> getTiles() {
-        return Collections.unmodifiableList(tiles);
+        return tiles;
     }
 
     /**

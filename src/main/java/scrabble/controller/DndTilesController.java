@@ -137,44 +137,46 @@ public class DndTilesController {
 	}
 	
 	public static void setupDragAndDrop(StackPane tilePane, Tile tile, Rack rack) {
-        tilePane.setOnDragDetected(event -> {
-            Dragboard db = tilePane.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent content = new ClipboardContent();
-            content.put(TILE_FORMAT, tile);
-            db.setContent(content);
-            event.consume();
-        });
+	    tilePane.setOnDragDetected(event -> {
+	        Dragboard db = tilePane.startDragAndDrop(TransferMode.MOVE);
+	        ClipboardContent content = new ClipboardContent();
+	        content.put(TILE_FORMAT, tile);
+	        db.setContent(content);
+	        event.consume();
+	    });
 
-        tilePane.setOnDragOver(event -> {
-            if (event.getDragboard().hasContent(TILE_FORMAT)) {
-                event.acceptTransferModes(TransferMode.MOVE);
-            }
-            event.consume();
-        });
+	    tilePane.setOnDragOver(event -> {
+	        if (event != null && event.getDragboard() != null && event.getDragboard().hasContent(TILE_FORMAT)) {
+	            event.acceptTransferModes(TransferMode.MOVE);
+	        }
+	        event.consume();
+	    });
 
-        tilePane.setOnDragEntered(event -> {
-            if (event.getDragboard().hasContent(TILE_FORMAT)) {
-                tilePane.setOpacity(0.3);
-            }
-        });
+	    tilePane.setOnDragEntered(event -> {
+	        if (event != null && event.getDragboard() != null && event.getDragboard().hasContent(TILE_FORMAT)) {
+	            tilePane.setOpacity(0.3);
+	        }
+	    });
 
-        tilePane.setOnDragExited(event -> {
-            tilePane.setOpacity(1);
-        });
+	    tilePane.setOnDragExited(event -> {
+	        tilePane.setOpacity(1);
+	    });
 
-        tilePane.setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-            if (db.hasContent(TILE_FORMAT)) {
-            	
-                Tile sourceTile = (Tile) db.getContent(TILE_FORMAT);
-                rack.swapTiles(sourceTile, tile);
-                success = true;
-            }
-            event.setDropCompleted(success);
-            event.consume();
-        });
-    }
+	    tilePane.setOnDragDropped(event -> {
+	        if (event != null && event.getDragboard() != null) {
+	            Dragboard db = event.getDragboard();
+	            boolean success = false;
+	            if (db.hasContent(TILE_FORMAT)) {
+	                Tile sourceTile = (Tile) db.getContent(TILE_FORMAT);
+	                rack.swapTiles(sourceTile, tile);
+	                success = true;
+	            }
+	            event.setDropCompleted(success);
+	            event.consume();
+	        }
+	    });
+	}
+
 }
 
 

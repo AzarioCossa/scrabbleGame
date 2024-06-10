@@ -3,11 +3,14 @@ package scrabble.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-
-import scrabble.model.utils.TilePlacementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Assertions;
 
+import scrabble.model.utils.TilePlacementException;
+
+/**
+ * The GameBoardTest class contains unit tests for the GameBoard class.
+ */
 class GameBoardTest {
 
     private GameBoard gameBoard;
@@ -19,6 +22,9 @@ class GameBoardTest {
         squares = gameBoard.getSquares();
     }
 
+    /**
+     * Tests the initialization of the game board.
+     */
     @Test
     void testBoardInitialization() {
         assertNotNull(squares);
@@ -54,6 +60,9 @@ class GameBoardTest {
         }
     }
 
+    /**
+     * Tests the isEmpty() method of the GameBoard class.
+     */
     @Test
     void testIsEmpty() {
         assertTrue(gameBoard.isEmpty());
@@ -64,6 +73,9 @@ class GameBoardTest {
         assertFalse(gameBoard.isEmpty());
     }
 
+    /**
+     * Tests the isEmpty(Position position) method of the GameBoard class.
+     */
     @Test
     void testIsEmptyWithPosition() {
         Position pos = new Position(1, 1);
@@ -75,6 +87,9 @@ class GameBoardTest {
         assertFalse(gameBoard.isEmpty(pos));
     }
 
+    /**
+     * Tests the isNotEmpty(Position position) method of the GameBoard class.
+     */
     @Test
     void testIsNotEmptyWithPosition() {
         Position pos = new Position(1, 1);
@@ -86,6 +101,9 @@ class GameBoardTest {
         assertTrue(gameBoard.isNotEmpty(pos));
     }
 
+    /**
+     * Tests the placeTileGameBoard(Tile tile, int row, int col) method of the GameBoard class.
+     */
     @Test
     void testPlaceTileGameBoard() throws TilePlacementException {
         Tile tile = new Tile(FrenchLetters.A);

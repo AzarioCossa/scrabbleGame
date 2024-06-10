@@ -1,11 +1,36 @@
 package scrabble.model;
 
+/**
+ * The BoardSizeConstants class provides constants related to the Scrabble board size and layout.
+ * It contains the board dimensions and the initial layout of the board with special tile positions.
+ * This class is not meant to be instantiated.
+ */
 public class BoardSizeConstants {
-	private BoardSizeConstants() {}
-	
-	
-	public static final int BOARD_SIZE = 15;
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private BoardSizeConstants() {}
+
+    /**
+     * The size of the Scrabble board (15x15).
+     */
+    public static final int BOARD_SIZE = 15;
+
+    /**
+     * The middle index of the Scrabble board (used to determine the central position).
+     */
     public static final int MIDDLE_INDEX = 8;
+
+    /**
+     * The initial layout of the Scrabble board, represented as a 2D array of strings.
+     * The layout indicates the positions of special tiles:
+     * "TW" - Triple Word Score
+     * "DW" - Double Word Score
+     * "TL" - Triple Letter Score
+     * "DL" - Double Letter Score
+     * "C"  - Center position (usually the starting point)
+     */
     protected static final String[][] boardLayout = {
             {"TW", "", "", "DL", "", "", "", "TW", "", "", "", "DL", "", "", "TW"},
             {"", "DW", "", "", "", "TL", "", "", "", "TL", "", "", "", "DW", ""},

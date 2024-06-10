@@ -80,18 +80,16 @@ class WordsManagerTest {
 
 		assertTrue(wordsManager.validateWords(tiles));
 	}
-/*
-	@Test
-	void testValidateWords_DiscontinuousWordInvalid() {
-		Map<Position, Tile> tiles = new HashMap<>();
-		tiles.put(new Position(BoardSizeConstants.MIDDLE_INDEX, BoardSizeConstants.MIDDLE_INDEX),
-				new Tile(FrenchLetters.H));
-		tiles.put(new Position(BoardSizeConstants.MIDDLE_INDEX, BoardSizeConstants.MIDDLE_INDEX + 2),
-				new Tile(FrenchLetters.E));
-
-		assertFalse(wordsManager.validateWords(tiles));
-	}
-	*/
+	/*
+	 * @Test void testValidateWords_DiscontinuousWordInvalid() { Map<Position, Tile>
+	 * tiles = new HashMap<>(); tiles.put(new
+	 * Position(BoardSizeConstants.MIDDLE_INDEX, BoardSizeConstants.MIDDLE_INDEX),
+	 * new Tile(FrenchLetters.H)); tiles.put(new
+	 * Position(BoardSizeConstants.MIDDLE_INDEX, BoardSizeConstants.MIDDLE_INDEX +
+	 * 2), new Tile(FrenchLetters.E));
+	 * 
+	 * assertFalse(wordsManager.validateWords(tiles)); }
+	 */
 
 	@Test
 	void testCalculateWordScore() {
@@ -106,7 +104,6 @@ class WordsManagerTest {
 
 		assertEquals(7, wordsManager.calculateWordScore(new Word(tiles)));
 	}
-	
 
 	@Test
 	void testCalculateWordScoreWithJoker() {
@@ -120,6 +117,28 @@ class WordsManagerTest {
 
 		assertEquals(1, wordsManager.calculateWordScore(new Word(tiles)));
 	}
+
 	
+	@Test
+	void testCalculateWordScoreMultipleWords() throws TilePlacementException {
+		// Horizontal word "BEAR"
+		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.B), 8, 8);
+		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.E), 8, 9);
+		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.A), 8, 10);
+		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.R), 8, 11);
+		 // Vertical word "BAT"
+		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.T), 9, 10);
+		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.A), 10, 10);
+		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.B), 11, 10);
+
+		 // New word "TREK" formed horizontally
+		Map<Position, Tile> newWordTiles = new HashMap<>();
+		newWordTiles.put(new Position(9, 8), new Tile(FrenchLetters.T));
+		newWordTiles.put(new Position(9, 9), new Tile(FrenchLetters.R));
+		newWordTiles.put(new Position(9, 10), new Tile(FrenchLetters.E));
+		newWordTiles.put(new Position(9, 11), new Tile(FrenchLetters.K));
+
+		assertEquals(21, wordsManager.calculateMoveScore(newWordTiles));
+	}
 
 }

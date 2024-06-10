@@ -3,8 +3,9 @@ package scrabble.model;
 public class Word {
     private String word;
     private Position startPosition;
+    private int point;
 
-    public Word(String word, Position startPosition, Direction direction) {
+    public Word(String word, Position startPosition) {
         this.word = word;
         this.startPosition = startPosition;
     }
@@ -17,5 +18,13 @@ public class Word {
     public Position getStartPosition() {
         return startPosition;
     }
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
 
 }

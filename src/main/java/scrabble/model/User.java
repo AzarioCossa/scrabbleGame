@@ -27,8 +27,8 @@ public class User {
 		return score;
 	}
 	
-	public void incrementScore(int score) {
-		this.score += score;
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	@Override

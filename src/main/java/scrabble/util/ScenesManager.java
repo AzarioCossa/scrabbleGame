@@ -10,39 +10,48 @@ import scrabble.model.JokerTile;
 
 import java.io.IOException;
 
+/**
+ * The ScenesManager class provides utility methods for managing scenes and dialogs in the Scrabble game.
+ */
 public class ScenesManager {
-	private ScenesManager () {}
 
-	   public static void showJokerLetterSelectionAlert(JokerTile jokerTile) {
-	        try {
-	            FXMLLoader fxmlLoader = new FXMLLoader(ScenesManager.class.getResource("/JokerLetterSelection.fxml"));
+    /**
+     * Private constructor to prevent instantiation of the class.
+     */
+    private ScenesManager() {}
 
-	            Scene scene = new Scene(fxmlLoader.load());
-	            Stage stage = new Stage();
+    /**
+     * Shows a dialog for selecting a letter for a Joker tile.
+     * 
+     * @param jokerTile the Joker tile for which the letter is being selected
+     */
+    public static void showJokerLetterSelectionAlert(JokerTile jokerTile) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(ScenesManager.class.getResource("/JokerLetterSelection.fxml"));
 
-	            stage.setScene(scene);
-	            stage.setTitle("Joker Letter Selection");
-	            JokerLetterSelectionController controller = fxmlLoader.getController();
-	            controller.setJokerTile(jokerTile);
-	            stage.showAndWait();
-	          
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
 
-
-	       
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            
-	        }
-	        
-	    }
-	   
-	   public static void showError(String errorMessage) {
-	        Alert alert = new Alert(AlertType.ERROR);
-	        alert.setTitle("Error");
-	        alert.setHeaderText(null);
-	        alert.setContentText(errorMessage);
-	        alert.showAndWait();
-	   }
-
-
+            stage.setScene(scene);
+            stage.setTitle("Joker Letter Selection");
+            JokerLetterSelectionController controller = fxmlLoader.getController();
+            controller.setJokerTile(jokerTile);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+   
+    /**
+     * Shows an error dialog with the specified error message.
+     * 
+     * @param errorMessage the error message to be displayed
+     */
+    public static void showError(String errorMessage) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(errorMessage);
+        alert.showAndWait();
+    }
 }

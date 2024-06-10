@@ -102,4 +102,9 @@ public class Bag {
         }
         shuffle();
     }
+    
+   public void clear() {
+    	tiles.clear();
+    }
+    
 }

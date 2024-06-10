@@ -29,7 +29,7 @@ class BagTest {
 
     @Test
     void testDrawTileEmpty() {
-        bag.getTiles().clear();
+        bag.clear();
 
         EmptyBagException thrown = Assertions.assertThrows(EmptyBagException.class, () -> {
             bag.drawTile();
@@ -53,7 +53,7 @@ class BagTest {
         bag.drawTile();
         assertTrue(bag.addTile(newTile));
 
-        bag.getTiles().clear();
+        bag.clear();
         for (int i = 0; i < Bag.LIMIT_BAG_CAPACITY; i++) {
             bag.addTile(newTile);
         }
@@ -69,7 +69,7 @@ class BagTest {
     void testIsEmpty() {
         assertFalse(bag.isEmpty());
 
-        bag.getTiles().clear();
+        bag.clear();
         assertTrue(bag.isEmpty());
     }
 

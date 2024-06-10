@@ -70,8 +70,6 @@ public class DndTilesController {
 
 				if (tile instanceof JokerTile) {
 					ScenesManager.showJokerLetterSelectionAlert((JokerTile) tile);
-					System.out.println("qfsgd");
-					System.out.println(((JokerTile) tile).getJokerLetter());
 				}
 				playedTiles.put(position, tile);
 				rack.drawTile(tile);

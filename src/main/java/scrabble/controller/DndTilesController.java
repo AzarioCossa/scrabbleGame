@@ -158,9 +158,7 @@ public class DndTilesController {
 	        }
 	    });
 
-	    tilePane.setOnDragExited(event -> {
-	        tilePane.setOpacity(1);
-	    });
+	    tilePane.setOnDragExited(event -> tilePane.setOpacity(1));
 
 	    tilePane.setOnDragDropped(event -> {
 	        if (event != null && event.getDragboard() != null) {

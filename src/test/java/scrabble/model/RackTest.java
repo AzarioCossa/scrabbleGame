@@ -2,13 +2,21 @@ package scrabble.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import scrabble.model.utils.RackIsFullException;
 
+import java.util.List;
+
+/**
+ * The RackTest class contains unit tests for the Rack class.
+ */
 class RackTest {
 
+    /**
+     * Tests the drawTile method of the Rack class.
+     *
+     * @throws RackIsFullException if the rack is full
+     */
     @Test
     void testDrawTile() throws RackIsFullException {
         Rack rack = new Rack();
@@ -25,8 +33,13 @@ class RackTest {
         assertNull(rack.drawTile(tileNotInRack));
     }
 
+    /**
+     * Tests the addTile method of the Rack class.
+     *
+     * @throws RackIsFullException if the rack is full
+     */
     @Test
-     void testAddTile() throws RackIsFullException {
+    void testAddTile() throws RackIsFullException {
         Rack rack = new Rack();
         Tile tileToAdd = new Tile(FrenchLetters.A);
 
@@ -34,8 +47,13 @@ class RackTest {
         assertTrue(rack.getTiles().contains(tileToAdd));
     }
 
+    /**
+     * Tests the getTiles method of the Rack class.
+     *
+     * @throws RackIsFullException if the rack is full
+     */
     @Test
-     void testGetTiles() throws RackIsFullException {
+    void testGetTiles() throws RackIsFullException {
         Rack rack = new Rack();
         rack.addTile(new Tile(FrenchLetters.A));
         rack.addTile(new Tile(FrenchLetters.B));
@@ -43,7 +61,6 @@ class RackTest {
 
         List<Tile> tiles = rack.getTiles();
 
-    
         assertEquals(3, tiles.size());
         assertTrue(tiles.contains(new Tile(FrenchLetters.A)));
         assertTrue(tiles.contains(new Tile(FrenchLetters.B)));

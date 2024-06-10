@@ -37,7 +37,6 @@ public class TilePane extends StackPane {
 		imageView = new ImageView(ImageLoaderManager.loadTileImage(tile.getLetter().toString()));
 		imageView.fitWidthProperty().bind(targetRect.fitWidthProperty());
 		imageView.fitHeightProperty().bind(targetRect.fitHeightProperty());
-		DndTilesController.manageSourceDragAndDrop(this, tile);
 		
 		this.getChildren().add(imageView);
 

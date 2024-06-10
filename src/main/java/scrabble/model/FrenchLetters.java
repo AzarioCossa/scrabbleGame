@@ -1,9 +1,7 @@
 package scrabble.model;
 
-// Enum representing the letters in the game of Scrabble
 public enum FrenchLetters { 
 	
-	// Enum constants with quantity and weight values for each letter
 	A(9,1),    // Letter A: Quantity - 9, Weight - 1
 	B(2,3),    // Letter B: Quantity - 2, Weight - 3
 	C(2,3),    // Letter C: Quantity - 2, Weight - 3
@@ -32,22 +30,19 @@ public enum FrenchLetters {
 	Z(1,10),   // Letter Z: Quantity - 1, Weight - 10
 	JOCKER(2,0); // Special Joker tile: Quantity - 2, Weight - 0
 	
-	// Constructor for Letters enum
 	FrenchLetters(int quantity, int weight) {
-		this.quantity = quantity; // Initialize quantity
-		this.weight = weight;     // Initialize weight
+		this.quantity = quantity;
+		this.weight = weight;
 	}
 
-	// Attributes for quantity and weight of each letter
-	private final int quantity; // Number of tiles of this letter
-	private final int weight;   // Point value of this letter
 
-	// Getter method to retrieve the quantity of a letter
+	private final int quantity; 
+	private final int weight;   
+
 	public int getQuantity() {
 		return this.quantity;
 	}
 
-	// Getter method to retrieve the weight of a letter
 	public int getWeight() {
 		return this.weight;
 	}	

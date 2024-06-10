@@ -43,7 +43,7 @@ class RackTest {
 
         List<Tile> tiles = rack.getTiles();
 
-        // Ensure that the returned list matches the expected tiles
+    
         assertEquals(3, tiles.size());
         assertTrue(tiles.contains(new Tile(FrenchLetters.A)));
         assertTrue(tiles.contains(new Tile(FrenchLetters.B)));

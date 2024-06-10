@@ -7,6 +7,7 @@ import scrabble.controller.DndTilesController;
 import scrabble.model.BoardSizeConstants;
 import scrabble.model.GameBoard;
 import scrabble.model.Position;
+import scrabble.model.Rack;
 import scrabble.model.Square;
 import scrabble.model.utils.ImageLoadException;
 import scrabble.util.AnimationManager;
@@ -18,7 +19,7 @@ public class GameSquarePane extends StackPane {
 	private GameBoard physicGameBoard;
 	private Position position;
 	
-	public GameSquarePane(GridPane visualGameBoard,GameBoard physicGameBoard,Position position) throws ImageLoadException {
+	public GameSquarePane(GridPane visualGameBoard,GameBoard physicGameBoard,Position position, Rack rack) throws ImageLoadException {
 		this.physicGameBoard = physicGameBoard;
 		this.visualGameBoard = visualGameBoard;
 		this.position = position;
@@ -32,7 +33,7 @@ public class GameSquarePane extends StackPane {
 		imageView.setImage(ImageLoaderManager.loadSquareImage(square.getSquareType()));
 
 		this.getChildren().add(imageView);
-		DndTilesController.manageTargetDragAndDrop(this, this.position);
+		DndTilesController.manageTargetDragAndDrop(this, this.position,rack);
 		AnimationManager.animateFade(this);
 		AnimationManager.addShadowOnHover(this, imageView);
 		

@@ -86,9 +86,7 @@ public class ScrabbleController {
 				this.displayRack();
 			}
 		});
-		//idRack.setOnDragDone(event -> {
-		  //  this.displayRack();
-		//});
+		idRack.setOnDragDone(event -> this.displayRack());
 	
 
 	}
@@ -99,7 +97,7 @@ public class ScrabbleController {
 	private void generateBoard() throws ImageLoadException {
 		for (int row = 0; row < BoardSizeConstants.BOARD_SIZE; row++) {
 			for (int col = 0; col < BoardSizeConstants.BOARD_SIZE; col++) {
-				StackPane stack = new GameSquarePane(this.test,gameBoard,new Position(row+1,col+1));
+				StackPane stack = new GameSquarePane(this.test,gameBoard,new Position(row+1,col+1),this.user.getRack());
 				this.test.add(stack, col, row);
 			}
 		}
@@ -165,7 +163,7 @@ public class ScrabbleController {
 
 		} else {
 			System.out.println("Invalid word placement.");
-			DndTilesController.returnTilesToRack();
+			DndTilesController.returnTilesToRack(this.user.getRack());
 			this.displayRack();
 		}
 	}

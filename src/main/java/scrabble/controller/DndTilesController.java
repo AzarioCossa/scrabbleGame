@@ -13,6 +13,7 @@ import scrabble.model.Position;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
 import scrabble.model.utils.ImageLoadException;
+import scrabble.model.utils.RackIsFullException;
 import scrabble.util.ScenesManager;
 
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class DndTilesController {
 		});
 	}
 
-	public static void manageTargetDragAndDrop(StackPane target, Position position) {
+	public static void manageTargetDragAndDrop(StackPane target, Position position, Rack rack) {
 		
 		target.setOnDragOver(event -> {
 
@@ -52,7 +53,6 @@ public class DndTilesController {
 		    ImageView targetRect = (ImageView) target.getChildren().get(0);
 			Dragboard dragboard = event.getDragboard();
 			boolean success = false;
-			// verification que si la cas contient déjà un tile on ne puisse pas superposer
 			if (dragboard.hasContent(TILE_FORMAT) && !playedTiles.containsKey(position)) {
 				Tile tile = (Tile) dragboard.getContent(TILE_FORMAT);
 
@@ -61,7 +61,7 @@ public class DndTilesController {
 
 				StackPane tileStack;
 				try {
-					tileStack = new TilePane(targetRect, tile);
+					tileStack = new TilePane(targetRect, tile,rack);
 					target.getChildren().add(tileStack);
 					playedTilesVisual.put(position, tileStack);
 				} catch (ImageLoadException e) {
@@ -74,6 +74,7 @@ public class DndTilesController {
 					System.out.println(((JokerTile) tile).getJokerLetter());
 				}
 				playedTiles.put(position, tile);
+				rack.drawTile(tile);
 
 				success = true;
 			}
@@ -96,7 +97,16 @@ public class DndTilesController {
 		playedTilesVisual.clear();
 	}
 
-	public static void returnTilesToRack() {
+	public static void returnTilesToRack(Rack rack) {
+		for (Tile tile : playedTiles.values()) {
+            try {
+                if (rack.getTiles().size() < Rack.LIMIT_RACK_CAPACITY) {
+                    rack.addTile(tile);
+                }
+            } catch (RackIsFullException e) {
+                System.out.println("Rack is full, cannot return tile.");
+            }
+        }
 		
 		for (StackPane tileStack : playedTilesVisual.values()) {
 			tileStack.getChildren().clear();

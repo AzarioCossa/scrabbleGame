@@ -23,14 +23,12 @@ class WordsManagerTest {
 
 	@BeforeEach
 	public void setUp() {
-		// Initialize an empty game board for testing
 		gameBoard = new GameBoard();
 		wordsManager = new WordsManager(gameBoard);
 	}
 
 	@Test
 	void testValidateWords_FirstMoveValid() {
-		// Simulate the first move passing through the center
 		Map<Position, Tile> tiles = new HashMap<>();
 		tiles.put(new Position(BoardSizeConstants.MIDDLE_INDEX, BoardSizeConstants.MIDDLE_INDEX),
 				new Tile(FrenchLetters.H));
@@ -42,7 +40,6 @@ class WordsManagerTest {
 
 	@Test
 	void testValidateWords_FirstMoveInvalid() {
-		// Simulate the first move not passing through the center
 		Map<Position, Tile> tiles = new HashMap<>();
 		tiles.put(new Position(BoardSizeConstants.MIDDLE_INDEX, BoardSizeConstants.MIDDLE_INDEX + 1),
 				new Tile(FrenchLetters.H));
@@ -54,11 +51,9 @@ class WordsManagerTest {
 
 	@Test
 	void testValidateWords_HorizontalWordValid() throws TilePlacementException {
-		// Place some tiles on the board to simulate a non-empty board
 		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.T), BoardSizeConstants.MIDDLE_INDEX,
 				BoardSizeConstants.MIDDLE_INDEX);
 
-		// Simulate placing a valid horizontal word
 		Map<Position, Tile> tiles = new HashMap<>();
 		tiles.put(new Position(BoardSizeConstants.MIDDLE_INDEX, BoardSizeConstants.MIDDLE_INDEX + 1),
 				new Tile(FrenchLetters.E));
@@ -72,11 +67,9 @@ class WordsManagerTest {
 
 	@Test
 	void testValidateWords_VerticalWordValid() throws TilePlacementException {
-		// Place some tiles on the board to simulate a non-empty board
 		gameBoard.placeTileGameBoard(new Tile(FrenchLetters.T), BoardSizeConstants.MIDDLE_INDEX,
 				BoardSizeConstants.MIDDLE_INDEX);
 
-		// Simulate placing a valid vertical word
 		Map<Position, Tile> tiles = new HashMap<>();
 		tiles.put(new Position(BoardSizeConstants.MIDDLE_INDEX + 1, BoardSizeConstants.MIDDLE_INDEX),
 				new Tile(FrenchLetters.E));
